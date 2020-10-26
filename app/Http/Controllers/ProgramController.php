@@ -1,0 +1,315 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\JenisSubKategori; 
+use App\SubKategori; 
+use App\Kategori; 
+use App\Program;
+use App\Agensi;
+use App\ProgramMaster;
+use Carbon\Carbon;
+use App\Http\Requests\ProgramRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
+class ProgramController extends Controller
+{
+    public function __construct()
+    {
+        // $this->authorizeResource(Program::class);
+    }
+
+    /**
+     * Display a listing of the program
+     *
+     * @param \App\Program  $model
+     * @return \Illuminate\View\View
+     */
+    public function index(Program $model)
+    {   
+        // $program = $model->all();
+
+        $user_id = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $agensi = Agensi::all();
+        $jenissubkat = JenisSubKategori::all();
+        $subkat = SubKategori::all();
+        $kat = Kategori::all();
+        $agensi = Agensi::all();
+        
+
+        if($role_id == '3'){
+            $program = Program::where('rekod_oleh', $user_id)->get();
+        }else if ($role_id == '2'){
+            $program = Program::where('rekod_oleh', $user_id)->get();
+            // $program = Program::where('agensi_id', $agensi_id)->get();
+        }else if ($role_id == '1'){
+            $program = Program::all();
+        }
+            
+        // dd($program);
+        // echo "<pre>";
+        // print_r($program);
+        // echo "</pre>";
+        // die;
+        // return view('Program.index', ['Program' => $model->with(['tags', 'category'])->get()]);
+        // $this->authorize('manage-items', User::class);
+
+        return view('program.index', ['program' => $program]);
+    }
+
+    /**
+     * Show the form for creating a new item
+     *
+     * @param  \App\Tag $tagModel
+     * @param  \App\Category $categoryModel
+     * @return \Illuminate\View\View
+     */
+    public function create(ProgramRequest $request, Program $model)
+    {
+        $jenissubkat = JenisSubKategori::all();
+        $subkat = SubKategori::all();
+        $kat = Kategori::all();
+        $agensi = Agensi::all();
+
+        return view('program.create', ['subkat'=>$subkat,'jenissubkat'=>$jenissubkat,'kat'=>$kat,'agensi'=>$agensi]);
+
+        // dd($tagModel->get(['id', 'name']));
+        // return view('Program.create', [
+        //     'tags' => $tagModel->get(['id', 'name']),
+        //     'categories' => $categoryModel->get(['id', 'name'])
+        // ]);
+
+        // $model->create($request->all());
+        // return redirect()->route('program.index')->withStatus(__('Role successfully created.'));
+    }
+
+    /**
+     * Store a newly created item in storage
+     *
+     * @param  \App\Http\Requests\ItemRequest  $request
+     * @param  \App\Item  $model
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(ProgramRequest $request, Program $model )
+    {   
+        $userid = auth()->user()->id; 
+        
+        $program = $model->create($request->merge([
+            'nama' => $request->nama ? $request->nama : "-" ,
+            'agensi_id' => $request->agensi_id ? $request->agensi_id : null,
+            'kategori_id' => $request->kategori_id ? $request->kategori_id : null,
+            'teras_id' => $request->teras_id ? $request->teras_id : null,
+            'manfaat' => $request->manfaat ? $request->manfaat : null,
+            'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
+            'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
+            'kekerapan' => $request->kekerapan ? $request->kekerapan : null,
+            'objektif' => $request->objektif ? $request->objektif : null,
+            'kos' => $request->kos ? $request->kos : null,
+            'syarat_program' => $request->syarat_program ? $request->syarat_program : null,
+            'url' => $request->url ? $request->url : null,
+            'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
+            'rekod_oleh' => $userid,
+            'tarikh_rekod' => now(),
+            'kemaskini_oleh' => $userid,
+            'tarikh_kemaskini' => now()
+        ])->all());
+
+        if($program){
+            if(!empty($request->nama_sub_kategori_id)){
+                foreach($request->nama_sub_kategori_id as $qq){
+                    $idss  = explode('_',$qq);
+                    $program_master = new ProgramMaster;
+                    $program_master->program_id = $program->id;
+                    $program_master->sub_kategori_id = $idss[0];
+                    $program_master->jenis_sub_kategori_id = $idss[1];
+                    $program_master->created_by = $userid;
+                    $program_master->created_at = now();
+                    $program_master->updated_by = $userid;
+                    $program_master->updated_at = now();
+                    $program_master->save();
+                    // print_r($idss);
+                    // echo $idss[0]."--".$idss[1]."  ";
+                    // $createcompany=DB::table('program_master')->create(
+                    //     [
+                    //         'program_id' => $program->id,
+                    //         'sub_kategori_id' => $idss[0],
+                    //         'jenis_sub_kategori_id' => $idss[1]
+                    //     ]
+                    // );
+                }
+            }
+        }
+
+        // $program->tags()->sync($request->get('tags'));
+
+        return redirect()->route('program.index')->withStatus(__('Program successfully created.'));
+    }
+
+    /**
+     * Show the form for editing the specified item
+     *
+     * @param  \App\Item  $item
+     * @param  \App\Tag   $tagModel
+     * @param  \App\Category $categoryModel
+     * @return \Illuminate\View\View
+     */
+    public function edit($program)
+    {
+        $role_id = auth()->user()->role_id; 
+        $agensi = Agensi::all();
+        $program = Program::find($program);
+        $jenissubkat = JenisSubKategori::all();
+        $subkat = SubKategori::all();
+        $kat = Kategori::all();
+        $agensi = Agensi::all();
+
+        $prog_master = DB::table('program_master')
+            ->leftjoin('program', 'program.id', '=', 'program_master.program_id')
+            ->leftjoin('sub_kategori', 'sub_kategori.id', '=', 'program_master.sub_kategori_id')
+            ->leftjoin('jenis_sub_kategori', 'jenis_sub_kategori.id', '=', 'program_master.jenis_sub_kategori_id')
+            ->select( 'program_master.*', 
+                'sub_kategori.id as sub_kat_id', 
+                'sub_kategori.nama_sub_kategori', 
+                'jenis_sub_kategori.id as jenis_sub_cat_id',
+                'jenis_sub_kategori.nama_jenis_sub_kategori as jenis_sub_cat_name')
+            ->where('program_master.program_id', $program->id)
+            ->get();
+        
+        $sub_kategori_opt = [];
+        $jenis_sub_kategori_opt = [];
+        foreach($prog_master as $pm_key => $pm_data){
+            $sub_kategori_opt[] = $pm_data->sub_kategori_id;
+            $jenis_sub_kategori_opt[$pm_data->sub_kategori_id][] = $pm_data->jenis_sub_kategori_id;
+        }
+
+        // dd($jenis_sub_kategori_opt);
+        $sub_kategori_opt = array_unique($sub_kategori_opt);
+        // print_r($sub_kategori_opt);
+        // die;
+
+        // dd($prog_master);
+
+
+        return view('program.edit', [
+            'subkat'=>$subkat,
+            'jenissubkat'=>$jenissubkat,
+            'kat'=>$kat,
+            'program'=>$program,
+            'agensi'=>$agensi,
+            'prog_master'=>$prog_master,
+            'sub_kategori_opt'=>$sub_kategori_opt,
+            'jenis_sub_kategori_opt'=>$jenis_sub_kategori_opt,
+            'role_id'=>$role_id
+        ]);
+    }
+    // public function edit(program  $program)
+    // {
+    //     return view('program.edit', compact('program'));
+    // }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\Itemuest  $request
+     * @param  \App\Item  $item
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(ProgramRequest $request,$program)
+    {
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $program = Program::find($program);
+        $pid = $program->id;
+        // print_r($program);
+        // print_r($request->description);
+        // dd($request->all());
+
+        if($role_id == '1'){
+            $program = $program->update(
+                $request->merge([
+                    // 'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
+                    'status_pelaksanaan' => $request->status_pelaksanaan ? $request->status_pelaksanaan : null,
+                    'status_program' => $request->status_program ? $request->status_program : null,
+                    'kemaskini_oleh' => $userid,
+                    'tarikh_kemaskini' => now(),
+                // ])->all());
+                ])->except([$request->hasFile('photo') ? '' : 'logo'])
+            );
+
+        }else{
+            $program = $program->update(
+                $request->merge([
+                    'nama' => $request->nama ? $request->nama : "-" ,
+                    'agensi_id' => $request->agensi_id ? $request->agensi_id : null,
+                    'kategori_id' => $request->kategori_id ? $request->kategori_id : null,
+                    'teras_id' => $request->teras_id ? $request->teras_id : null,
+                    'manfaat' => $request->manfaat ? $request->manfaat : null,
+                    'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
+                    'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
+                    'kekerapan' => $request->kekerapan ? $request->kekerapan : null,
+                    'objektif' => $request->objektif ? $request->objektif : null,
+                    'kos' => $request->kos ? $request->kos : null,
+                    'syarat_program' => $request->syarat_program ? $request->syarat_program : null,
+                    'url' => $request->url ? $request->url : null,
+                    // 'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
+                    'status_pelaksanaan' => $request->status_pelaksanaan ? $request->status_pelaksanaan : null,
+                    'status_program' => $request->status_program ? $request->status_program : null,
+                    'kemaskini_oleh' => $userid,
+                    'tarikh_kemaskini' => now(),
+                // ])->all());
+                ])->except([$request->hasFile('photo') ? '' : 'logo'])
+            );
+        }
+
+        if($program){
+            // $pid = $program->id;
+            if(!empty($request->nama_sub_kategori_id)){
+                $qqq = DB::table('program_master')->where('program_master.program_id', $pid)->delete();
+                // dd($qqq);
+
+                foreach($request->nama_sub_kategori_id as $qq){
+                    $idss  = explode('_',$qq);
+                    $program_master = new ProgramMaster;
+                    $program_master->program_id = $pid;
+                    $program_master->sub_kategori_id = $idss[0];
+                    $program_master->jenis_sub_kategori_id = $idss[1];
+                    $program_master->created_by = $userid;
+                    $program_master->created_at = now();
+                    $program_master->updated_by = $userid;
+                    $program_master->updated_at = now();
+                    $program_master->save();
+                    // print_r($idss);
+                    // echo $idss[0]."--".$idss[1]."  ";
+                    // $createcompany=DB::table('program_master')->create(
+                    //     [
+                    //         'program_id' => $program->id,
+                    //         'sub_kategori_id' => $idss[0],
+                    //         'jenis_sub_kategori_id' => $idss[1]
+                    //     ]
+                    // );
+                }
+            }
+        }
+
+        // $program->update($request->all());
+        return redirect()->route('program.index')->withStatus(__('Program Berjaya Disimpan.'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Item  $item
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
+    public function destroy($id)
+    {
+        // $program = Program::where('id',$id)->delete();  // ni piun boleh
+        $program = Program::find($id);
+        $program->destroy($id);
+        return redirect()->route('program.index')->withStatus(__('program Berjaya Dipadam.'));
+    }
+}
