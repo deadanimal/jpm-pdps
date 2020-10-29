@@ -24,19 +24,17 @@ class ProfilRequest extends FormRequest
      * @return array
      */
     
-    // public function rules()
-    // {
-    //     return [
-    //         'name' => [],
-    //         'email' => ['required', 'email', Rule::unique((new User)->getTable())->ignore(auth()->id())],
-    //     ];
-    // }
+    public function rules()
+    {
+        return [
+            'nama' => [],
+        ];
+    }
 
     public function attributes()
     {
         return [
-            'name' => 'name',
-            'description' => 'description'
+            'nama' => 'nama'
         ];
     }
 }

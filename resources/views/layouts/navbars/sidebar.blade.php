@@ -76,13 +76,48 @@
                         </a>
                     </li>
                     @endcan
-                    
+
                     <li class="nav-item">
-                        <a href="{{ route('profil.index') }}" class="nav-link">
-                            <i class="ni ni-collection text-default"></i>
-                            <span class="nav-link-text">{{ __('Reporting') }}</span>
+                        <a class="nav-link" href="#reporting" data-toggle="collapse" 
+                        role="button" aria-expanded="true" aria-controls="reporting">
+                            <i class="ni ni-chart-pie-35  text-default"></i>
+                            <span class="nav-link-text">{{ __('Laporan') }}</span>
                         </a>
+                        
+                        <div class="show" id="reporting">
+                            <ul class="nav nav-sm">
+                                <li class="nav-item {{ $elementName == 'program-bantuan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.program_bantuan') }}" class="nav-link">{{ __('Program Bantuan') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Penerima Program Bantuan') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Pengunjung Program') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Senarai Program') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Penerima Program') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Pengunjung Program') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Keseluruhan Pengunjung') }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
+                    
+                    {{-- <li class="nav-item">
+                        <a href="{{ route('laporan.index') }}" class="nav-link">
+                            <i class="ni ni-collection text-default"></i>
+                            <span class="nav-link-text">{{ __('Repor') }}</span>
+                        </a>
+                    </li> --}}
+
                     <li class="nav-item">
                         <a href="{{ route('profil.index') }}" class="nav-link">
                             <i class="ni ni-collection text-default"></i>
@@ -143,7 +178,7 @@
                             </ul>
                         </div>
                     </li> --}}
-                    <li class="nav-item {{ $parentSection == 'components' ? 'active' : '' }}"> 
+                    {{-- <li class="nav-item {{ $parentSection == 'components' ? 'active' : '' }}"> 
                         <a class="nav-link" href="#navbar-components" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'components' ? 'true' : '' }}" aria-controls="navbar-components">
                             <i class="ni ni-ui-04 text-info"></i>
                             <span class="nav-link-text">{{ __('Components') }}</span>
@@ -191,7 +226,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
                     {{-- <li class="nav-item {{ $parentSection == 'forms' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'forms' ? 'true' : '' }}" aria-controls="navbar-forms">
                             <i class="ni ni-single-copy-04 text-pink"></i>

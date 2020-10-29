@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Request;
+use App\Agensi;
+use App\Program; 
+use App\Media;
+use App\User;
+use Carbon\Carbon;
+use App\Http\Requests\MediaRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 class PageController extends Controller
 {
     /**

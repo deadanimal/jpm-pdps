@@ -8,6 +8,11 @@ use App\Kategori;
 use App\Program;
 use App\Agensi;
 use App\ProgramMaster;
+use App\KumpulanSasar;
+use App\ProgramKumpulanSasar;
+use App\Teras;
+use App\Kekerapan;
+use App\Manfaat;
 use Carbon\Carbon;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
@@ -38,15 +43,42 @@ class ProgramController extends Controller
         $subkat = SubKategori::all();
         $kat = Kategori::all();
         $agensi = Agensi::all();
+        $teras = Teras::all();
+        $kekerapan = Kekerapan::all();
+        $manfaat = Manfaat::all();
         
 
         if($role_id == '3'){
-            $program = Program::where('rekod_oleh', $user_id)->get();
+
+            $program = DB::table('program')
+                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan')
+                ->where('program.rekod_oleh',$user_id)
+                ->orderBy('id', 'desc')
+                ->get();
+            // $program = Program::where('rekod_oleh', $user_id)->get();
         }else if ($role_id == '2'){
-            $program = Program::where('rekod_oleh', $user_id)->get();
+
+            $program = DB::table('program')
+                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan')
+                ->where('program.rekod_oleh',$user_id)
+                ->orderBy('id', 'desc')
+                ->get();
+            // $program = Program::where('rekod_oleh', $user_id)->get();
             // $program = Program::where('agensi_id', $agensi_id)->get();
+
         }else if ($role_id == '1'){
-            $program = Program::all();
+            $program = DB::table('program')
+                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan')
+                // ->where('program.rekod_oleh',$user_id)
+                ->orderBy('id', 'desc')
+                ->get();
+            // $program = Program::orderBy('id', 'desc')->get();
         }
             
         // dd($program);
@@ -69,12 +101,29 @@ class ProgramController extends Controller
      */
     public function create(ProgramRequest $request, Program $model)
     {
+        $agensi_id = auth()->user()->agensi_id; 
+        $role_id = auth()->user()->role_id; 
         $jenissubkat = JenisSubKategori::all();
         $subkat = SubKategori::all();
         $kat = Kategori::all();
         $agensi = Agensi::all();
+        $teras = Teras::all();
+        $kekerapan = Kekerapan::all();
+        $manfaat = Manfaat::all();
+        $kumpulansasar = KumpulanSasar::all();
+        $programkumpulansasar = ProgramKumpulanSasar::all();
 
-        return view('program.create', ['subkat'=>$subkat,'jenissubkat'=>$jenissubkat,'kat'=>$kat,'agensi'=>$agensi]);
+        return view('program.create', ['subkat'=>$subkat,
+            'jenissubkat'=>$jenissubkat,
+            'kat'=>$kat,
+            'agensi'=>$agensi,
+            'kumpulansasar'=>$kumpulansasar,
+            'agensiid'=>$agensi_id,
+            'role_id'=>$role_id,
+            'teras'=>$teras,
+            'kekerapan'=>$kekerapan,
+            'manfaat'=>$manfaat
+        ]);
 
         // dd($tagModel->get(['id', 'name']));
         // return view('Program.create', [
@@ -102,10 +151,10 @@ class ProgramController extends Controller
             'agensi_id' => $request->agensi_id ? $request->agensi_id : null,
             'kategori_id' => $request->kategori_id ? $request->kategori_id : null,
             'teras_id' => $request->teras_id ? $request->teras_id : null,
-            'manfaat' => $request->manfaat ? $request->manfaat : null,
+            'manfaat_id' => $request->manfaat_id ? $request->manfaat_id : null,
             'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
             'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
-            'kekerapan' => $request->kekerapan ? $request->kekerapan : null,
+            'kekerapan_id' => $request->kekerapan_id ? $request->kekerapan_id : null,
             'objektif' => $request->objektif ? $request->objektif : null,
             'kos' => $request->kos ? $request->kos : null,
             'syarat_program' => $request->syarat_program ? $request->syarat_program : null,
@@ -118,6 +167,31 @@ class ProgramController extends Controller
         ])->all());
 
         if($program){
+
+            //  insert data to kumpulan sasar
+            if(!empty($request->ks_id)){
+                foreach($request->ks_id as $ks){
+                    $progkumpsasar = new ProgramKumpulanSasar;
+                    $progkumpsasar->program_id = $program->id;
+                    $progkumpsasar->kumpulan_sasar_id = $ks;
+                    $progkumpsasar->created_by = $userid;
+                    $progkumpsasar->created_at = now();
+                    $progkumpsasar->updated_by = $userid;
+                    $progkumpsasar->updated_at = now();
+                    $progkumpsasar->save();
+                    // print_r($idss);
+                    // echo $idss[0]."--".$idss[1]."  ";
+                    // $createcompany=DB::table('program_master')->create(
+                    //     [
+                    //         'program_id' => $program->id,
+                    //         'sub_kategori_id' => $idss[0],
+                    //         'jenis_sub_kategori_id' => $idss[1]
+                    //     ]
+                    // );
+                }
+            }
+
+            // insert data to sub kategori
             if(!empty($request->nama_sub_kategori_id)){
                 foreach($request->nama_sub_kategori_id as $qq){
                     $idss  = explode('_',$qq);
@@ -165,6 +239,22 @@ class ProgramController extends Controller
         $subkat = SubKategori::all();
         $kat = Kategori::all();
         $agensi = Agensi::all();
+        $teras = Teras::all();
+        $kekerapan = Kekerapan::all();
+        $manfaat = Manfaat::all();
+        $kumpulansasar = KumpulanSasar::all();
+        $programkumpulansasar = ProgramKumpulanSasar::all();
+
+        $pks_data = DB::table('program_kumpulan_sasar')
+            ->select( 'program_kumpulan_sasar.*') 
+            ->where('program_kumpulan_sasar.program_id', $program->id)
+            ->get();
+        
+        $pks = [];
+        
+        foreach($pks_data as $pks_k => $pks_val){
+            $pks[] = $pks_val->kumpulan_sasar_id;
+        }
 
         $prog_master = DB::table('program_master')
             ->leftjoin('program', 'program.id', '=', 'program_master.program_id')
@@ -202,7 +292,12 @@ class ProgramController extends Controller
             'prog_master'=>$prog_master,
             'sub_kategori_opt'=>$sub_kategori_opt,
             'jenis_sub_kategori_opt'=>$jenis_sub_kategori_opt,
-            'role_id'=>$role_id
+            'role_id'=>$role_id,
+            'kumpulansasar'=>$kumpulansasar,
+            'pks'=>$pks,
+            'teras'=>$teras,
+            'manfaat'=>$manfaat,
+            'kekerapan'=>$kekerapan
         ]);
     }
     // public function edit(program  $program)
@@ -227,45 +322,69 @@ class ProgramController extends Controller
         // print_r($request->description);
         // dd($request->all());
 
-        if($role_id == '1'){
-            $program = $program->update(
-                $request->merge([
-                    // 'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
-                    'status_pelaksanaan' => $request->status_pelaksanaan ? $request->status_pelaksanaan : null,
-                    'status_program' => $request->status_program ? $request->status_program : null,
-                    'kemaskini_oleh' => $userid,
-                    'tarikh_kemaskini' => now(),
-                // ])->all());
-                ])->except([$request->hasFile('photo') ? '' : 'logo'])
-            );
+        // if($role_id == '1'){
+        //     $program = $program->update(
+        //         $request->merge([
+        //             // 'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
+        //             'status_pelaksanaan' => $request->status_pelaksanaan ? $request->status_pelaksanaan : null,
+        //             'status_program' => $request->status_program ? $request->status_program : null,
+        //             'kemaskini_oleh' => $userid,
+        //             'tarikh_kemaskini' => now(),
+        //         // ])->all());
+        //         ])->except([$request->hasFile('photo') ? '' : 'logo'])
+        //     );
 
-        }else{
+        // }else{
             $program = $program->update(
                 $request->merge([
                     'nama' => $request->nama ? $request->nama : "-" ,
                     'agensi_id' => $request->agensi_id ? $request->agensi_id : null,
                     'kategori_id' => $request->kategori_id ? $request->kategori_id : null,
                     'teras_id' => $request->teras_id ? $request->teras_id : null,
-                    'manfaat' => $request->manfaat ? $request->manfaat : null,
+                    'manfaat_id' => $request->manfaat_id ? $request->manfaat_id : null,
                     'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
                     'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
-                    'kekerapan' => $request->kekerapan ? $request->kekerapan : null,
+                    'kekerapan_id' => $request->kekerapan_id ? $request->kekerapan_id : null,
                     'objektif' => $request->objektif ? $request->objektif : null,
                     'kos' => $request->kos ? $request->kos : null,
                     'syarat_program' => $request->syarat_program ? $request->syarat_program : null,
                     'url' => $request->url ? $request->url : null,
                     // 'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
-                    'status_pelaksanaan' => $request->status_pelaksanaan ? $request->status_pelaksanaan : null,
-                    'status_program' => $request->status_program ? $request->status_program : null,
+                    'status_pelaksanaan_id' => $request->status_pelaksanaan_id ? $request->status_pelaksanaan_id : null,
+                    'status_program_id' => $request->status_program_id ? $request->status_program_id : null,
                     'kemaskini_oleh' => $userid,
                     'tarikh_kemaskini' => now(),
                 // ])->all());
                 ])->except([$request->hasFile('photo') ? '' : 'logo'])
             );
-        }
+        // }
 
         if($program){
-            // $pid = $program->id;
+            //  insert data to kumpulan sasar
+            if(!empty($request->ks_id)){
+                $qqq = DB::table('program_kumpulan_sasar')->where('program_kumpulan_sasar.program_id', $pid)->delete();
+                foreach($request->ks_id as $ks){
+                    $progkumpsasar = new ProgramKumpulanSasar;
+                    $progkumpsasar->program_id = $pid;
+                    $progkumpsasar->kumpulan_sasar_id = $ks;
+                    $progkumpsasar->created_by = $userid;
+                    $progkumpsasar->created_at = now();
+                    $progkumpsasar->updated_by = $userid;
+                    $progkumpsasar->updated_at = now();
+                    $progkumpsasar->save();
+                    // print_r($idss);
+                    // echo $idss[0]."--".$idss[1]."  ";
+                    // $createcompany=DB::table('program_master')->create(
+                    //     [
+                    //         'program_id' => $program->id,
+                    //         'sub_kategori_id' => $idss[0],
+                    //         'jenis_sub_kategori_id' => $idss[1]
+                    //     ]
+                    // );
+                }
+            }
+
+            // insert into sub kategori
             if(!empty($request->nama_sub_kategori_id)){
                 $qqq = DB::table('program_master')->where('program_master.program_id', $pid)->delete();
                 // dd($qqq);

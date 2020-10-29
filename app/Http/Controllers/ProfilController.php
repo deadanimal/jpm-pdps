@@ -5,45 +5,58 @@ namespace App\Http\Controllers;
 use Gate;
 use App\Profil;
 use App\Http\Requests\ProfilRequest;
-use App\Http\Requests\PasswordRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ProfilController extends Controller
 {
-
-    public function index(Profil $model)
-    {   
-        $profil = $model->all();
-        // echo "<pre>";
-        // print_r($program);
-        // echo "</pre>";die;
-        // return view('Program.index', ['Program' => $model->with(['tags', 'category'])->get()]);
-        // $this->authorize('manage-items', User::class);
-
-        return view('profil.index', ['profils' => $profil]);
-    }
-    /**
-     * Show the form for editing the profil.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit()
+    public function __construct()
     {
-        return view('profil.edit');
+        $this->authorizeResource(Profil::class);
     }
 
-    /**
-     * Update the profil
-     *
-     * @param  \App\Http\Requests\ProfilRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(ProfilRequest $request)
+    public function index(ProfilRequest $request)
     {
-        auth()->user()->update(
-            $request->merge(['picture' => $request->photo ? $request->photo->store('profil', 'public') : null])
-                ->except([$request->hasFile('photo') ? '' : 'picture'])
-        );
+        $profil = Profil::all();
+        // dd($request->nama);
+        if($request->nama != null){
+            $user_id = auth()->user()->id; 
+            $role_id = auth()->user()->role_id; 
+            $agensi_id = auth()->user()->agensi_id; 
+            // dd($request->nama);
 
-        return back()->withStatus(__('Profil Berjaya Disimpan.'));
+            // if($request != null){
+            // dd($request->nama);
+            // if($role_id == '3'){
+            //     $media = DB::table('media')
+            //         ->leftJoin('users', 'users.id', '=', 'media.created_by')
+            //         ->leftJoin('program', 'program.id', '=', 'media.program_id')
+            //         ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+            //         ->where('media.created_by',$user_id)
+            //         ->get();
+            // }else if ($role_id == '2'){
+            //     $media = DB::table('media')
+            //         ->leftJoin('users', 'users.id', '=', 'media.created_by')
+            //         ->leftJoin('program', 'program.id', '=', 'media.program_id')
+            //         ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+            //         // ->where('media.agensi_id',$agensi_id)
+            //         ->where('media.created_by',$user_id)
+            //         ->get();
+            // }else if ($role_id == '1'){
+                $profil = DB::table('profil')
+                    // ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    // ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    // ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    ->where('profil.nama', 'LIKE', '%' . $request->nama . '%')
+                    ->get();
+            // }
+            // dd($profil);
+            return view('profil.index', ['profil' => $profil]);
+            // }
+        }
+
+        return view('profil.index');
     }
+
+    public function store(ProfilRequest $request,Profil $model){}
 }

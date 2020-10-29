@@ -8,12 +8,14 @@ use App\Role;
 use App\User;
 use App\Category;
 use App\Program;
+use App\Profil;
 use App\Policies\TagPolicy;
 use App\Policies\ItemPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\ProgramPolicy;
+use App\Policies\ProfilPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Program::class => ProgramPolicy::class,
         Media::class => MediaPolicy::class,
         Orgdata::class => OrgdataPolicy::class,
+        Profil::class => ProfilPolicy::class,
     ];
 
     /**

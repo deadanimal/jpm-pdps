@@ -2,10 +2,10 @@
 
 namespace App;
 
-use App\Profil;
+use App\Kekerapan;
 use Illuminate\Database\Eloquent\Model;
 
-class Profil extends Model
+class Kekerapan extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,11 +13,11 @@ class Profil extends Model
      * @var array
      */
 
-    protected $table = 'profil';
+    protected $table = 'kekerapan';
 
     protected $fillable = [
+        'id',
         'nama',
-        'no_kp',
         'created_by',
         'created_at',
         'updated_by',
@@ -30,9 +30,5 @@ class Profil extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-
-    // public function profil()
-    // {
-    //     return $this->belongsToMany(Profil::class);
-    // }
+    
 }

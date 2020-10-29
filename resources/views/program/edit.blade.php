@@ -8,7 +8,7 @@
     @component('layouts.headers.auth') 
         @component('layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Program') }} 
+                {{-- {{ __('Program') }}  --}}
             @endslot
 
             <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>
@@ -54,8 +54,6 @@
                                         foreach ($agensi as $agensi_no => $agensi_data){ 
                                             if($agensi_data->id == $program->agensi_id){
                                                 echo "<option selected value='$agensi_data->id'>$agensi_data->nama</option>";
-                                            }else{
-                                                echo "<option value='$agensi_data->id'>$agensi_data->nama</option>";
                                             }
                                         } ?>
                                     </select>
@@ -87,7 +85,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-control-label">Kategori {{ $no }}</label>
+                                                    <label class="form-control-label">Sub Kategori</label>
                                                     <select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>
                                                         <?php foreach($subkat as $sk_key => $sk_data ){
                                                             if($sk_data->id == $jsko_key){
@@ -101,7 +99,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-control-label">Sub Kategori  {{ $no }}</label>
+                                                    <label class="form-control-label">Sub Kategori</label>
                                                     <select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat select2 select-multiple" data-toggle="select" multiple="multiple" >
                                                         <?php 
                                                         foreach($jenissubkat as $jsk_key => $jsk_data ){
@@ -145,14 +143,27 @@
                                 <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Teras') }}</label>
                                     <select type="text" id="setactive-links" class="form-control" name="teras_id" value="{{ old('name', $program->teras_id) }}" autofocus>
-                                        <option>Sila Pilih</option>
-                                        <option value="1" {{ $program->teras_id == 1 ? 'selected' : '' }}>Teras 1</option>
-                                        <option value="2" {{ $program->teras_id == 2 ? 'selected' : '' }}>Teras 2</option>
-                                        <option value="3" {{ $program->teras_id == 3 ? 'selected' : '' }}>Teras 3</option>
-                                        <option value="4" {{ $program->teras_id == 4 ? 'selected' : '' }}>Teras 4</option>
+                                        @foreach ($teras as $teras_k => $teras_val)
+                                            <option value="{{$teras_val->id}}" {{ $teras_val->id == $program->teras_id ? 'selected' : '' }}>{{$teras_val->nama}}</option>
+                                        @endforeach
                                     </select>
 
                                     @include('alerts.feedback', ['field' => 'teras_id'])
+                                </div>
+
+                                {{-- Kumpulan sasar --}}
+                                <div class="form-group{{ $errors->has('kumpulan sasar') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Kumpulan Sasar') }}</label>
+                                        <br />
+                                        @foreach ($kumpulansasar as $ks_k => $ks_data)
+                                            <?php if(in_array($ks_data->id,$pks)){ ?>
+                                                <input checked name="ks_id[]" class="pr-10" type="checkbox" value='{{$ks_data->id}}' />{{$ks_data->nama}}
+                                            <?php }else{ ?>
+                                                <input name="ks_id[]" class="pr-10" type="checkbox" value='{{$ks_data->id}}' />{{$ks_data->nama}}
+                                            <?php } ?>
+                                        @endforeach
+
+                                    @include('alerts.feedback', ['field' => 'agensi_id'])
                                 </div>
 
                                 {{-- tarikh mula --}}
@@ -174,37 +185,43 @@
                                 {{-- kekerapan --}}
                                 <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Kekerapan') }}</label>
-                                    <select name="kekerapan" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan') }}" autofocus>
-                                        <option value="1" {{ $program->kekerapan == 1 ? 'selected' : '' }}>Sekali</option>
-                                        <option value="2" {{ $program->kekerapan == 2 ? 'selected' : '' }}>Sebulan Sekali</option>
-                                        <option value="3" {{ $program->kekerapan == 3 ? 'selected' : '' }}>Enam Bulan Sekali</option>
+                                    <select name="kekerapan_id" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan_id') }}" autofocus>
+                                        @foreach ($kekerapan as $kekerapan_k => $kekerapan_val)
+                                            <option value="{{$kekerapan_val->id}}" {{ $kekerapan_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$kekerapan_val->nama}}</option>
+                                        @endforeach
                                     </select>
-                                    @include('alerts.feedback', ['field' => 'kekerapan'])
-                                </div>
-
-                                {{-- objektif --}}
-                                <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Objektif') }}</label>
-                                    <input type="text" name="objektif" id="input-name" class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif', $program->objektif) }}" autofocus>
-
-                                    @include('alerts.feedback', ['field' => 'objektif'])
+                                    @include('alerts.feedback', ['field' => 'kekerapan_id'])
                                 </div>
 
                                 {{-- manfaat --}}
                                 <div class="form-group{{ $errors->has('manfaat') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Manfaat') }}</label>
-                                    <select type="text" name="manfaat" id="input-name" class="form-control{{ $errors->has('Manfaat') ? ' is-invalid' : '' }}" placeholder="{{ __('Manfaat') }}" value="{{ old('name', $program->manfaat) }}" autofocus>
-                                        <option value="1" {{ $program->manfaat == 1 ? 'selected' : '' }}>Wang</option>
-                                        <option value="2" {{ $program->manfaat == 1 ? 'selected' : '' }}>Kerusi Roda</option>
+                                    <select type="text" name="manfaat_id" id="manfaatval" class="form-control{{ $errors->has('Manfaat') ? ' is-invalid' : '' }}" placeholder="{{ __('Manfaat') }}" value="{{ old('name', $program->manfaat_id) }}" autofocus>
+                                        @foreach ($manfaat as $manfaat_k => $manfaat_val)
+                                            <option value="{{$manfaat_val->id}}" {{ $manfaat_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$manfaat_val->nama}}</option>
+                                        @endforeach
                                     </select>
-                                    @include('alerts.feedback', ['field' => 'manfaat'])
+                                    @include('alerts.feedback', ['field' => 'manfaat_id'])
                                 </div>
 
                                 {{-- kos --}}
-                                <div class="form-group{{ $errors->has('kos') ? ' has-danger' : '' }}">
+                                <?php if($program->manfaat_id != '1'){
+                                        $divsp = 'none';
+                                    } else {
+                                        $divsp = 'block';
+                                    }
+                                    ?>
+                                <div style="display: {{ $divsp }}" id="kosval" class="form-group{{ $errors->has('kos') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Kos') }}</label>
                                     <input type="number" name="kos" id="input-name" class="form-control{{ $errors->has('kos') ? ' is-invalid' : '' }}" placeholder="{{ __('kos') }}" value="{{ old('kos', $program->kos) }}" autofocus>
                                     @include('alerts.feedback', ['field' => 'kos'])
+                                </div>
+
+                                {{-- objektif --}}
+                                <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Objektif') }}</label>
+                                        <textarea type="text" name="objektif"  class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif', $program->objektif) }}" autofocus>{{ $program->objektif }}</textarea>
+                                    @include('alerts.feedback', ['field' => 'objektif'])
                                 </div>
 
                                 {{-- syarat program --}}
@@ -214,21 +231,13 @@
                                     @include('alerts.feedback', ['field' => 'syarat_program'])
                                 </div>
 
-                                {{-- sebab tidak aktif --}}
-                                <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Sebab Tidak Aktif') }}</label>
-                                    <textarea rows="3" type="text" name="sebab_tidak_aktif" id="input-name" class="form-control{{ $errors->has('sebab_tidak_aktif') ? ' is-invalid' : '' }}" placeholder="{{ __('Sebab TIdak Aktif') }}"  autofocus>{{$program->sebab_tidak_aktif}}</textarea>
-                                    @include('alerts.feedback', ['field' => 'sebab_tidak_aktif'])
-                                </div>
-
                                 {{-- status_pelaksanaan	 --}}
                                 <?php if($role_id == '1'){ ?>
                                     <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
                                         <label class="form-control-label">{{ __('Status Pelaksanaan') }}</label>
-                                        <select type="text" id="setactive-links" class="form-control" name="status_pelaksanaan" value="{{ old('status_pelaksanaan', $program->status_pelaksanaan) }}" autofocus>
-                                            <option value="1" {{ $program->status_pelaksanaan	 == 1 ? 'selected' : '' }}>Dihantar</option>
-                                            <option value="2" {{ $program->status_pelaksanaan	 == 2 ? 'selected' : '' }}>Berjaya</option>
-                                            <option value="3" {{ $program->status_pelaksanaan	 == 3 ? 'selected' : '' }}>Ditolak</option>
+                                        <select type="text" id="statuspelaksanaan" class="form-control" name="status_pelaksanaan_id" value="{{ old('status_pelaksanaan_id', $program->status_pelaksanaan_id) }}" autofocus>
+                                            <option value="1" {{ $program->status_pelaksanaan_id	 == 1 ? 'selected' : '' }}>Aktif</option>
+                                            <option value="2" {{ $program->status_pelaksanaan_id	 == 2 ? 'selected' : '' }}>Tidak Aktif</option>
                                         </select>
 
                                         @include('alerts.feedback', ['field' => 'status_pelaksanaan'])
@@ -237,13 +246,27 @@
                                     {{-- status_program	 --}}
                                     <div class="form-group{{ $errors->has('status_program') ? ' has-danger' : '' }}">
                                         <label class="form-control-label">{{ __('Status Program') }}</label>
-                                        <select type="text" id="setactive-links" class="form-control" name="status_program" value="{{ old('status_program', $program->status_program) }}" autofocus>
-                                            <option value="1" {{ $program->status_program	 == 1 ? 'selected' : '' }}>Aktif</option>
-                                            <option value="2" {{ $program->status_program	 == 2 ? 'selected' : '' }}>Tidak Aktif</option>
+                                        <select type="text" id="setactive-links" class="form-control" name="status_program_id" value="{{ old('status_program_id', $program->status_program_id) }}" autofocus>
+                                            <option value="1" {{ $program->status_program_id	 == 1 ? 'selected' : '' }}>Dihantar</option>
+                                            <option value="2" {{ $program->status_program_id	 == 2 ? 'selected' : '' }}>Berjaya</option>
+                                            <option value="3" {{ $program->status_program_id	 == 3 ? 'selected' : '' }}>Ditolak</option>
                                         </select>
-
                                         @include('alerts.feedback', ['field' => 'status_program'])
                                     </div>
+
+                                    {{-- sebab tidak aktif --}}
+                                    <?php if($program->status_pelaksanaan != '2'){
+                                        $div = 'none';
+                                    } else {
+                                        $div = 'block';
+                                    }
+                                    ?>
+                                    <div style="display: {{ $div }};" id="sebabxaktif" class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-name">{{$program->status_pelaksanaan}}{{ __('Sebab Tidak Aktif') }}</label>
+                                        <textarea rows="3" type="text" name="sebab_tidak_aktif" id="input-name" class="form-control{{ $errors->has('sebab_tidak_aktif') ? ' is-invalid' : '' }}" placeholder="{{ __('Sebab TIdak Aktif') }}"  autofocus>{{$program->sebab_tidak_aktif}}</textarea>
+                                        @include('alerts.feedback', ['field' => 'sebab_tidak_aktif'])
+                                    </div>
+
                                 <?php } ?>
 
                                 {{-- url --}}
@@ -322,7 +345,7 @@
             html = '<div class="row">';
                 html += '<div class="col-md-4">';
                     html += '<div class="form-group">';
-                        html += '<label class="form-control-label">Kategori '+ count +'</label>';
+                        html += '<label class="form-control-label">Sub Kategori</label>';
                         html += '<select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>';
                         html += '<option selected="selected">Sila Pilih</option>';
                         
@@ -335,7 +358,7 @@
                 html += '</div>';
                 html += '<div class="col-md-6">';
                     html += '<div class="form-group">';
-                        html += '<label class="form-control-label">Sub Kategori '+ count +'</label>';
+                        html += '<label class="form-control-label">Sub Kategori</label>';
                         html += '<select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat'+count+' select2 select-multiple" data-toggle="select" multiple="multiple" >';
                         html += '</select>';
                     html += '</div>';
@@ -392,6 +415,16 @@
                 $("#kosval").hide();
             }else{
                 $("#kosval").show();
+            }
+        });
+    });
+    $(document).ready(function() {
+        $("#statuspelaksanaan").change(function () {
+            console.log( $(this).val() );
+            if($(this).val() == '2'){
+                $("#sebabxaktif").show();
+            }else{
+                $("#sebabxaktif").hide();
             }
         });
     });

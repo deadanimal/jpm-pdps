@@ -8,7 +8,7 @@
     @component('layouts.headers.auth') 
         @component('layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Program') }} 
+                {{-- {{ __('Program') }}  --}}
             @endslot
 
             <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>
@@ -47,10 +47,10 @@
                                 <tr>
                                     <th scope="col">{{ __('No') }}</th>
                                     <th scope="col">{{ __('Nama Program') }}</th>
-                                    <th scope="col">{{ __('Objektif Program') }}</th>
                                     <th scope="col">{{ __('kos (RM)') }}</th>
                                     <th scope="col">{{ __('Sebab Tidak Aktif') }}</th>
                                     <th scope="col">{{ __('Kekerapan') }}</th>
+                                    <th scope="col">{{ __('Manfaat') }}</th>
                                     <th scope="col">{{ __('Status Pelaksanaan') }}</th>
                                     <th scope="col">{{ __('Status Program') }}</th>
                                     <th scope="col">{{ __('Logo') }}</th>
@@ -66,13 +66,6 @@
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $data->nama }}</td>
                                         <td>
-                                            <?php if ($data->objektif == null) {
-                                                echo 'NA';
-                                            }else {
-                                                echo $data->objektif;
-                                            } ?>
-                                        </td>
-                                        <td>
                                             <?php if ($data->kos == null) {
                                                 echo 'NA';
                                             }else {
@@ -86,32 +79,24 @@
                                                 echo $data->sebab_tidak_aktif;
                                             } ?>
                                         </td>
+                                        <td>{{$data->nama_kekerapan}}</td>
+                                        <td>{{$data->nama_manfaat}}</td>
                                         <td>
                                             <?php 
-                                            if ($data->kekerapan == '1')
-                                                { echo "Sekali"; }  
-                                            else if ($data->kekerapan == '2')
-                                                { echo "Sebulan Sekali"; }
-                                            else if ($data->kekerapan == '3')
-                                                { echo "Enam Bulan Sekali"; }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php 
-                                            if ($data->status_pelaksanaan == '1')
-                                                { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
-                                            else if ($data->status_pelaksanaan == '2')
-                                                { echo "<span class='badge badge-success'>Berjaya</span>"; }
-                                            else if ($data->status_pelaksanaan == '3')
-                                                { echo "<span class='badge badge-danger'>Ditolak</span>"; }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php 
-                                            if ($data->status_program == '1')
+                                            if ($data->status_pelaksanaan_id == '1')
                                                 { echo "<span class='badge badge-success'>Aktif</span>"; }  
-                                            else if ($data->status_program == '2')
+                                            else if ($data->status_pelaksanaan_id == '2')
                                                 { echo "<span class='badge badge-danger'>Tidak Aktif</span>"; }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                            if ($data->status_program_id == '1')
+                                                { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
+                                            else if ($data->status_program_id == '2')
+                                                { echo "<span class='badge badge-success'>Berjaya</span>"; }
+                                            else if ($data->status_program_id == '3')
+                                                { echo "<span class='badge badge-danger'>Ditolak</span>"; }
                                             ?>
                                         </td>
                                         <td>
@@ -130,7 +115,7 @@
                                             @can('manage-items',  App\Program::class)
                                                 {{-- @if (auth()->user()->can('update', $data)) --}}
                                                 @if (auth()->user()->can('update', App\Program::class))
-                                                    <a href="{{ route('program.edit', $data) }}" class="btn btn-success btn-sm">
+                                                    <a href="{{ route('program.edit', $data->id) }}" class="btn btn-success btn-sm">
                                                         <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
                                                     </a>
                                                 @endif

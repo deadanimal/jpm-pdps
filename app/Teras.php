@@ -2,10 +2,10 @@
 
 namespace App;
 
-use App\Profil;
+use App\Teras;
 use Illuminate\Database\Eloquent\Model;
 
-class Profil extends Model
+class Teras extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,11 +13,11 @@ class Profil extends Model
      * @var array
      */
 
-    protected $table = 'profil';
+    protected $table = 'teras';
 
     protected $fillable = [
+        'id',
         'nama',
-        'no_kp',
         'created_by',
         'created_at',
         'updated_by',
@@ -30,9 +30,15 @@ class Profil extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
+    
+    public function media()
+    {
+        return $this->belongsToMany(Media::class);
+    }
 
-    // public function profil()
-    // {
-    //     return $this->belongsToMany(Profil::class);
-    // }
+
+    public function path()
+    {
+        return "/banner/{$this->gambar}";
+    }
 }

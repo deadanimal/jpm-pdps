@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class RolesTableSeeder extends Seeder
+class TagsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,28 +11,30 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
+        
+        DB::table('tags')->insert([
             'id' => 1,
-            'name' => 'Admin',
-            'description' => 'This is the administration role',
+            'name' => 'Hot',
+            'color' => '#f5365c',
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
-        DB::table('roles')->insert([
+        DB::table('tags')->insert([
             'id' => 2,
-            'name' => 'Creator',
-            'description' => 'This is the creator role',
+            'name' => 'Trending',
+            'color' => '#5e72e4',
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
-        DB::table('roles')->insert([
+        DB::table('tags')->insert([
             'id' => 3,
-            'name' => 'Member',
-            'description' => 'This is the member role',
+            'name' => 'New',
+            'color' => '#11cdef',
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
     }
 }

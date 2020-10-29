@@ -1,17 +1,17 @@
 @extends('layouts.app', [
-    'title' => __('Profil Management'),
+    'title' => __('Laporan Management'),
     'parentSection' => 'laravel',
-    'elementName' => 'profil'
+    'elementName' => 'laporan'
 ])
 
 @section('content')
     @component('layouts.headers.auth') 
         @component('layouts.headers.breadcrumbs')
             @slot('title') 
-                {{ __('Cari Profil') }} 
+                {{ __('Cari Laporan') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('profil.index') }}" class="">{{ __('Cari Profil') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('laporan.program_bantuan') }}" class="">{{ __('Laporan') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Cari') }}</li>
         @endcomponent
     @endcomponent
@@ -23,17 +23,19 @@
                     {{-- <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Profil') }}</h3>
+                                <h3 class="mb-0">{{ __('Laporan') }}</h3>
                             </div>
                         </div>
                     </div> --}}
                     <div class="card-body">
 
-                        <form method="get" class="item-form" action="{{ route('profil.index') }}" autocomplete="off" enctype="multipart/form-data">
+                        <form method="get" class="item-form" action="{{ route('laporan.program_bantuan') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-2"><label class="form-control-label">Cari Profil</label></div>
+                                    <div class="col-md-2">
+                                        <label class="form-control-label">Laporan</label>
+                                    </div>
                                     <div class="col-md-8">
                                         <input class="form-control" name="nama" placeholder="Masukkan Nama Pemohon" type="text">
                                     </div>
@@ -53,8 +55,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">{{ __('Profil') }}</h3>
+                            <div class="col-md-8">
+                                <h3 class="mb-0">{{ __('Laporan') }}</h3>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <?php if(!empty($laporan)){ ?>
+                                    <button class="btn btn-default">{{ __('Export') }}</button>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -81,8 +88,8 @@
                             <tbody>
                                 <?php
                                     $no = 1; 
-                                    if(!empty($profil)){ ?>
-                                @foreach ($profil as $pro_k => $pro_data)
+                                    if(!empty($laporan)){ ?>
+                                @foreach ($laporan as $pro_k => $pro_data)
                                     <tr>
                                         <td>{{ $no }}</td>
                                         <td>{{ $pro_data->nama }}</td>

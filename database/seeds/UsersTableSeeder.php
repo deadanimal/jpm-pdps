@@ -16,21 +16,21 @@ class UsersTableSeeder extends Seeder
             'id' => 1,
             'name' => 'Admin',
             'email' => 'admin@argon.com',
-            'peranan_id' => 1,
+            'role_id' => 1,
         ]);
 
         factory(App\User::class)->create([
             'id' => 2,
             'name' => 'Creator',
             'email' => 'creator@argon.com',
-            'peranan_id' => 2,
+            'role_id' => 2,
         ]);
 
         factory(App\User::class)->create([
             'id' => 3,
             'name' => 'Member',
             'email' => 'member@argon.com',
-            'peranan_id' => 3,
+            'role_id' => 3,
         ]);
     }
 }

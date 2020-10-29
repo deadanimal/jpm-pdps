@@ -32,6 +32,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 
+	Route::get('profil', 'ProfilController@index')->name('profil.index');
+
+	Route::get('laporan', 'LaporanController@index')->name('laporan.index');
+	Route::get('laporan/program-bantuan', 'LaporanController@program_bantuan')->name('laporan.program_bantuan');
+
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
