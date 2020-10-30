@@ -40,7 +40,7 @@
 
                                 {{-- agensi --}}
                                 <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Agensi') }}</label>
+                                    <label class="form-control-label">{{ __('Agensi') }}  <span class="text-red">*</span></label>
                                     <select disabled type="text" id="setactive-links" class="form-control" name="agensi_id" autofocus>
                                         <?php 
                                         foreach ($agensi as $agensi_no => $agensi_data){ 
@@ -57,7 +57,7 @@
                                 {{-- program --}}
                                 <?php if ($media->jenis == '2') { ?>
                                     <div class="form-group{{ $errors->has('program') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label">{{ __('Program') }}</label>
+                                        <label class="form-control-label">{{ __('Program') }} <span class="text-red">*</span></label>
                                         <select type="text" id="setactive-links" class="form-control" name="program_id" required autofocus>
                                             <?php 
                                             foreach ($program as $program_no => $program_data){ 
@@ -76,7 +76,7 @@
                                 {{-- tajuk --}}
                                 <?php if ($media->jenis == '1') { ?>
                                     <div class="form-group{{ $errors->has('tajuk') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-name">{{ __('Tajuk') }}</label>
+                                        <label class="form-control-label" for="input-name">{{ __('Tajuk') }} <span class="text-red">*</span></label>
                                         <input type="text" name="tajuk" id="input-name" class="form-control{{ $errors->has('tajuk') ? ' is-invalid' : '' }}" placeholder="{{ __('Tajuk') }}" value="{{ old('tajuk',$media->tajuk) }}" autofocus>
 
                                         @include('alerts.feedback', ['field' => 'tajuk'])
@@ -86,7 +86,7 @@
                                 {{-- keterangan --}}
                                 <?php if ($media->jenis == '1') { ?>
                                     <div class="form-group{{ $errors->has('keterangan') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-name">{{ __('Keterangan') }}</label>
+                                        <label class="form-control-label" for="input-name">{{ __('Keterangan') }} <span class="text-red">*</span></label>
                                         <textarea type="text" name="keterangan" id="input-name" class="form-control{{ $errors->has('Keterangan') ? ' is-invalid' : '' }}" placeholder="{{ __('Keterangan') }}" value="{{ old('keterangan',$media->keterangan) }}" autofocus>{{$media->keterangan}}</textarea>
                                         @include('alerts.feedback', ['field' => 'keterangan'])
                                     </div>
@@ -94,14 +94,14 @@
 
                                 {{-- tarikh_mula --}}
                                 <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }} <span class="text-red">*</span></label>
                                     <input type="date" name="tarikh_mula" id="input-name" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('Tarikh Mula') }}" value="{{ old('tarikh_mula',$media->tarikh_mula) }}" autofocus>
                                     @include('alerts.feedback', ['field' => 'tarikh_mula'])
                                 </div>
 
                                 {{-- tarikh_tamat --}}
                                 <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }} <span class="text-red">*</span></label>
                                     <input type="date" name="tarikh_tamat" id="input-name" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('Tarikh Tamat') }}" value="{{ old('tarikh_tamat',$media->tarikh_tamat) }}" autofocus>
                                     @include('alerts.feedback', ['field' => 'tarikh_tamat'])
                                 </div>
@@ -109,7 +109,7 @@
                                 {{-- gambar --}}
                                 <?php if ($media->jenis == '2') { ?>
                                     <div class="form-group{{ $errors->has('gambar') ? ' has-danger' : '' }}">
-                                        <label style="padding-right:50px" class="form-control-label">{{ __('Banner') }}</label>
+                                        <label style="padding-right:50px" class="form-control-label">{{ __('Banner') }} <span class="text-red">*</span></label>
                                         {{-- <input type="file" name="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" placeholder="{{ __('Gambar') }}" value="{{ old('gambar',$media->gambar) }}" autofocus>
                                         @include('alerts.feedback', ['field' => 'gambar']) --}}
                                         <img src='/storage/{{$media->gambar}}' alt='qq' style='max-width: 50px;height:50px;'>
@@ -131,7 +131,7 @@
                                 <?php } ?>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Simpan') }}</button>
                                 </div>
                             </div>
                         </form>

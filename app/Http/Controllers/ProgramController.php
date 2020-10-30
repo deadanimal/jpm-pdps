@@ -219,7 +219,7 @@ class ProgramController extends Controller
 
         // $program->tags()->sync($request->get('tags'));
 
-        return redirect()->route('program.index')->withStatus(__('Program successfully created.'));
+        return redirect()->route('program.index')->withStatus(__('Program Berjaya Dicipta.'));
     }
 
     /**
@@ -414,7 +414,7 @@ class ProgramController extends Controller
         }
 
         // $program->update($request->all());
-        return redirect()->route('program.index')->withStatus(__('Program Berjaya Disimpan.'));
+        return redirect()->route('program.index')->withStatus(__('Program Berjaya Dikemaskini.'));
     }
 
     /**

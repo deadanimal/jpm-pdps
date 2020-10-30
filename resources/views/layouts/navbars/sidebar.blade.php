@@ -28,7 +28,7 @@
                         <div class="collapse {{ $parentSection == 'dashboards' ? 'show' : '' }}" id="navbar-dashboards">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{ $elementName == 'dashboard' ? 'active' : '' }}">
-                                    <a href="{{ route('home') }}" class="nav-link">{{ __('Utama') }}</a>
+                                    <a href="{{ route('home') }}" class="nav-link"></a>
                                 </li>
                                 <li class="nav-item {{ $elementName == 'dashboard-alternative' ? 'active' : '' }}">
                                     <a href="{{ route('page.index','dashboard-alternative') }}" class="nav-link">{{ __('Alternative') }}</a>
@@ -36,6 +36,14 @@
                             </ul>
                         </div>
                     </li> --}}
+
+                    <li class="nav-item {{ $elementName == 'dashboard' ? 'active' : '' }}">
+                        <a href="{{ route('home') }}" class="nav-link">
+                            <i class="ni ni-shop text-default"></i>
+                            <span class="nav-link-text">{{ __('Utama') }}</span>
+                        </a>
+                    </li>
+
                     @can('manage-items', App\User::class)
                         <li class="nav-item {{ $elementName == 'program' ? 'active' : '' }}">
                             <a href="{{ route('program.index') }}" class="nav-link">
@@ -78,8 +86,8 @@
                     @endcan
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#reporting" data-toggle="collapse" 
-                        role="button" aria-expanded="true" aria-controls="reporting">
+                        <a class="nav-link collapse" href="#reporting" data-toggle="collapse" 
+                        role="button" aria-expanded="false" aria-controls="reporting">
                             <i class="ni ni-chart-pie-35  text-default"></i>
                             <span class="nav-link-text">{{ __('Laporan') }}</span>
                         </a>

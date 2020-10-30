@@ -50,7 +50,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Simpan') }}</button>
                                 </div>
                             </div>
                         </form>

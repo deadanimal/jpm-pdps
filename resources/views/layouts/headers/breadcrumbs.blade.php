@@ -1,9 +1,13 @@
 <div class="row align-items-center py-4">
     <div class="col-lg-6 col-7">
-        <h6 class="h2 text-white d-inline-block mb-0">{{ $title }}</h6>
+        <h6 class="h2 d-inline-block mb-0 text-black">{{ $title }}</h6>
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home"></i></a></li>
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark text-black">
+                <li class="breadcrumb-item text-black">
+                    <a href="{{ route('home') }}">
+                        <i class="fas fa-home text-dark"></i>
+                    </a>
+                </li>
                 {{ $slot }}
             </ol>
         </nav>

@@ -8,7 +8,7 @@
     @component('layouts.headers.auth') 
         @component('layouts.headers.breadcrumbs')
             @slot('title') 
-                {{-- {{ __('Program') }}  --}}
+                {{ __('Program') }} 
             @endslot
 
             <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>
@@ -38,32 +38,30 @@
                             {{-- <h6 class="heading-small text-muted mb-4">{{ __('Tag information') }}</h6> --}}
                             <div class="pl-lg-4">
 
-                                {{-- nama --}}
-
-                                <div class="form-group{{ $errors->has('nama') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Nama Program') }}</label>
-                                    <input type="text" name="nama" id="input-name" class="form-control{{ $errors->has('Nama Program') ? ' is-invalid' : '' }}" placeholder="{{ __('Nama Program') }}" value="{{ old('name', $program->nama) }}" autofocus>
-                                    @include('alerts.feedback', ['field' => 'nama'])
-                                </div>
-
                                 {{-- agensi --}}
                                 <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Agensi') }}</label>
-                                    <select type="text" id="setactive-links" class="form-control" name="agensi_id" value="{{ old('name', $program->agensi_id) }}" autofocus>
-                                        <?php 
-                                        foreach ($agensi as $agensi_no => $agensi_data){ 
-                                            if($agensi_data->id == $program->agensi_id){
-                                                echo "<option selected value='$agensi_data->id'>$agensi_data->nama</option>";
-                                            }
-                                        } ?>
-                                    </select>
+                                    <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
+                                        @foreach ($agensi as $agensi_no => $agensi_data)
+                                            <?php 
+                                            if($agensi_data->id == $agensi_data->id){
+                                                $agensiname = $agensi_data->nama;
+                                            } ?>
+                                        @endforeach
+                                        <input disabled type="text" class="form-control" value="{{$agensiname}}" autofocus>
 
                                     @include('alerts.feedback', ['field' => 'agensi_id'])
                                 </div>
                                 
+                                {{-- nama --}}
+                                <div class="form-group{{ $errors->has('nama') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Nama Program') }} <span class="text-red">*</span></label>
+                                    <input type="text" name="nama" id="input-name" class="form-control{{ $errors->has('Nama Program') ? ' is-invalid' : '' }}" placeholder="{{ __('Nama Program') }}" value="{{ old('name', $program->nama) }}" autofocus>
+                                    @include('alerts.feedback', ['field' => 'nama'])
+                                </div>
+                                
                                 {{-- kategori --}}
                                 <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Kategori') }}</label>
+                                    <label class="form-control-label">{{ __('Kategori') }} <span class="text-red">*</span></label>
                                     <select type="text" id="setactive-links" class="form-control" name="kategori_id" value="{{ old('name', $program->kategori_id) }}" autofocus>
                                         <option>Sila Pilih</option>
                                         <option value="1" {{ $program->kategori_id == 1 ? 'selected' : '' }}>Kategori 1</option>
@@ -85,7 +83,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-control-label">Sub Kategori</label>
+                                                    <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
                                                     <select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>
                                                         <?php foreach($subkat as $sk_key => $sk_data ){
                                                             if($sk_data->id == $jsko_key){
@@ -99,7 +97,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-control-label">Sub Kategori</label>
+                                                    <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
                                                     <select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat select2 select-multiple" data-toggle="select" multiple="multiple" >
                                                         <?php 
                                                         foreach($jenissubkat as $jsk_key => $jsk_data ){
@@ -141,7 +139,7 @@
 
                                 {{-- teras --}}
                                 <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Teras') }}</label>
+                                    <label class="form-control-label">{{ __('Teras') }} <span class="text-red">*</span></label>
                                     <select type="text" id="setactive-links" class="form-control" name="teras_id" value="{{ old('name', $program->teras_id) }}" autofocus>
                                         @foreach ($teras as $teras_k => $teras_val)
                                             <option value="{{$teras_val->id}}" {{ $teras_val->id == $program->teras_id ? 'selected' : '' }}>{{$teras_val->nama}}</option>
@@ -153,7 +151,7 @@
 
                                 {{-- Kumpulan sasar --}}
                                 <div class="form-group{{ $errors->has('kumpulan sasar') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Kumpulan Sasar') }}</label>
+                                    <label class="form-control-label">{{ __('Kumpulan Sasar') }} <span class="text-red">*</span></label>
                                         <br />
                                         @foreach ($kumpulansasar as $ks_k => $ks_data)
                                             <?php if(in_array($ks_data->id,$pks)){ ?>
@@ -168,7 +166,7 @@
 
                                 {{-- tarikh mula --}}
                                 <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('tarikh_mula') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('tarikh_mula') }} <span class="text-red">*</span></label>
                                     <input type="date" name="tarikh_mula" id="input-name" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_mula') }}" value="{{ old('tarikh_mula', $program->tarikh_mula) }}" autofocus>
 
                                     @include('alerts.feedback', ['field' => 'tarikh_mula'])
@@ -176,7 +174,7 @@
 
                                 {{-- tarikh tamat --}}
                                 <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('tarikh_tamat') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('tarikh_tamat') }} <span class="text-red">*</span></label>
                                     <input type="date" name="tarikh_tamat" id="input-name" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_tamat') }}" value="{{ old('tarikh_tamat', $program->tarikh_tamat) }}" autofocus>
 
                                     @include('alerts.feedback', ['field' => 'tarikh_tamat'])
@@ -184,7 +182,7 @@
 
                                 {{-- kekerapan --}}
                                 <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Kekerapan') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Kekerapan') }} <span class="text-red">*</span></label>
                                     <select name="kekerapan_id" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan_id') }}" autofocus>
                                         @foreach ($kekerapan as $kekerapan_k => $kekerapan_val)
                                             <option value="{{$kekerapan_val->id}}" {{ $kekerapan_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$kekerapan_val->nama}}</option>
@@ -195,7 +193,7 @@
 
                                 {{-- manfaat --}}
                                 <div class="form-group{{ $errors->has('manfaat') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Manfaat') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Manfaat') }} <span class="text-red">*</span></label>
                                     <select type="text" name="manfaat_id" id="manfaatval" class="form-control{{ $errors->has('Manfaat') ? ' is-invalid' : '' }}" placeholder="{{ __('Manfaat') }}" value="{{ old('name', $program->manfaat_id) }}" autofocus>
                                         @foreach ($manfaat as $manfaat_k => $manfaat_val)
                                             <option value="{{$manfaat_val->id}}" {{ $manfaat_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$manfaat_val->nama}}</option>
@@ -219,29 +217,30 @@
 
                                 {{-- objektif --}}
                                 <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Objektif') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Objektif') }} <span class="text-red">*</span></label>
                                         <textarea type="text" name="objektif"  class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif', $program->objektif) }}" autofocus>{{ $program->objektif }}</textarea>
                                     @include('alerts.feedback', ['field' => 'objektif'])
                                 </div>
 
                                 {{-- syarat program --}}
                                 <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Syarat Program') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Syarat Program') }} <span class="text-red">*</span></label>
                                     <textarea rows="3" type="text" name="syarat_program" id="input-name" class="form-control{{ $errors->has('syarat_program') ? ' is-invalid' : '' }}" placeholder="{{ __('Syarat Program') }}"  autofocus>{{$program->syarat_program}}</textarea>
                                     @include('alerts.feedback', ['field' => 'syarat_program'])
                                 </div>
 
                                 {{-- status_pelaksanaan	 --}}
-                                <?php if($role_id == '1'){ ?>
-                                    <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label">{{ __('Status Pelaksanaan') }}</label>
-                                        <select type="text" id="statuspelaksanaan" class="form-control" name="status_pelaksanaan_id" value="{{ old('status_pelaksanaan_id', $program->status_pelaksanaan_id) }}" autofocus>
-                                            <option value="1" {{ $program->status_pelaksanaan_id	 == 1 ? 'selected' : '' }}>Aktif</option>
-                                            <option value="2" {{ $program->status_pelaksanaan_id	 == 2 ? 'selected' : '' }}>Tidak Aktif</option>
-                                        </select>
+                                <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Status Pelaksanaan') }}</label>
+                                    <select type="text" id="statuspelaksanaan" class="form-control" name="status_pelaksanaan_id" value="{{ old('status_pelaksanaan_id', $program->status_pelaksanaan_id) }}" autofocus>
+                                        <option value="1" {{ $program->status_pelaksanaan_id	 == 1 ? 'selected' : '' }}>Aktif</option>
+                                        <option value="2" {{ $program->status_pelaksanaan_id	 == 2 ? 'selected' : '' }}>Tidak Aktif</option>
+                                    </select>
 
-                                        @include('alerts.feedback', ['field' => 'status_pelaksanaan'])
-                                    </div>
+                                    @include('alerts.feedback', ['field' => 'status_pelaksanaan'])
+                                </div>
+
+                                <?php if($role_id == '1'){ ?>
 
                                     {{-- status_program	 --}}
                                     <div class="form-group{{ $errors->has('status_program') ? ' has-danger' : '' }}">
@@ -271,7 +270,7 @@
 
                                 {{-- url --}}
                                 <div class="form-group{{ $errors->has('url') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Agensi URL') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Agensi URL') }} <span class="text-red">*</span></label>
                                     <input type="text" name="url" id="input-name" class="form-control{{ $errors->has('url') ? ' is-invalid' : '' }}" placeholder="{{ __('URL') }}" value="{{ old('url', $program->url) }}" autofocus>
 
                                     @include('alerts.feedback', ['field' => 'url'])
@@ -286,7 +285,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                    <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="question">Simpan</button>
                                 </div>
                             </div>
                         </form>
@@ -302,9 +301,13 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('argon') }}/vendor/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="{{ asset('argon') }}/vendor/quill/dist/quill.core.css">
+    <link rel="stylesheet" href="{{ asset('argon') }}/vendor/animate.css/animate.min.css">
+    <link rel="stylesheet" href="{{ asset('argon') }}/vendor/sweetalert2/dist/sweetalert2.min.css">
 @endpush
 
 @push('js')
+    <script src="{{ asset('argon') }}/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="{{ asset('argon') }}/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/select2/dist/js/select2.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/quill/dist/quill.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>

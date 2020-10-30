@@ -21,6 +21,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('program.index');
+        return view('pages.dashboard');
     }
 }

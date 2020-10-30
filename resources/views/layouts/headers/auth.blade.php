@@ -1,6 +1,6 @@
-<div class="header bg-default pb-6">
+<div class="header pb-6">
     <div class="container-fluid">
-        <div class="header-body">
+        <div class="header-body text-black">
            {{ $slot }} 
         </div>
     </div>

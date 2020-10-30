@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'title' => __('Banner & Berita'),
     'parentSection' => 'laravel',
-    'elementName' => 'req-publish'
+    'elementName' => 'media'
 ])
 
 @section('content')

@@ -53,7 +53,7 @@
   /* start sidebar nav */
 
   .customSideNav {
-    height: 40%;
+    height: 300px;
     width: 0;
     position: fixed;
     z-index: 1;
@@ -100,10 +100,11 @@
     position: -webkit-sticky;
     position: sticky;
     top: 250px;
-    width: 45px;
+    width: 35px;
     padding-left: 3px;
     padding-top: 8px;
     padding-bottom: 8px;
+    margin-top:-100px;
     z-index: 1;
     background-color: grey;
   }
@@ -120,9 +121,9 @@
     <!-- Page Title -->
     <title>JPM - PDPS</title>
 
-    <!-- Favicon and Touch Icons -->
-    {{-- <link href="{{ asset('custom') }}/images/logo-jata.png" rel="shortcut icon" type="image/png" />
-    <link href="{{ asset('custom') }}/images/logo-jata.png" rel="apple-touch-icon" />
+    <!-- Favicon and Touch Icons -->    
+    <link href="{{ asset('custom') }}/images/logo-jata.png" rel="shortcut icon" type="image/png" />
+    {{-- 
     <link
       href="{{ asset('custom') }}/images/apple-touch-icon-72x72.png"
       rel="apple-touch-icon"
@@ -233,14 +234,13 @@
 
       <!-- <img class="stickyW3cIcon" src="images/faces/child.jpg" alt="Avatar" /> -->
 
-      <!-- start side menu -->
+      <!-- start w3c side menu -->
       <i
-        class="fa fa-wheelchair fa-3x stickyW3cIcon"
+        class="fa fa-wheelchair fa-2x stickyW3cIcon"
         id="w3cIcon"
         style="cursor: pointer"
       >
       </i>
-
       <div id="mySideCustomnav" class="customSideNav" style="display: none">
         <span
           class="text-center"
@@ -297,22 +297,24 @@
         </div>
       </div>
 
-      <!-- end side menu -->
+      <!-- end w3c side menu -->
 
       <!-- Header -->
       <header id="header" class="header">
-        <div class="header-nav navbar-fixed-top header-dark navbar-white navbar-transparent bg-transparent-1 navbar-sticky-animated animated-active">
+        <div class="header-nav navbar-fixed-top header-dark navbar-white navbar-transparent bg-transparent-1 navbar-sticky-animated animated-active pt-0 mt-0">
           <div class="header-nav-wrapper">
-            <div class="container add-padding">
-              <nav id="menuzord-right" class="menuzord default no-bg menuzord-responsive"><a href="javascript:void(0)" class="showhide" style="display: none;"><em></em><em></em><em></em></a>
+            <div class="container-fluid add-padding">
+              <nav id="menuzord-right" class="menuzord default no-bg menuzord-responsive">
+                <a href="javascript:void(0)" class="showhide" style="display: none;">
+                  <em></em><em></em><em></em></a>
               {{-- <nav id="menuzord-right" class="menuzord green no-bg"> --}}
                 <a
                   class="menuzord-brand pull-left flip"
                   href="javascript:void(0)"
                 >
-                  <img src="{{ asset('custom') }}/images/logo-jata-putih.png" alt="" />
+                  <img src="{{ asset('custom') }}/images/logo-jata.png" alt="" />
                 </a>
-                <ul class="menuzord-menu">
+                <ul class="menuzord-menu text-black">
                   <li>
                     <input
                       class="form-control"
@@ -321,7 +323,7 @@
                     />
                   </li>
                   <li>
-                    <a href="#home" class="text-white">Perlindungan Sosial</a>
+                    <a href="#home" class="text-black">Perlindungan Sosial</a>
                     <ul class="dropdown">
                       <li>
                         <a href="#">MySPC</a>
@@ -373,21 +375,8 @@
                       </li>
                     </ul>
                   </li>
-
                   <li>
-                    <a href="#home" class="text-white">Halaman</a>
-                    <ul class="dropdown">
-                      <li>
-                        <a href="#">Pages 1</a>
-                      </li>
-                      <li>
-                        <a href="#">Pages 2</a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <li>
-                      <a class="text-white" href="{{ route('login') }}" class="text-dark">{{ __('Login') }}</a>
+                      <a class="text-black" href="{{ route('login') }}" >{{ __('Login') }}</a>
                   </li>
                 </ul>
               </nav>
@@ -399,13 +388,14 @@
       <!-- Start main-content -->
       <div class="main-content">
         <!-- Section: banner / news -->
-        <section id="about4" style="background-image: url(../argon/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;padding-bottom:100px">
+        <section id="about4" style="background-image: url(../argon/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;padding-bottom:10px">
           <div class="container-fluid">
             <div class="section-content">
-              <div class="row mt-50">
+              <div class="row mt-70">
                 <div
                   class="col-md-2"
-                ></div>
+                >
+                </div>
                 <div class="col-sm-12 col-md-8 wow fadeInUp animation-delay4">
                   <!-- <h3 class="text-uppercase line-bottom mt-0">Featured <span class="text-theme-colored"> Project</span></h3> -->
                   <div class="owl-carousel-1col" data-nav="true">
@@ -446,7 +436,7 @@
 
         <!-- Section: Kumpulan Sasar -->
         <section style="background-color: white">
-          <div class="container pb-0" data-margin-top="-80px">
+          <div class="container pb-0 pt-0 mt-0">
             <div class="section-title">
               <div class="row">
                 <div class="col text-center">

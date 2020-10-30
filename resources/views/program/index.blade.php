@@ -1,14 +1,14 @@
 @extends('layouts.app', [
     'title' => __('Program'),
     'parentSection' => 'laravel',
-    'elementName' => 'req-data'
+    'elementName' => 'program'
 ])
 
 @section('content')
     @component('layouts.headers.auth') 
         @component('layouts.headers.breadcrumbs')
             @slot('title') 
-                {{-- {{ __('Program') }}  --}}
+                {{ __('Program') }} 
             @endslot
 
             <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>

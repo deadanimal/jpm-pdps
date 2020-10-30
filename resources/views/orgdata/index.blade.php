@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'title' => __('Pemohonan Data'),
     'parentSection' => 'laravel',
-    'elementName' => 'req-data'
+    'elementName' => 'orgdata'
 ])
 
 @section('content')
