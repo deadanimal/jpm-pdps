@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Http\Requests\MediaRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class MediaController extends Controller
 {
@@ -37,7 +38,8 @@ class MediaController extends Controller
                 ->leftJoin('program', 'program.id', '=', 'media.program_id')
                 ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
                 ->where('media.created_by',$user_id)
-                ->get();
+                // ->get();
+                ->paginate(3);
         }else if ($role_id == '2'){
             $media = DB::table('media')
                 ->leftJoin('users', 'users.id', '=', 'media.created_by')
@@ -45,13 +47,15 @@ class MediaController extends Controller
                 ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
                 // ->where('media.agensi_id',$agensi_id)
                 ->where('media.created_by',$user_id)
-                ->get();
+                // ->get();
+                ->paginate(3);
         }else if ($role_id == '1'){
             $media = DB::table('media')
                 ->leftJoin('users', 'users.id', '=', 'media.created_by')
                 ->leftJoin('program', 'program.id', '=', 'media.program_id')
                 ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
-                ->get();
+                // ->get();
+                ->paginate(3);
         }
 
         // echo Request::ip();

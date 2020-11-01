@@ -1,9 +1,6 @@
-<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+<nav class="sidenav navbar-vertical fixed-left navbar-expand-xs navbar-light" id="sidenav-main">
     <div class="scrollbar-inner scroll-scrollx_visible">
-        <div class="sidenav-header d-flex align-items-center" style="margin-top:40px;">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="{{ asset('argon') }}/img/google/jata-logo.png" style="margin-top:70px;margin-bottom:100px;max-width: 100%;max-height:6rem" class="navbar-brand-img" alt="...">
-            </a>
+        <div class="sidenav-header d-flex align-items-center" style="margin-top:120px;">
             <div class="ml-auto">
                 <!-- Sidenav toggler -->
                 <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
@@ -15,6 +12,13 @@
                 </div>
             </div>
         </div>
+        {{-- <div class="text-center pb-10">
+            <a class="navbar-brand" href="{{ route('home') }}">
+                <img src="{{ asset('argon') }}/img/google/jata-logo.png" width="100%">
+            </a>
+        </div> --}}
+        <div class="text-center"><a class="text-black nav-link-text">Hi {{ auth()->user()->name }}</a></div>
+        <hr style="width:100%;text-align:left;margin-left:0;height:3px;color:black">
         <div class="navbar-inner">
             <!-- Collapse -->
             <div class="collapse navbar-collapse" id="sidenav-collapse-main">

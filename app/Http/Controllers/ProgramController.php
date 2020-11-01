@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class ProgramController extends Controller
 {
@@ -53,20 +54,24 @@ class ProgramController extends Controller
             $program = DB::table('program')
                 ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
                 ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan')
+                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where('program.rekod_oleh',$user_id)
                 ->orderBy('id', 'desc')
-                ->get();
+                // ->get();
+                ->paginate(3);
             // $program = Program::where('rekod_oleh', $user_id)->get();
         }else if ($role_id == '2'){
 
             $program = DB::table('program')
                 ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
                 ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan')
+                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where('program.rekod_oleh',$user_id)
                 ->orderBy('id', 'desc')
-                ->get();
+                // ->get();
+                ->paginate(3);
             // $program = Program::where('rekod_oleh', $user_id)->get();
             // $program = Program::where('agensi_id', $agensi_id)->get();
 
@@ -74,11 +79,12 @@ class ProgramController extends Controller
             $program = DB::table('program')
                 ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
                 ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan')
-                // ->where('program.rekod_oleh',$user_id)
-                ->orderBy('id', 'desc')
-                ->get();
-            // $program = Program::orderBy('id', 'desc')->get();
+                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                 ->orderBy('id', 'desc')
+                //  ->get()
+                 ->paginate(3);
+            // $program = Program::orderBy('id', 'desc')->paginate(3);
         }
             
         // dd($program);

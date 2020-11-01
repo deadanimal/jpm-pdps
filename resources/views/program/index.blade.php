@@ -36,119 +36,206 @@
                         </div>
                     </div>
                     
-                    <div class="col-12 mt-2">
-                        @include('alerts.success')
-                        @include('alerts.errors')
-                    </div>
 
-                    <div class="table-responsive py-4">
-                        <table class="table align-items-center table-flush"  id="datatable-basic">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">{{ __('No') }}</th>
-                                    <th scope="col">{{ __('Nama Program') }}</th>
-                                    <th scope="col">{{ __('kos (RM)') }}</th>
-                                    <th scope="col">{{ __('Sebab Tidak Aktif') }}</th>
-                                    <th scope="col">{{ __('Kekerapan') }}</th>
-                                    <th scope="col">{{ __('Manfaat') }}</th>
-                                    <th scope="col">{{ __('Status Pelaksanaan') }}</th>
-                                    <th scope="col">{{ __('Status Program') }}</th>
-                                    <th scope="col">{{ __('Logo') }}</th>
-                                    <th scope="col">{{ __('Tarikh Rekod') }}</th>
-                                    <th scope="col">{{ __('Tarikh Kemaskini') }}</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                @foreach ($program as $data)
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $data->nama }}</td>
-                                        <td>
-                                            <?php if ($data->kos == null) {
-                                                echo 'NA';
-                                            }else {
-                                                echo $data->kos;
-                                            } ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($data->sebab_tidak_aktif == null) {
-                                                echo 'NA';
-                                            }else {
-                                                echo $data->sebab_tidak_aktif;
-                                            } ?>
-                                        </td>
-                                        <td>{{$data->nama_kekerapan}}</td>
-                                        <td>{{$data->nama_manfaat}}</td>
-                                        <td>
-                                            <?php 
-                                            if ($data->status_pelaksanaan_id == '1')
-                                                { echo "<span class='badge badge-success'>Aktif</span>"; }  
-                                            else if ($data->status_pelaksanaan_id == '2')
-                                                { echo "<span class='badge badge-danger'>Tidak Aktif</span>"; }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php 
-                                            if ($data->status_program_id == '1')
-                                                { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
-                                            else if ($data->status_program_id == '2')
-                                                { echo "<span class='badge badge-success'>Berjaya</span>"; }
-                                            else if ($data->status_program_id == '3')
-                                                { echo "<span class='badge badge-danger'>Ditolak</span>"; }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php 
-                                                if ( $data->logo == null ){
-                                                    echo "NA";
-                                                } else {
-                                                    echo "<img src='/storage/".$data->logo."' alt='' style='max-width: 50px;height:50px;'>";
-                                                }
-                                            ?>
-                                        </td>
-                                        <td>{{ date('d-m-Y', strtotime($data->tarikh_rekod)) }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($data->tarikh_kemaskini)) }}</td>
-                                        <td>
-
-                                            @can('manage-items',  App\Program::class)
-                                                {{-- @if (auth()->user()->can('update', $data)) --}}
-                                                @if (auth()->user()->can('update', App\Program::class))
-                                                    <a href="{{ route('program.edit', $data->id) }}" class="btn btn-success btn-sm">
-                                                        <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
-                                                    </a>
-                                                @endif
-
-                                                {{-- <!-- @if (auth()->user()->can('delete', $program))
-                                                    <form action="{{ route('program.destroy', $program) }}" method="post">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this request?") }}') ? this.parentElement.submit() : ''">
-                                                            {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                @endif --> --}}
-
-                                                @if (auth()->user()->can('delete', App\Program::class))
-                                                    <form action="{{ route('program.destroy', $data->id) }}" method="POST">
-                                                        {{ method_field('DELETE') }}
-                                                        {{ csrf_field() }}
-                                                        <button class="btn btn-danger btn-sm">
-                                                            <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endcan
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
+        <?php $no = 1; ?>
+            @foreach ($program as $data)
+            <div class="row mt-20">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Nama Program :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span>{{ ucwords($data->nama) }}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Kategori :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span>{{ ucwords($data->nama_kategori) }}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Kumpulan Sasar :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span>{{ ucwords($data->nama) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-control-label" for="input-name">Tarikh Dihantar </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>:{{ date('d-m-Y', strtotime($data->tarikh_rekod)) }}</span>
+                                    </div>
+                                </div>
+                                {{-- <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-control-label" for="input-name">Status Pelaksanaan</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php 
+                                        // if ($data->status_pelaksanaan_id == '1')
+                                        //     { echo "<span class='badge badge-success'>Aktif</span>"; }  
+                                        // else if ($data->status_pelaksanaan_id == '2')
+                                        //     { echo "<span class='badge badge-danger'>Tidak Aktif</span>"; }
+                                        ?>
+                                    </div>
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-control-label" for="input-name">Status Program</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php 
+                                        if ($data->status_program_id == '1')
+                                            { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
+                                        else if ($data->status_program_id == '2')
+                                            { echo "<span class='badge badge-success'>Berjaya</span>"; }
+                                        else if ($data->status_program_id == '3')
+                                            { echo "<span class='badge badge-danger'>Ditolak</span>"; }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 text-right">
+                                        @if (auth()->user()->can('update', App\Program::class))
+                                            <a href="{{ route('program.edit', $data->id) }}" class="btn btn-success btn-sm">
+                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 text-left">
+                                        @if (auth()->user()->can('delete', App\Program::class))
+                                            <form action="{{ route('program.destroy', $data->id) }}" method="POST">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                                <button class="btn btn-danger btn-sm">
+                                                    <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            <div class="row text-center">
+                <div class="col text-center">
+                    {{ $program->links() }}
+                </div>
+            </div>
+
+
+            {{-- <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ $data->nama }}</td>
+                <td>
+                    <?php 
+                    // if ($data->kos == null) {
+                    //     echo 'NA';
+                    // }else {
+                    //     echo $data->kos;
+                    // } 
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                    // if ($data->sebab_tidak_aktif == null) {
+                    //     echo 'NA';
+                    // }else {
+                    //     echo $data->sebab_tidak_aktif;
+                    // } 
+                    ?>
+                </td>
+                <td>{{$data->nama_kekerapan}}</td>
+                <td>{{$data->nama_manfaat}}</td>
+                <td>
+                    <?php 
+                    // if ($data->status_pelaksanaan_id == '1')
+                    //     { echo "<span class='badge badge-success'>Aktif</span>"; }  
+                    // else if ($data->status_pelaksanaan_id == '2')
+                    //     { echo "<span class='badge badge-danger'>Tidak Aktif</span>"; }
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                    // if ($data->status_program_id == '1')
+                    //     { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
+                    // else if ($data->status_program_id == '2')
+                    //     { echo "<span class='badge badge-success'>Berjaya</span>"; }
+                    // else if ($data->status_program_id == '3')
+                    //     { echo "<span class='badge badge-danger'>Ditolak</span>"; }
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                        // if ( $data->logo == null ){
+                        //     echo "NA";
+                        // } else {
+                        //     echo "<img src='/storage/".$data->logo."' alt='' style='max-width: 50px;height:50px;'>";
+                        // }
+                    ?>
+                </td>
+                <td>{{ date('d-m-Y', strtotime($data->tarikh_rekod)) }}</td>
+                <td>{{ date('d-m-Y', strtotime($data->tarikh_kemaskini)) }}</td>
+                <td>
+
+                    @can('manage-items',  App\Program::class)
+                        @if (auth()->user()->can('update', App\Program::class))
+                            <a href="{{ route('program.edit', $data->id) }}" class="btn btn-success btn-sm">
+                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
+                            </a>
+                        @endif
+
+                        <!-- @if (auth()->user()->can('delete', $program))
+                            <form action="{{ route('program.destroy', $program) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this request?") }}') ? this.parentElement.submit() : ''">
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
+                        @endif -->
+
+                        @if (auth()->user()->can('delete', App\Program::class))
+                            <form action="{{ route('program.destroy', $data->id) }}" method="POST">
+                                {{ method_field('DELETE') }}
+                                {{ csrf_field() }}
+                                <button class="btn btn-danger btn-sm">
+                                    <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
+                                </button>
+                            </form>
+                        @endif
+                    @endcan
+                </td>
+            </tr> --}}
+
+
+        
             
         @include('layouts.footers.auth')
     </div>
