@@ -11,8 +11,8 @@
                 {{ __('Program') }} 
             @endslot
 
-            <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">{{ __('Senarai') }}</li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('program.index') }}" class="text-white">{{ __('Program') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Senarai') }}</li>
         @endcomponent
     @endcomponent
 
@@ -65,10 +65,18 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Kumpulan Sasar :</label>
+                                        <label class="form-control-label" for="input-name">Manfaat :</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <span>{{ ucwords($data->nama) }}</span>
+                                        <span>{{ ucwords($data->nama_manfaat) }}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Kekerapan :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span>{{ ucwords($data->nama_kekerapan) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +86,7 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
-                            <div class="form-group">
+                            {{-- <div class="form-group"> --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="form-control-label" for="input-name">Tarikh Dihantar </label>
@@ -115,9 +123,9 @@
                                         ?>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
+                            {{-- </div> --}}
+                            {{-- <div class="form-group"> --}}
+                                <div class="row pt-15">
                                     <div class="col-md-6 text-right">
                                         @if (auth()->user()->can('update', App\Program::class))
                                             <a href="{{ route('program.edit', $data->id) }}" class="btn btn-success btn-sm">
@@ -137,7 +145,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
+                            {{-- </div> --}}
                         </div>
                     </div>
                 </div>

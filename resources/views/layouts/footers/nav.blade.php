@@ -1,5 +1,5 @@
 
-        <div class="container pt-80 pb-30" style="padding-right:0px;padding-left:0px">
+        {{-- <div class="container pt-80 pb-30" style="padding-right:0px;padding-left:0px">
           <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-4">
               <div class="widget dark">
@@ -28,20 +28,6 @@
                 <p>Setia Perdana 8, Kompleks Setia Perdana</p>
                 <p>Pusat Pentadbiran Kerajaan Persekutuan</p>
                 <p>62502 Putrajaya, Malaysia</p>
-                <!-- <ul class="list-inline mt-5">
-                  <li class="m-0 pl-10 pr-10">
-                    <i class="fa fa-envelope-o text-theme-colored mr-5"></i>
-                    <a class="text-gray" href="#">webadmin@jpm.gov.my</a>
-                  </li>
-                  <li class="m-0 pl-10 pr-10">
-                    <i class="fa fa-phone text-theme-colored mr-5"></i>
-                    <a class="text-gray" href="#">603-8888 3904</a>
-                  </li>
-                  <li class="m-0 pl-10 pr-10">
-                    <i class="fa fa-phone text-theme-colored mr-5"></i>
-                    <a class="text-gray" href="#">603-8000 8000</a>
-                  </li>
-                </ul> -->
               </div>
             </div>
             <div class="col-sm-6 col-md-4">
@@ -281,7 +267,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
         <div class="footer-bottom bg-black-333">
           <div class="container pt-20 pb-20">
             <div class="row">

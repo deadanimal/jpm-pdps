@@ -17,7 +17,7 @@
                 <img src="{{ asset('argon') }}/img/google/jata-logo.png" width="100%">
             </a>
         </div> --}}
-        <div class="text-center"><a class="text-black nav-link-text">Hi {{ auth()->user()->name }}</a></div>
+        <div class="text-center"><a class="text-black nav-link-text">{{ auth()->user()->name }}</a></div>
         <hr style="width:100%;text-align:left;margin-left:0;height:3px;color:black">
         <div class="navbar-inner">
             <!-- Collapse -->

@@ -2,10 +2,10 @@
     <div class="col-lg-12 col-12" style="background-color:#418bb0">
         {{-- <h6 class="h2 d-inline-block mb-0 text-black">{{ $title }}</h6> --}}
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark text-black">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark text-white">
                 <li class="breadcrumb-item text-white">
                     <a href="{{ route('home') }}">
-                        <i class="fas fa-home text-dark"></i>
+                        <i class="fas fa-home text-white"></i>
                     </a>
                 </li>
                 {{ $slot }}

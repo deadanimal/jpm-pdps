@@ -388,7 +388,7 @@
       <!-- Start main-content -->
       <div class="main-content">
         <!-- Section: banner / news -->
-        <section id="about4" style="background-image: url(../argon/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;padding-bottom:10px">
+        <section id="about4" style="background-image: url(../custom/images/graphic/putrajaya-blur.png); background-size: cover; background-position: center top;padding-bottom:10px">
           <div class="container-fluid">
             <div class="section-content">
               <div class="row mt-70">

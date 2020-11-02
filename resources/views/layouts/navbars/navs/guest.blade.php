@@ -11,7 +11,12 @@
           class="menuzord-brand pull-left flip"
           href="javascript:void(0)"
         >
+        <span class="pr-20">
           <img src="{{ asset('custom') }}/images/logo-jata.png" alt="" />
+        </span>
+        <span>
+          <img src="{{ asset('custom') }}/images/logo-icu.png" alt="" />
+        </span>
         </a>
         <ul class="menuzord-menu text-black">
           <li>

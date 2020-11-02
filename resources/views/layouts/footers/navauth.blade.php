@@ -1,4 +1,4 @@
-
+{{-- 
 <div class="footer-bottom">
   <div class="container pt-20 pb-20">
     <div class="row">
@@ -26,4 +26,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}

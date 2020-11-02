@@ -10,8 +10,8 @@
                 {{ __('Utama') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-dark">{{ __('Utama') }}</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">{{ __('Utama') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-white">{{ __('Utama') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Utama') }}</li>
         @endcomponent
         {{-- @include('layouts.headers.cards')  --}}
     @endcomponent
@@ -49,7 +49,7 @@
         <div class="row">
             <div class="col"></div>
             <div class="col-xl-4 col-md-4 col-sm-6">
-                <a href="{{ route('program.index') }}">
+                <a href="{{ route('profil.index') }}">
                     <div class="card" style="cursor: pointer;">
                         <div class="card-body">
                             <img src="{{ asset('custom') }}/images/graphic2/g3.png" width="100%" height="150px" alt="" />
@@ -62,7 +62,7 @@
             </div>
             <div class="col"></div>
             <div class="col-xl-4 col-md-4 col-sm-6">
-                <a href="{{ route('program.index') }}">
+                <a href="{{ route('user.index') }}">
                     <div class="card" style="cursor: pointer;">
                         <div class="card-body">
                             <img src="{{ asset('custom') }}/images/graphic2/g4.png" width="100%" height="150px" alt="" />
@@ -78,7 +78,7 @@
         <div class="row">
             <div class="col"></div>
             <div class="col-xl-4 col-md-4 col-sm-6">
-                <a href="{{ route('program.index') }}">
+                <a href="{{ route('laporan.index') }}">
                     <div class="card" style="cursor: pointer;">
                         <div class="card-body">
                             <img src="{{ asset('custom') }}/images/graphic2/g5.png" width="100%" height="150px" alt="" />
@@ -91,7 +91,7 @@
             </div>
             <div class="col"></div>
             <div class="col-xl-4 col-md-4 col-sm-6">
-                <a href="{{ route('program.index') }}">
+                <a href="{{ route('orgdata.index') }}">
                     <div class="card" style="cursor: pointer;">
                         <div class="card-body">
                             <img src="{{ asset('custom') }}/images/graphic2/g6.png" width="100%" height="150px" alt="" />

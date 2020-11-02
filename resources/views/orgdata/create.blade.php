@@ -11,8 +11,8 @@
                 {{ __('Pemohonan Data') }} 
             @endslot
 
-            <li class="breadcrumb-item text-dark"><a href="{{ route('item.index') }}" class="text-dark">{{ __('Pemohonan Data') }}</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">{{ __('Tambah') }}</li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('item.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Tambah') }}</li>
         @endcomponent
     @endcomponent
 
@@ -70,7 +70,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Simpan') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4" data-toggle="sweet-alert" data-sweet-alert="success">{{ __('Simpan') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -81,14 +81,132 @@
 
         @include('layouts.footers.auth')
     </div>
+    <script>
+        (function($) {
+        "use strict";
+    
+        $(function() {
+            $('[data-toggle="sweet-alert"]').on("click", function() {
+                var type = $(this).data("sweet-alert");
+    
+                switch (type) {
+                    case "basic":
+                        swal({
+                            title: "Here's a message!",
+                            text: "A few words about this sweet alert ...",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary"
+                        });
+                        break;
+    
+                    case "info":
+                        swal({
+                            title: "Info",
+                            text: "A few words about this sweet alert ...",
+                            type: "info",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-info"
+                        });
+                        break;
+    
+                    case "info":
+                        swal({
+                            title: "Info",
+                            text: "A few words about this sweet alert ...",
+                            type: "info",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-info"
+                        });
+                        break;
+    
+                    case "success":
+                        swal({
+                            title: "Berjaya",
+                            text: "Pemohonan Berjaya Disimpan",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success"
+                        });
+                        break;
+    
+                    case "warning":
+                        swal({
+                            title: "Warning",
+                            text: "A few words about this sweet alert ...",
+                            type: "warning",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-warning"
+                        });
+                        break;
+    
+                    case "question":
+                        swal({
+                            title: "Are you sure?",
+                            text: "A few words about this sweet alert ...",
+                            type: "question",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-default"
+                        });
+                        break;
+    
+                    case "confirm":
+                        swal({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this!",
+                            type: "warning",
+                            showCancelButton: true,
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-danger",
+                            confirmButtonText: "Yes, delete it!",
+                            cancelButtonClass: "btn btn-secondary"
+                        }).then(result => {
+                            if (result.value) {
+                                // Show confirmation
+                                swal({
+                                    title: "Deleted!",
+                                    text: "Your file has been deleted.",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-primary"
+                                });
+                            }
+                        });
+                        break;
+    
+                    case "image":
+                        swal({
+                            title: "Sweet",
+                            text: "Modal with a custom image ...",
+                            imageUrl: "../../assets/img/ill/ill-1.svg",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: "Super!"
+                        });
+                        break;
+    
+                    case "timer":
+                        swal({
+                            title: "Auto close alert!",
+                            text: "I will close in 2 seconds.",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        break;
+                }
+            });
+        });
+    })(jQuery);
+    </script>
 @endsection
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('argon') }}/vendor/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="{{ asset('argon') }}/vendor/quill/dist/quill.core.css">
+    <link rel="stylesheet" href="{{ asset('argon') }}/vendor/sweetalert2/dist/sweetalert2.min.css">
 @endpush
 
 @push('js')
+    <script src="{{ asset('argon') }}/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/select2/dist/js/select2.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/quill/dist/quill.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>

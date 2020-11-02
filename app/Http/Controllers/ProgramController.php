@@ -164,6 +164,7 @@ class ProgramController extends Controller
             'objektif' => $request->objektif ? $request->objektif : null,
             'kos' => $request->kos ? $request->kos : null,
             'syarat_program' => $request->syarat_program ? $request->syarat_program : null,
+            'status_pelaksanaan_id' => $request->status_pelaksanaan_id ? $request->status_pelaksanaan_id : null,
             'url' => $request->url ? $request->url : null,
             'logo' => $request->photo ? $request->photo->store('logo', 'public') : null,
             'rekod_oleh' => $userid,

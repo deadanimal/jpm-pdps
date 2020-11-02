@@ -11,8 +11,8 @@
                 {{ __('Program') }} 
             @endslot
 
-            <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">{{ __('Baru') }}</li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('program.index') }}" class="text-white">{{ __('Program') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Baru') }}</li>
         @endcomponent
     @endcomponent
 
@@ -38,160 +38,203 @@
                             {{-- <h6 class="heading-small text-muted mb-4">{{ __('Item information') }}</h6> --}}
                             <div class="pl-lg-4">
 
-                                {{-- agensi --}}
-                                <?php if($role_id == '1'){ ?>
-                                    <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
-                                        <select type="text" id="setactive-links" class="form-control" name="agensi_id" autofocus>
-                                            @foreach ($agensi as $agensi_no => $agensi_data)
-                                                <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{-- agensi --}}
+                                        <?php if($role_id == '1'){ ?>
+                                            <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
+                                                <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
+                                                <select type="text" id="setactive-links" class="form-control" name="agensi_id" autofocus>
+                                                    @foreach ($agensi as $agensi_no => $agensi_data)
+                                                        <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                                    @endforeach
+                                                </select>
+        
+                                                @include('alerts.feedback', ['field' => 'agensi_id'])
+                                            </div>
+                                        <?php }else{ ?>
+                                            <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
+                                                <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
+                                                    @foreach ($agensi as $agensi_no => $agensi_data)
+                                                        <?php 
+                                                        if($agensiid == $agensi_data->id){
+                                                            $agensiname = $agensi_data->nama;
+                                                        } ?>
+                                                    @endforeach
+                                                    <input disabled type="text" class="form-control" value="{{$agensiname}}" autofocus>
+                                                    <input type="hidden" name="agensi_id" value="{{$agensiid}}">
+                                                @include('alerts.feedback', ['field' => 'agensi_id'])
+                                            </div>
+                                        <?php } ?>
                                     </div>
-                                <?php }else{ ?>
-                                    <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
-                                            @foreach ($agensi as $agensi_no => $agensi_data)
-                                                <?php 
-                                                if($agensiid == $agensi_data->id){
-                                                    $agensiname = $agensi_data->nama;
-                                                } ?>
-                                            @endforeach
-                                            <input disabled type="text" class="form-control" value="{{$agensiname}}" autofocus>
-                                            <input type="hidden" name="agensi_id" value="{{$agensiid}}">
-                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+
+                                    <div class="col-md-6">
+                                        {{-- nama --}}
+                                        <div class="form-group{{ $errors->has('nama') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Nama Program') }} <span class="text-red">*</span></label>
+                                            <input type="text" name="nama" id="input-name" class="form-control{{ $errors->has('Nama Program') ? ' is-invalid' : '' }}" placeholder="{{ __('Nama Program') }}" value="{{ old('nama') }}" required autofocus>
+        
+                                            @include('alerts.feedback', ['field' => 'nama'])
+                                        </div>
                                     </div>
-                                <?php } ?>
-                                {{-- nama --}}
-                                <div class="form-group{{ $errors->has('nama') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Nama Program') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="nama" id="input-name" class="form-control{{ $errors->has('Nama Program') ? ' is-invalid' : '' }}" placeholder="{{ __('Nama Program') }}" value="{{ old('nama') }}" required autofocus>
 
-                                    @include('alerts.feedback', ['field' => 'nama'])
-                                </div>
-                                
-                                {{-- kategori --}}
-                                <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Kategori') }} <span class="text-red">*</span></label>
-                                    <select type="text" id="setactive-links" class="form-control" name="kategori_id" required autofocus>
-                                        <option selected="selected">Sila Pilih</option>
-                                            @foreach ($kat as $katid => $kdata)
-                                                <option value='{{$kdata->id}}'>{{$kdata->nama_kategori}}</option>
-                                            @endforeach
-                                    </select>
+                                    <div class="col-md-6">{{-- kategori --}}
+                                        <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label">{{ __('Kategori') }} <span class="text-red">*</span></label>
+                                            <select type="text" id="setactive-links" class="form-control" name="kategori_id" required autofocus>
+                                                <option selected="selected">Sila Pilih</option>
+                                                    @foreach ($kat as $katid => $kdata)
+                                                        <option value='{{$kdata->id}}'>{{$kdata->nama_kategori}}</option>
+                                                    @endforeach
+                                            </select>
+        
+                                            @include('alerts.feedback', ['field' => 'kategori_id'])
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{-- teras --}}
+                                        <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label">{{ __('Teras') }} <span class="text-red">*</span></label>
+                                            <select type="text" id="setactive-links" class="form-control" name="teras_id" required autofocus>
+                                                
+                                                @foreach ($teras as $teras_k => $teras_val)
+                                                    <option value="{{$teras_val->id}}">{{$teras_val->nama}}</option>
+                                                @endforeach
+                                            </select>
+        
+                                            @include('alerts.feedback', ['field' => 'teras_id'])
+                                        </div>
+                                    </div>
 
-                                    @include('alerts.feedback', ['field' => 'kategori_id'])
-                                </div>
+                                    <div class="col-md-12">
+                                        {{-- sub kategori --}}
+                                        <div class="form-group" id="dynamic_sub_kat_que">
+                                            
+                                        </div>
+                                    </div>
 
-                                {{-- sub kategori --}}
-                                <div class="form-group" id="dynamic_sub_kat_que">
+                                    <div class="col-md-6">
+                                        {{-- Kumpulan sasar --}}
+                                        <div class="form-group{{ $errors->has('kumpulan sasar') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label">{{ __('Kumpulan Sasar') }} <span class="text-red">*</span></label>
+                                                <br />
+                                                @foreach ($kumpulansasar as $ks_k => $ks_data)
+                                                <span class="pr-20">
+                                                    <input name="ks_id[]" class="pr-10" type="checkbox" value='{{$ks_data->id}}' />{{$ks_data->nama}}<br />
+                                                </span>
+                                                @endforeach
+        
+                                            @include('alerts.feedback', ['field' => 'agensi_id'])
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{-- tarikh mula --}}
+                                        <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }} <span class="text-red">*</span></label>
+                                            <input type="date" name="tarikh_mula" id="input-name" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_mula') }}" value="{{ old('tarikh_mula') }}" required autofocus>
+        
+                                            @include('alerts.feedback', ['field' => 'tarikh_mula'])
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {{-- tarikh tamat --}}
+                                        <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }} <span class="text-red">*</span></label>
+                                            <input type="date" name="tarikh_tamat" id="input-name" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_tamat') }}" value="{{ old('tarikh_tamat') }}" required autofocus>
+        
+                                            @include('alerts.feedback', ['field' => 'tarikh_tamat'])
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {{-- kekerapan --}}
+                                        <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Kekerapan') }} <span class="text-red">*</span></label>
+                                            <select name="kekerapan_id" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan_id') }}" required autofocus>
+                                                @foreach ($kekerapan as $kekerapan_k => $kekerapan_val)
+                                                    <option value="{{$kekerapan_val->id}}">{{$kekerapan_val->nama}}</option>
+                                                @endforeach
+                                            </select>
+                                            @include('alerts.feedback', ['field' => 'kekerapan_id'])
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {{-- manfaat --}}
+                                        <div class="form-group{{ $errors->has('manfaat') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Manfaat') }} <span class="text-red">*</span></label>
+                                            <select name="manfaat_id" id="manfaatval" class="form-control{{ $errors->has('Kumpulan Sasaran') ? ' is-invalid' : '' }}" value="{{ old('manfaat') }}" required autofocus>
+                                                @foreach ($manfaat as $manfaat_k => $manfaat_val)
+                                                    <option value="{{$manfaat_val->id}}">{{$manfaat_val->nama}}</option>
+                                                @endforeach
+                                            </select>
+                                            @include('alerts.feedback', ['field' => 'manfaat_id'])
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {{-- kos --}}
+                                        <div id="kosval" class="form-group{{ $errors->has('kos') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Kos') }} <span class="text-red">*</span></label>
+                                            <input type="number" value="0" name="kos" id="input-name" class="form-control{{ $errors->has('kos') ? ' is-invalid' : '' }}" placeholder="{{ __('kos') }}" value="{{ old('kos') }}" required autofocus>
+                                            @include('alerts.feedback', ['field' => 'kos'])
+                                        </div>
+                                    </div>
                                     
-                                </div>
+                                    <div class="col-md-6">
+                                        {{-- objektif --}}
+                                        <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Objektif') }} <span class="text-red">*</span></label>
+                                            <textarea type="text" name="objektif" class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif') }}" autofocus required></textarea>
+                                            @include('alerts.feedback', ['field' => 'objektif'])
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{-- syarat program --}}
+                                        <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Syarat Program') }} <span class="text-red">*</span></label>
+                                            <textarea rows="3" type="text" name="syarat_program" id="input-name" class="form-control{{ $errors->has('syarat_program') ? ' is-invalid' : '' }}" placeholder="{{ __('Syarat Program') }}" value="{{ old('syarat_program') }}" autofocus></textarea>
+                                            @include('alerts.feedback', ['field' => 'syarat_program'])
+                                        </div>
+                                    </div>
 
-                                {{-- teras --}}
-                                <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Teras') }} <span class="text-red">*</span></label>
-                                    <select type="text" id="setactive-links" class="form-control" name="teras_id" required autofocus>
-                                        
-                                        @foreach ($teras as $teras_k => $teras_val)
-                                            <option value="{{$teras_val->id}}">{{$teras_val->nama}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    @include('alerts.feedback', ['field' => 'teras_id'])
-                                </div>
-
-                                {{-- Kumpulan sasar --}}
-                                <div class="form-group{{ $errors->has('kumpulan sasar') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label">{{ __('Kumpulan Sasar') }} <span class="text-red">*</span></label>
-                                        <br />
-                                        @foreach ($kumpulansasar as $ks_k => $ks_data)
-                                        <span class="pr-20">
-                                            <input name="ks_id[]" class="pr-10" type="checkbox" value='{{$ks_data->id}}' />{{$ks_data->nama}}
-                                        </span>
-                                        @endforeach
-
-                                    @include('alerts.feedback', ['field' => 'agensi_id'])
-                                </div>
-
-                                {{-- tarikh mula --}}
-                                <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }} <span class="text-red">*</span></label>
-                                    <input type="date" name="tarikh_mula" id="input-name" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_mula') }}" value="{{ old('tarikh_mula') }}" required autofocus>
-
-                                    @include('alerts.feedback', ['field' => 'tarikh_mula'])
-                                </div>
-
-                                {{-- tarikh tamat --}}
-                                <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }} <span class="text-red">*</span></label>
-                                    <input type="date" name="tarikh_tamat" id="input-name" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_tamat') }}" value="{{ old('tarikh_tamat') }}" required autofocus>
-
-                                    @include('alerts.feedback', ['field' => 'tarikh_tamat'])
-                                </div>
-
-                                {{-- kekerapan --}}
-                                <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Kekerapan') }} <span class="text-red">*</span></label>
-                                    <select name="kekerapan_id" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan_id') }}" required autofocus>
-                                        @foreach ($kekerapan as $kekerapan_k => $kekerapan_val)
-                                            <option value="{{$kekerapan_val->id}}">{{$kekerapan_val->nama}}</option>
-                                        @endforeach
-                                    </select>
-                                    @include('alerts.feedback', ['field' => 'kekerapan_id'])
-                                </div>
-
-                                {{-- manfaat --}}
-                                <div class="form-group{{ $errors->has('manfaat') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Manfaat') }} <span class="text-red">*</span></label>
-                                    <select name="manfaat_id" id="manfaatval" class="form-control{{ $errors->has('Kumpulan Sasaran') ? ' is-invalid' : '' }}" value="{{ old('manfaat') }}" required autofocus>
-                                        @foreach ($manfaat as $manfaat_k => $manfaat_val)
-                                            <option value="{{$manfaat_val->id}}">{{$manfaat_val->nama}}</option>
-                                        @endforeach
-                                    </select>
-                                    @include('alerts.feedback', ['field' => 'manfaat_id'])
-                                </div>
-
-                                {{-- kos --}}
-                                <div id="kosval" class="form-group{{ $errors->has('kos') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Kos') }} <span class="text-red">*</span></label>
-                                    <input type="number" value="0" name="kos" id="input-name" class="form-control{{ $errors->has('kos') ? ' is-invalid' : '' }}" placeholder="{{ __('kos') }}" value="{{ old('kos') }}" required autofocus>
-                                    @include('alerts.feedback', ['field' => 'kos'])
-                                </div>
-
-                                {{-- objektif --}}
-                                <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Objektif') }} <span class="text-red">*</span></label>
-                                    <textarea type="text" name="objektif" class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif') }}" autofocus required></textarea>
-                                    @include('alerts.feedback', ['field' => 'objektif'])
-                                </div>
-
-                                {{-- syarat program --}}
-                                <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Syarat Program') }} <span class="text-red">*</span></label>
-                                    <textarea rows="3" type="text" name="syarat_program" id="input-name" class="form-control{{ $errors->has('syarat_program') ? ' is-invalid' : '' }}" placeholder="{{ __('Syarat Program') }}" value="{{ old('syarat_program') }}" autofocus></textarea>
-                                    @include('alerts.feedback', ['field' => 'syarat_program'])
-                                </div>
-
-                                {{-- url --}}
-                                <div class="form-group{{ $errors->has('url') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Agensi URL') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="url" id="input-name" class="form-control{{ $errors->has('url') ? ' is-invalid' : '' }}" placeholder="{{ __('URL') }}" value="{{ old('url') }}" required autofocus>
-                                    @include('alerts.feedback', ['field' => 'url'])
-                                </div>
-
-                                {{-- logo --}}
-                                <div class="form-group{{ $errors->has('logo') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Logo') }}</label>
-                                    <input type="file" name="photo" id="input-name" class="form-control{{ $errors->has('logo') ? ' is-invalid' : '' }}" placeholder="{{ __('Logo') }}" value="{{ old('logo') }}" autofocus>
-                                    @include('alerts.feedback', ['field' => 'logo'])
+                                    <div class="col-md-6">
+                                        {{-- status_pelaksanaan	 --}}
+                                        <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label">{{ __('Status Pelaksanaan') }}</label>
+                                            <select type="text" class="form-control" name="status_pelaksanaan_id" autofocus>
+                                                <option value="1">Aktif</option>
+                                                <option value="2">Tidak Aktif</option>
+                                            </select>
+        
+                                            @include('alerts.feedback', ['field' => 'status_pelaksanaan'])
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{-- url --}}
+                                        <div class="form-group{{ $errors->has('url') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Agensi URL') }} <span class="text-red">*</span></label>
+                                            <input type="text" name="url" id="input-name" class="form-control{{ $errors->has('url') ? ' is-invalid' : '' }}" placeholder="{{ __('URL') }}" value="{{ old('url') }}" required autofocus>
+                                            @include('alerts.feedback', ['field' => 'url'])
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{-- logo --}}
+                                        <div class="form-group{{ $errors->has('logo') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Logo') }}</label>
+                                            <input type="file" name="photo" id="input-name" class="form-control{{ $errors->has('logo') ? ' is-invalid' : '' }}" placeholder="{{ __('Logo') }}" value="{{ old('logo') }}" autofocus>
+                                            @include('alerts.feedback', ['field' => 'logo'])
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="text-center">
-                                    {{-- data-toggle="sweet-alert" data-sweet-alert="question" --}}
-                                    <button type="submit" class="btn btn-default" >Simpan</button>
+                                    <?php if($role_id == '1'){ ?>
+                                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="success">Simpan</button>
+                                    <?php }else{ ?>
+                                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="confirm">Simpan</button>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </form>
@@ -202,6 +245,123 @@
 
         @include('layouts.footers.auth')
     </div>
+    <script>
+        (function($) {
+        "use strict";
+    
+        $(function() {
+            $('[data-toggle="sweet-alert"]').on("click", function() {
+                var type = $(this).data("sweet-alert");
+    
+                switch (type) {
+                    case "basic":
+                        swal({
+                            title: "Here's a message!",
+                            text: "A few words about this sweet alert ...",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary"
+                        });
+                        break;
+    
+                    case "info":
+                        swal({
+                            title: "Info",
+                            text: "A few words about this sweet alert ...",
+                            type: "info",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-info"
+                        });
+                        break;
+    
+                    case "info":
+                        swal({
+                            title: "Info",
+                            text: "A few words about this sweet alert ...",
+                            type: "info",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-info"
+                        });
+                        break;
+    
+                    case "success":
+                        swal({
+                            title: "Berjaya",
+                            text: "Program Berjaya Disimpan",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success"
+                        });
+                        break;
+    
+                    case "warning":
+                        swal({
+                            title: "Warning",
+                            text: "A few words about this sweet alert ...",
+                            type: "warning",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-warning"
+                        });
+                        break;
+    
+                    case "question":
+                        swal({
+                            title: "Are you sure?",
+                            text: "A few words about this sweet alert ...",
+                            type: "question",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-default"
+                        });
+                        break;
+    
+                    case "confirm":
+                        swal({
+                            title: "Hantar Permohonan ?",
+                            // text: "Hantar Permohonan ?",
+                            type: "warning",
+                            showCancelButton: true,
+                            buttonsStyling: false,
+                            cancelButtonText: "Batal",
+                            confirmButtonClass: "btn btn-danger",
+                            confirmButtonText: "Hantar",
+                            cancelButtonClass: "btn btn-secondary"
+                        }).then(result => {
+                            if (result.value) {
+                                // Show confirmation
+                                swal({
+                                    title: "Berjaya",
+                                    text: "Program Berjaya Disimpan",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-success"
+                                });
+                            }
+                        });
+                        break;
+    
+                    case "image":
+                        swal({
+                            title: "Sweet",
+                            text: "Modal with a custom image ...",
+                            imageUrl: "../../assets/img/ill/ill-1.svg",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: "Super!"
+                        });
+                        break;
+    
+                    case "timer":
+                        swal({
+                            title: "Auto close alert!",
+                            text: "I will close in 2 seconds.",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        break;
+                }
+            });
+        });
+    })(jQuery);
+    </script>
 @endsection
 
 @push('css')

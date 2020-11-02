@@ -11,8 +11,8 @@
                 {{ __('Pemohonan Data') }} 
             @endslot
 
-            <li class="breadcrumb-item text-dark"><a href="{{ route('item.index') }}" class="text-dark">{{ __('Pemohonan Data') }}</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">{{ __('Senarai') }}</li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('item.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Senarai') }}</li>
         @endcomponent
     @endcomponent
 
@@ -36,71 +36,123 @@
                         </div>
                     </div>
                     
-                    <div class="col-12 mt-2">
+                    {{-- <div class="col-12 mt-2">
                         @include('alerts.success')
                         @include('alerts.errors')
-                    </div>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
 
-                    <div class="table-responsive py-4">
-                        <table class="table align-items-center table-flush"  id="datatable-basic">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">{{ __('No') }}</th>
-                                    <th scope="col">{{ __('Program') }}</th>
-                                    <th scope="col">{{ __('Agensi') }}</th>
-                                    <th scope="col">{{ __('Subject') }}</th>
-                                    <th scope="col">{{ __('Pemohonan Dari') }}</th>
-                                    <th scope="col">{{ __('Status') }}</th>
-                                    <th scope="col">{{ __('Tarikh Dicipta') }}</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                @foreach ($orgdata as $data)
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $data->program_name }}</td>
-                                        <td>{{ $data->nama_agensi }}</td>
-                                        <td>{{ $data->subjek }}</td>
-                                        <td>{{ $data->user_name }}</td>
-                                        <td>
-                                            <?php 
-                                            if ($data->status == '1')
-                                                { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
-                                            else if ($data->status == '2')
-                                                { echo "<span class='badge badge-success'>Berjaya</span>"; }
-                                            else if ($data->status == '3')
-                                                { echo "<span class='badge badge-danger'>Ditolak</span>"; }
-                                            ?>
-                                        </td>
-                                        {{-- <td>{!! $data->description !!}</td> --}}
-                                        <td>{{ date('d-m-Y', strtotime($data->created_at)) }}</td>
-                                        <td>
-                                            <a href="{{ route('orgdata.edit', $data->id) }}" class="btn btn-success btn-sm">
-                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
-                                            </a>
-                                            {{-- @if (auth()->user()->can('delete', $orgdata)) --}}
+        <?php $no = 1; ?>
+        @foreach ($orgdata as $val)
 
-                                                <form action="{{ route('orgdata.destroy', $data->id) }}" method="POST">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                    {{-- <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this request?") }}') ? this.parentElement.submit() : ''">
-                                                        {{ __('Delete') }}
-                                                    </button> --}}
+            <div class="row mt-20">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{-- <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Agensi Yang Memohon :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        
+                                        @foreach ($agensidata as $ag_val)
 
-                                                    <button class="btn btn-danger btn-sm">
-                                                        <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
-                                                    </button>
-                                                </form>
-                                            {{-- @endif --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            <?php // if($ag_val->id == $agensi_id){ ?>
+                                                <span>{{ ucwords($ag_val->nama) }}</span>
+                                            <?php //xs } ?>
+
+                                        @endforeach
+                                    </div>
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Program :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                            <span>{{ ucwords($val->program_name) }}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Agensi Yang Dipohon :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                            <span>{{ ucwords($val->nama_agensi) }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-control-label" for="input-name">Subjek :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                            <span>{{ $val->subjek }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            {{-- <div class="form-group"> --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-control-label" for="input-name">Tarikh Dihantar </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>:{{ date('d-m-Y', strtotime($val->created_at)) }}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-control-label" for="input-name">Status</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php 
+                                        if ($val->status == '1')
+                                            { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
+                                        else if ($val->status == '2')
+                                            { echo "<span class='badge badge-success'>Berjaya</span>"; }
+                                        else if ($val->status == '3')
+                                            { echo "<span class='badge badge-danger'>Ditolak</span>"; }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-right">
+                                        @if (auth()->user()->can('update', App\Orgdata::class))
+                                            <a href="{{ route('orgdata.edit', $val->id) }}" class="btn btn-success btn-sm">
+                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 text-left">
+                                        @if (auth()->user()->can('delete', App\Orgdata::class))
+                                            <form action="{{ route('orgdata.destroy', $val->id) }}" method="POST">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                                <button class="btn btn-danger btn-sm">
+                                                    <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            {{-- </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        @endforeach
+        <div class="row text-center">
+            <div class="col text-center">
+                {{ $orgdata->links() }}
             </div>
         </div>
             

@@ -11,8 +11,8 @@
                 {{ __('Program') }} 
             @endslot
 
-            <li class="breadcrumb-item text-dark"><a href="{{ route('program.index') }}" class="text-dark">{{ __('Program') }}</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">{{ __('Edit') }}</li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('program.index') }}" class="text-white">{{ __('Program') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Edit') }}</li>
         @endcomponent
     @endcomponent
     {{-- {{ ($role_id == '1' ? 'disabled':'' ) }} --}}
@@ -316,7 +316,11 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="question">Simpan</button>
+                                    <?php if($role_id == '1'){ ?>
+                                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="success">Simpan</button>
+                                    <?php }else{ ?>
+                                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="confirm">Simpan</button>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </form>
@@ -328,6 +332,123 @@
         
         {{-- @include('layouts.footers.auth') --}}
     </div>
+    <script>
+        (function($) {
+        "use strict";
+    
+        $(function() {
+            $('[data-toggle="sweet-alert"]').on("click", function() {
+                var type = $(this).data("sweet-alert");
+    
+                switch (type) {
+                    case "basic":
+                        swal({
+                            title: "Here's a message!",
+                            text: "A few words about this sweet alert ...",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary"
+                        });
+                        break;
+    
+                    case "info":
+                        swal({
+                            title: "Info",
+                            text: "A few words about this sweet alert ...",
+                            type: "info",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-info"
+                        });
+                        break;
+    
+                    case "info":
+                        swal({
+                            title: "Info",
+                            text: "A few words about this sweet alert ...",
+                            type: "info",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-info"
+                        });
+                        break;
+    
+                    case "success":
+                        swal({
+                            title: "Berjaya",
+                            text: "Program Berjaya Disimpan",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success"
+                        });
+                        break;
+    
+                    case "warning":
+                        swal({
+                            title: "Warning",
+                            text: "A few words about this sweet alert ...",
+                            type: "warning",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-warning"
+                        });
+                        break;
+    
+                    case "question":
+                        swal({
+                            title: "Are you sure?",
+                            text: "A few words about this sweet alert ...",
+                            type: "question",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-default"
+                        });
+                        break;
+    
+                    case "confirm":
+                        swal({
+                            title: "Hantar Permohonan ?",
+                            // text: "Hantar Permohonan ?",
+                            type: "warning",
+                            showCancelButton: true,
+                            buttonsStyling: false,
+                            cancelButtonText: "Batal",
+                            confirmButtonClass: "btn btn-danger",
+                            confirmButtonText: "Hantar",
+                            cancelButtonClass: "btn btn-secondary"
+                        }).then(result => {
+                            if (result.value) {
+                                // Show confirmation
+                                swal({
+                                    title: "Berjaya",
+                                    text: "Program Berjaya Disimpan",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-success"
+                                });
+                            }
+                        });
+                        break;
+    
+                    case "image":
+                        swal({
+                            title: "Sweet",
+                            text: "Modal with a custom image ...",
+                            imageUrl: "../../assets/img/ill/ill-1.svg",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: "Super!"
+                        });
+                        break;
+    
+                    case "timer":
+                        swal({
+                            title: "Auto close alert!",
+                            text: "I will close in 2 seconds.",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        break;
+                }
+            });
+        });
+    })(jQuery);
+    </script>
 @endsection
 
 @push('css')
