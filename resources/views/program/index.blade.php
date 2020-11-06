@@ -35,8 +35,52 @@
                             @endif
                         </div>
                     </div>
-                    
+                    <div class="card-body">
+                        <form method="get" class="item-form" action="{{ route('program.index') }}" autocomplete="off" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Program') }}</label>
+                                        <input type="text" class="form-control" name="program" autofocus>
+                                
+                                        @include('alerts.feedback', ['field' => 'program'])
+                                    </div>
+                                </div>
+                                {{-- <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Program') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="program" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($programList as $program_no => $program_data)
+                                                <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
+                                            @endforeach
+                                            <option value="all">Semua</option>
+                                        </select>
 
+                                        @include('alerts.feedback', ['field' => 'program_id'])
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Agensi') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="agensi" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($agensi as $agensi_no => $agensi_data)
+                                                <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                            @endforeach
+                                            <option value="all">Semua</option>
+                                        </select>
+
+                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+                                    </div>
+                                </div> --}}
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

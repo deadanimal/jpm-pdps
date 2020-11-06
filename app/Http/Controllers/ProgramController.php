@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\JenisSubKategori; 
 use App\SubKategori; 
 use App\Kategori; 
@@ -32,13 +33,15 @@ class ProgramController extends Controller
      * @param \App\Program  $model
      * @return \Illuminate\View\View
      */
-    public function index(Program $model)
+    public function index(ProgramRequest $request,Program $model)
     {   
         // $program = $model->all();
 
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
+
+        $programList = Program::all();
         $agensi = Agensi::all();
         $jenissubkat = JenisSubKategori::all();
         $subkat = SubKategori::all();
@@ -47,55 +50,105 @@ class ProgramController extends Controller
         $teras = Teras::all();
         $kekerapan = Kekerapan::all();
         $manfaat = Manfaat::all();
-        
 
-        if($role_id == '3'){
+        if($request->all() != []){
+
+            if($role_id == '3'){
+            }else if ($role_id == '2'){
+            }else if ($role_id == '1'){
+    
+                if($request->program != '00'){
+                    // $data_sql1 = "['program.id', '=',".$request->program."]";
+                    $data_sql1 = ['program.id'=>1];
+                }else{
+                    $data_sql1 = '';
+                }
+
+                if($request->agensi != '00'){
+                    $and = ($request->program != '00' ? ' ,' : '');
+                    $data_sql2 = $and."['program.agensi_id',6]";
+                }else{
+                    $data_sql2 = '';
+                }
+
+                $whereData = [
+                    $data_sql1
+                ];
+
+                // print_r($whereData);
+    
+            }
+    
+            // $psql = "
+            //     select a.*, c.nama as nama_manfaat, b.nama as nama_kekerapan, d.nama_kategori as nama_kategori 
+            //     from program a
+            //     left join kekerapan b on b.id = a.kekerapan_id
+            //     left join manfaat c on c.`id`= a.`manfaat_id`
+            //     left join kategori d on d.`id` = a.`kategori_id` where
+            //     ".$prog_sql.$agensi_sql." order by a.id DESC ";
+            // $program = DB::select($psql);
+
+            // print_r($data_sql1);
+            // print_r($data_sql2);
+            // die;
 
             $program = DB::table('program')
-                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
-                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
-                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
-                ->where('program.rekod_oleh',$user_id)
-                ->orderBy('id', 'desc')
-                // ->get();
-                ->paginate(3);
-            // $program = Program::where('rekod_oleh', $user_id)->get();
-        }else if ($role_id == '2'){
+            ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+            ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+            ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+            ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+            ->where('program.nama','like','%'.$request->program.'%')
+            ->orderBy('id', 'desc')
+            // ->get();
+            ->paginate(3);
 
-            $program = DB::table('program')
-                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
-                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
-                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
-                ->where('program.rekod_oleh',$user_id)
-                ->orderBy('id', 'desc')
-                // ->get();
-                ->paginate(3);
-            // $program = Program::where('rekod_oleh', $user_id)->get();
-            // $program = Program::where('agensi_id', $agensi_id)->get();
+            // dd($program);
+            // return view('program.index', ['program' => $program,'agensi'=>$agensi,'programList'=>$programList]);
+        }else{
 
-        }else if ($role_id == '1'){
-            $program = DB::table('program')
-                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
-                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
-                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
-                 ->orderBy('id', 'desc')
-                //  ->get()
-                 ->paginate(3);
-            // $program = Program::orderBy('id', 'desc')->paginate(3);
+            if($role_id == '3'){
+
+                $program = DB::table('program')
+                    ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                    ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                    ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                    ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                    ->where('program.rekod_oleh',$user_id)
+                    ->orderBy('id', 'desc')
+                    // ->get();
+                    ->paginate(3);
+                // $program = Program::where('rekod_oleh', $user_id)->get();
+            }else if ($role_id == '2'){
+
+                $program = DB::table('program')
+                    ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                    ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                    ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                    ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                    ->where('program.rekod_oleh',$user_id)
+                    ->orderBy('id', 'desc')
+                    // ->get();
+                    ->paginate(3);
+                // $program = Program::where('rekod_oleh', $user_id)->get();
+                // $program = Program::where('agensi_id', $agensi_id)->get();
+
+            }else if ($role_id == '1'){
+                $program = DB::table('program')
+                    ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                    ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                    ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                    ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                    ->orderBy('id', 'desc')
+                    //  ->get()
+                    ->paginate(3);
+                // $program = Program::orderBy('id', 'desc')->paginate(3);
+            }
         }
-            
-        // dd($program);
-        // echo "<pre>";
-        // print_r($program);
-        // echo "</pre>";
-        // die;
+        
         // return view('Program.index', ['Program' => $model->with(['tags', 'category'])->get()]);
         // $this->authorize('manage-items', User::class);
 
-        return view('program.index', ['program' => $program]);
+        return view('program.index', ['program' => $program,'agensi'=>$agensi,'programList'=>$programList]);
     }
 
     /**
@@ -222,6 +275,18 @@ class ProgramController extends Controller
                     // );
                 }
             }
+            
+            $data = [
+                'userid'=>$userid,
+                'task'=>'create'
+            ];
+                
+            Mail::send('program.email',$data, function ($message) {
+                $message->from('noreply@pipeline.com.my', 'pipeline noreply');
+                $message->to('yusliadiyusof@pipeline.com.my');
+                $message->subject('Create Program');
+            });
+
         }
 
         // $program->tags()->sync($request->get('tags'));
@@ -418,6 +483,17 @@ class ProgramController extends Controller
                     // );
                 }
             }
+
+            $data = [
+                'userid'=>$userid,
+                'task'=>'update'
+            ];
+                
+            Mail::send('orgdata.emailAdminUpdate',$data, function ($message) {
+                $message->from('noreply@pipeline.com.my', 'pipeline noreply');
+                $message->to('yusliadiyusof@pipeline.com.my');
+                $message->subject('Update Program');
+            });
         }
 
         // $program->update($request->all());

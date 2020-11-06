@@ -11,8 +11,8 @@
                 {{ __('Cari Profil') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('profil.index') }}" class="">{{ __('Cari Profil') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('Cari') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('laporan.penerima_program_bantuan') }}" class="">{{ __('Program Bantuan') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Laporan') }}</li>
         @endcomponent
     @endcomponent
 
@@ -23,24 +23,47 @@
                     <div class="card-body">
 
                         <?php 
-                        if(!empty($profil)){
-                            $val = 'value='.$nokp.'';
-                        }else{
-                            $val = 'value=950305112010';
-                        }
+                        // if(!empty($profil)){
+                        //     $val = 'value='.$nokp.'';
+                        // }else{
+                        //     $val = 'value=950305112010';
+                        // }
                         ?>
 
-                        <form method="get" class="item-form" action="{{ route('profil.index') }}" autocomplete="off" enctype="multipart/form-data">
+                        <form method="get" class="item-form" action="{{ route('laporan.penerima_program_bantuan') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <input class="form-control" name="no_kp" {{ $val }} placeholder="Masukkan No. Kad Pengenalan Pemohon" type="text">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Program') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="program" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($program as $program_no => $program_data)
+                                                <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
+                                            @endforeach
+                                            <option value="all">Semua</option>
+                                        </select>
+
+                                        @include('alerts.feedback', ['field' => 'program_id'])
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Agensi') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="agensi" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($agensi as $agensi_no => $agensi_data)
+                                                <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                            @endforeach
+                                            <option value="all">Semua</option>
+                                        </select>
+
+                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
                             </div>
                         </form>
 
@@ -50,28 +73,13 @@
         </div>
         <?php
             $no = 1; 
-            if(!empty($profil)){ ?>
+            if(!empty($laporan)){ ?>
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-md-10">
-                                <?php $run_no = 1; ?>
-                                @foreach ($profil as $pro_k => $pro_data)
-                                    <?php if($run_no == 1){ ?>
-                                        <div class="row align-items-center">
-                                            <div class="col-md-3">Nama </div>
-                                            <div class="col-md-7">: {{ ucwords($pro_data->profil_nama) }}</div>
-                                        </div>
-                                        <div class="row align-items-center">
-                                            <div class="col-md-3">No Kad Pengenalan </div>
-                                            <div class="col-md-7">: {{ $pro_data->profil_kp }}</div>
-                                        </div>
-                                    <?php $run_no++; } ?>
-                                @endforeach
-                            </div>
-                            <div class="col-md-2 text-right">
+                            <div class="col-md-12 text-right">
                                 <button class="btn btn-secondary btn-sm"><i class="fa fa-file-excel-o text-success fa-2x" aria-hidden="true"></i>
                                 </button>
                                 <button class="btn btn-secondary btn-sm"><i class="fas fa-file-pdf text-danger fa-2x"></i></button>
@@ -85,26 +93,28 @@
                                 <tr>
                                     <th scope="col">{{ __('No') }}</th>
                                     <th scope="col">{{ __('Nama Program') }}</th>
-                                    <th scope="col">{{ __('Agensi') }}</th>
-                                    <th scope="col">{{ __('Nilai') }}</th>
+                                    <th scope="col">{{ __('Teras') }}</th>
+                                    <th scope="col">{{ __('Kumpulan Sasaran') }}</th>
+                                    <th scope="col">{{ __('Kategori') }}</th>
+                                    <th scope="col">{{ __('Sub Kategori') }}</th>
                                     <th scope="col">{{ __('Kekerapan') }}</th>
-                                    <th scope="col">{{ __('Tarikh Terima') }}</th>
-                                    <th scope="col">{{ __('Tarikh Tamat') }}</th>
+                                    <th scope="col">{{ __('Jumlah (RM)') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                     $no = 1; 
-                                    if(!empty($profil)){ ?>
-                                        @foreach ($profil as $pro_k => $pro_data)
+                                    if(!empty($laporan)){ ?>
+                                        @foreach ($laporan as $pro_k => $pro_data)
                                             <tr>
                                                 <td>{{ $no }}</td>
-                                                <td>{{ $pro_data->program_nama }}</td>
-                                                <td>{{ $pro_data->agensi_nama }}</td>
-                                                <td>{{ $pro_data->jumlah }}</td>
-                                                <td>{{ $pro_data->kekerapan_nama }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($pro_data->tarikh_mula)) }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($pro_data->tarikh_tamat)) }}</td>
+                                                <td>{{ $pro_data->nama }}</td>
+                                                <td>{{ $pro_data->teras_id }}</td>
+                                                <td>{{ $pro_data->teras_id }}</td>
+                                                <td>{{ $pro_data->kategori_id }}</td>
+                                                <td>{{ $pro_data->agensi_id }}</td>
+                                                <td>{{ $pro_data->kekerapan_id }}</td>
+                                                <td>{{ $pro_data->kos }}</td>
                                             </tr>
                                         <?php $no++; ?>
                                     @endforeach

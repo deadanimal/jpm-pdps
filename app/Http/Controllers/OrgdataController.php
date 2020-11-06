@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\Program; 
 use App\Orgdata;
 use App\Agensi;
+use App\User;
 use Carbon\Carbon;
 use App\Http\Requests\OrgdataRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+
 
 class OrgdataController extends Controller
 {
@@ -90,6 +93,7 @@ class OrgdataController extends Controller
      */
     public function create(OrgdataRequest $request, Orgdata $model)
     {
+
         $program = Program::all();
         $agensi = Agensi::all();
 
@@ -123,6 +127,16 @@ class OrgdataController extends Controller
             'updated_by' => $userid,
             'updated_at' => now()
         ])->all());
+
+        if($orgdata){
+
+            Mail::send('orgdata.emailCreate', [], function ($message) {
+                $message->from('noreply@pipeline.com.my', 'Pemohonan Data');
+                $message->to('yusliadiyusof@pipeline.com.my')->cc('yusliadiyusof@pipeline.com.my');
+                $message->subject('Pemohonan Data');
+            });
+
+        }
 
         // $orgdata->tags()->sync($request->get('tags'));
 
@@ -170,6 +184,21 @@ class OrgdataController extends Controller
                 'updated_by' => $userid,
                 'updated_at' => now()
             ])->all());
+
+            if($orgdata){
+
+                $data = [
+                    'userid'=>$userid,
+                    'task'=>'update'
+                ];
+                
+                Mail::send('orgdata.emailAdminUpdate',$data, function ($message) {
+                    $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
+                    $message->to('yusliadiyusof@pipeline.com.my');
+                    $message->subject('Pemohonan Data');
+                });
+            }
+            
         }else {
             $orgdata = $orgdata->update($request->merge([
                 'program_id' => $request->program_id ? $request->program_id : null,
@@ -179,7 +208,22 @@ class OrgdataController extends Controller
                 'updated_by' => $userid,
                 'updated_at' => now()
             ])->all());
+
+            if($orgdata){
+
+                $data = [
+                    'userid'=>$userid,
+                    'task'=>'update'
+                ];
+
+                Mail::send('orgdata.emailAdminUpdate',$data, function ($message) {
+                    $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
+                    $message->to('yusliadiyusof@pipeline.com.my');
+                    $message->subject('Pemohonan Data');
+                });
+            }
         }
+
 
         // $orgdata->update($request->all());
         return redirect()->route('orgdata.index')->withStatus(__('Pemohonan Data Berjaya Disimpan.'));

@@ -45,7 +45,7 @@
                                             <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
                                                 @foreach ($agensi as $agensi_no => $agensi_data)
                                                     <?php 
-                                                    if($agensi_data->id == $agensi_data->id){
+                                                    if($agensi_data->id == $program->agensi_id){
                                                         $agensiname = $agensi_data->nama;
                                                     } ?>
                                                 @endforeach

@@ -173,9 +173,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div id="kosval" class="col-md-6">
                                         {{-- kos --}}
-                                        <div id="kosval" class="form-group{{ $errors->has('kos') ? ' has-danger' : '' }}">
+                                        <div class="form-group{{ $errors->has('kos') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Kos') }} <span class="text-red">*</span></label>
                                             <input type="number" value="0" name="kos" id="input-name" class="form-control{{ $errors->has('kos') ? ' is-invalid' : '' }}" placeholder="{{ __('kos') }}" value="{{ old('kos') }}" required autofocus>
                                             @include('alerts.feedback', ['field' => 'kos'])
@@ -203,7 +203,7 @@
                                         {{-- status_pelaksanaan	 --}}
                                         <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Status Pelaksanaan') }}</label>
-                                            <select type="text" class="form-control" name="status_pelaksanaan_id" autofocus>
+                                            <select type="text" id="statuspelaksanaan" class="form-control" name="status_pelaksanaan_id" autofocus>
                                                 <option value="1">Aktif</option>
                                                 <option value="2">Tidak Aktif</option>
                                             </select>
@@ -211,6 +211,16 @@
                                             @include('alerts.feedback', ['field' => 'status_pelaksanaan'])
                                         </div>
                                     </div>
+                                    
+                                    {{-- sebab tidak aktif --}}
+                                    <div class="col-md-6" style="display: none ;" id="sebabxaktif">
+                                        <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-name">{{ __('Sebab Tidak Aktif') }}</label>
+                                            <textarea rows="3" type="text" name="sebab_tidak_aktif" id="input-name" class="form-control{{ $errors->has('sebab_tidak_aktif') ? ' is-invalid' : '' }}" placeholder="{{ __('Sebab TIdak Aktif') }}"  autofocus></textarea>
+                                            @include('alerts.feedback', ['field' => 'sebab_tidak_aktif'])
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         {{-- url --}}
                                         <div class="form-group{{ $errors->has('url') ? ' has-danger' : '' }}">
@@ -413,7 +423,7 @@
             html = '<div class="row">';
             html += '<div class="col-md-4">';
             html += '<div class="form-group">';
-            html += '<label class="form-control-label">Kategori '+ count +' <span class="text-red">*</span></label>';
+            html += '<label class="form-control-label">Sub Kategori '+ count +' <span class="text-red">*</span></label>';
             html += '<select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>';
             html += '<option selected="selected">Sila Pilih</option>';
             
@@ -499,6 +509,17 @@
                 $("#kosval").show();
             }else{
                 $("#kosval").hide();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $("#statuspelaksanaan").change(function () {
+            console.log( $(this).val() );
+            if($(this).val() == '2'){
+                $("#sebabxaktif").show();
+            }else{
+                $("#sebabxaktif").hide();
             }
         });
     });

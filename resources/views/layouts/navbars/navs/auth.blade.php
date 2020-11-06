@@ -76,7 +76,7 @@
 
           <li>
             <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="{{ auth()->user()->profilePicture() }}">
+                <img alt="Image placeholder" width="100%" src="{{ auth()->user()->profilePicture() }}">
             </span>
             <ul class="">
               <li>

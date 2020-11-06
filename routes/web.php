@@ -25,8 +25,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('category', 'CategoryController', ['except' => ['show']]);
 	Route::resource('tag', 'TagController', ['except' => ['show']]);
 	Route::resource('item', 'ItemController', ['except' => ['show']]);
+	
 	Route::resource('orgdata', 'OrgdataController', ['except' => ['show']]);
+	Route::get('orgdata/emailAdminUpdate', 'OrgdataController@emailAdminUpdate')->name('orgdata.emailAdminUpdate');
+
+	// Route::view('/orgdata/emailAdminUpdate', 'emailAdminUpdate');
+	// Route::view('/orgdata/emailCreateRequest', 'emailCreateRequest');
+
 	Route::resource('program', 'ProgramController', ['except' => ['show']]);
+	Route::get('program/email', 'ProgramController@email')->name('orgdata.email');
+
 	Route::resource('media', 'MediaController', ['except' => ['show']]);
 	Route::resource('profil', 'ProfilController', ['except' => ['show']]);
 	Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
@@ -36,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('laporan', 'LaporanController@index')->name('laporan.index');
 	Route::get('laporan/program-bantuan', 'LaporanController@program_bantuan')->name('laporan.program_bantuan');
+	Route::get('laporan/penerima-program-bantuan', 'LaporanController@penerima_program_bantuan')->name('laporan.penerima_program_bantuan');
+	Route::get('laporan/excel', 'LaporanController@excel')->name('laporan.excel');
 
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
