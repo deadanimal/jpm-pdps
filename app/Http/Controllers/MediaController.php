@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use Request;
 use App\Agensi;
 use App\Program; 
@@ -104,7 +105,7 @@ class MediaController extends Controller
         // return redirect()->route('program.index')->withStatus(__('Role successfully created.'));
     }
     
-    public function store(MediaRequest $request, Media $model)
+    public function store(MediaRequest $request,Media $model)
     {   
         $userid = auth()->user()->id; 
         // echo "<pre>";
@@ -117,21 +118,38 @@ class MediaController extends Controller
         }else if($request->jenis == '2'){
             $prog_id = $request->program_id;
         }
-        $media = $model->create($request->merge([
-            'jenis' => $request->jenis ? $request->jenis : null ,
-            'program_id' => $prog_id,
-            'status' => 1,
-            'tajuk' => $request->tajuk ? $request->tajuk : null,
-            'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
-            'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
-            'gambar' => $request->photo ? $request->photo->store('banner', 'public'): null,
-            'keterangan' => $request->keterangan ? $request->keterangan : null,
-            'created_by' => $userid,
-            'created_at' => now(),
-            'updated_by' => $userid,
-            'updated_at' => now()
-            // 'date' => $request->date ? Carbon::parse($request->date)->format('Y-m-d') : null
-        ])->all());
+
+        $media = $model->create(
+            $request->merge([
+                'jenis' => $request->jenis ? $request->jenis : null ,
+                'program_id' => $prog_id,
+                'status' => 1,
+                'tajuk' => $request->tajuk ? $request->tajuk : null,
+                'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
+                'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
+                'gambar' => $request->photo ? $request->photo->store('banner', 'public'): null,
+                'keterangan' => $request->keterangan ? $request->keterangan : null,
+                'created_by' => $userid,
+                'created_at' => now(),
+                'updated_by' => $userid,
+                'updated_at' => now()
+                // 'date' => $request->date ? Carbon::parse($request->date)->format('Y-m-d') : null
+            ])->all()
+        );
+
+        if($media){
+
+            $data = [
+                'userid'=>$userid,
+                'task'=>'update'
+            ];
+
+            Mail::send('media.email',$data, function ($message) {
+                $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
+                $message->to('yusliadiyusof@pipeline.com.my');
+                $message->subject('Pemohonan Data');
+            });
+        }
 
         return redirect()->route('media.index')->withStatus(__('Media successfully created.'));
     }
@@ -170,17 +188,19 @@ class MediaController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function update(MediaRequest $request, $media)
+    public function update(MediaRequest $request, Media $media)
     {
         $userid = auth()->user()->id; 
-        $media = Media::find($media);
+        // $media = Media::find($media);
         // print_r($request->name);
         // print_r($request->description);
         // dd($request);
 
         // $item->tags()->sync($request->get('tags'));
 
-        $media->update(
+        dd($request->all());
+
+        $success = $media->update(
             $request->merge([
                 'program_id' => !empty($request->program_id) ? $request->program_id : null,
                 'status' => $request->status,
@@ -189,40 +209,32 @@ class MediaController extends Controller
                 'tarikh_mula' => $request->tarikh_mula ? $request->tarikh_mula : null,
                 'tarikh_tamat' => $request->tarikh_tamat ? $request->tarikh_tamat : null,
                 'gambar' => $request->photo ? $request->photo->store('banner', 'public'): null,
-                'keterangan' => $request->keterangan ? $request->keterangan : null,
                 'updated_by' => $userid,
                 'updated_at' => now()
             // ])->all()
             ])->except([$request->hasFile('photo') ? '' : 'gambar'])
         );
 
+        dd($success);
+        
+        if($media){
+
+            $data = [
+                'userid'=>$userid,
+                'task'=>'update'
+            ];
+
+            Mail::send('media.email',$data, function ($message) {
+                $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
+                $message->to('yusliadiyusof@pipeline.com.my');
+                $message->subject('Pemohonan Banner & Berita');
+            });
+        }
+
         // $program->update($request->all());
         return redirect()->route('media.index')->withStatus(__('Media Berjaya Disimpan.'));
     }
 
-    // public function update(MediaRequest $request, Media $media)
-    // {
-    //     $userid = auth()->user()->id; 
-    //     // $media = Media::find($media);
-    //     // dd($request->all());
-
-    //     $media->update(
-    //         $request->merge([
-    //             'gambar' => $request->photo ? $request->photo->store('banner', 'public') : null,
-    //             'status' => $request->status,
-    //         ])->except([$request->hasFile('photo') ? '' : 'gambar'])
-    //     );
-
-    //     // $program->update($request->all());
-    //     return redirect()->route('media.index')->withStatus(__('Media Berjaya Disimpan.'));
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy($id)
     {
         $media = Media::find($id);

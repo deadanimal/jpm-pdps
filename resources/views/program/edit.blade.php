@@ -49,7 +49,7 @@
                                                         $agensiname = $agensi_data->nama;
                                                     } ?>
                                                 @endforeach
-                                                <input disabled type="text" class="form-control" value="{{$agensiname}}" autofocus>
+                                                <input disabled type="text" class="form-control" value="{{$program->nama}}" autofocus>
         
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
@@ -448,6 +448,12 @@
             });
         });
     })(jQuery);
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        @if (session('alert'))
+            swal("{{ session('alert') }}");
+        @endif
     </script>
 @endsection
 

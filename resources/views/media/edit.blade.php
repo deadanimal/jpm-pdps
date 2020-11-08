@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('media.update', $media->id) }}" autocomplete="off">
+                        <form method="post" class="item-form"  action="{{ route('media.update', $media) }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             @method('put')
 
@@ -122,9 +122,9 @@
                                         {{-- gambar --}}
                                             <div class="form-group{{ $errors->has('gambar') ? ' has-danger' : '' }}">
                                                 <label style="padding-right:50px" class="form-control-label">{{ __('Banner') }} <span class="text-red">*</span></label>
-                                                {{-- <input type="file" name="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" placeholder="{{ __('Gambar') }}" value="{{ old('gambar',$media->gambar) }}" autofocus>
-                                                @include('alerts.feedback', ['field' => 'gambar']) --}}
                                                 <img src='/storage/{{$media->gambar}}' alt='qq' style='max-width: 50px;height:50px;'>
+                                                <input type="file" name="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" placeholder="{{ __('Gambar') }}" value="{{ old('gambar',$media->gambar) }}" autofocus>
+                                                @include('alerts.feedback', ['field' => 'gambar'])
                                             </div>
                                         </div>
                                     <?php } ?>

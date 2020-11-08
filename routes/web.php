@@ -27,15 +27,19 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('item', 'ItemController', ['except' => ['show']]);
 	
 	Route::resource('orgdata', 'OrgdataController', ['except' => ['show']]);
-	Route::get('orgdata/emailAdminUpdate', 'OrgdataController@emailAdminUpdate')->name('orgdata.emailAdminUpdate');
+	Route::get('orgdata/email', 'OrgdataController@email')->name('orgdata.email');
 
-	// Route::view('/orgdata/emailAdminUpdate', 'emailAdminUpdate');
-	// Route::view('/orgdata/emailCreateRequest', 'emailCreateRequest');
-
-	Route::resource('program', 'ProgramController', ['except' => ['show']]);
-	Route::get('program/email', 'ProgramController@email')->name('orgdata.email');
+	// Route::resource('program', 'ProgramController', ['except' => ['show']]);
+	Route::resource('program', 'ProgramController');
+	Route::get('program/email', 'ProgramController@email')->name('program.email');
+	// Route::get('program/view', 'ProgramController@view')->name('program.view');
+	// Route::get('program', ['as' => 'program.view', 'uses' => 'ProgramController@view']);
+	// Route::get('program/view', 'ProgramController@view')->name('program.view');
+	// Route::get('/program', [ProgramController::class, 'view']);
 
 	Route::resource('media', 'MediaController', ['except' => ['show']]);
+	Route::get('media/email', 'mediaController@email')->name('media.email');
+
 	Route::resource('profil', 'ProfilController', ['except' => ['show']]);
 	Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
 	Route::resource('user', 'UserController', ['except' => ['show']]);

@@ -294,14 +294,6 @@ class ProgramController extends Controller
         return redirect()->route('program.index')->withStatus(__('Program Berjaya Dicipta.'));
     }
 
-    /**
-     * Show the form for editing the specified item
-     *
-     * @param  \App\Item  $item
-     * @param  \App\Tag   $tagModel
-     * @param  \App\Category $categoryModel
-     * @return \Illuminate\View\View
-     */
     public function edit($program)
     {
         $role_id = auth()->user()->role_id; 
@@ -372,18 +364,81 @@ class ProgramController extends Controller
             'kekerapan'=>$kekerapan
         ]);
     }
-    // public function edit(program  $program)
-    // {
-    //     return view('program.edit', compact('program'));
-    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Itemuest  $request
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    public function show($program)
+    {
+
+        $agensi_id = auth()->user()->agensi_id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi = Agensi::find($agensi_id);
+        // $program = Program::find($program);
+        $jenissubkat = JenisSubKategori::all();
+        $subkat = SubKategori::all();
+        $teras = Teras::all();
+        $kategori = Kategori::all();
+        $kekerapan = Kekerapan::all();
+        $manfaat = Manfaat::all();
+        $kumpulansasar = KumpulanSasar::all();
+        $programkumpulansasar = ProgramKumpulanSasar::all();
+
+
+        $program_data = DB::table('program')
+            ->leftJoin('manfaat','manfaat.id','=','program.manfaat_id')
+            ->leftJoin('kekerapan','kekerapan.id','=','program.kekerapan_id')
+            ->leftJoin('kategori','kategori.id','=','program.kategori_id')
+            ->select('program.*',
+                    'manfaat.nama as manfaat_nama',
+                    'kekerapan.nama as kekerapan_nama',
+                    'kategori.nama_kategori as kategori_nama'
+                    )
+            ->where('program.id', $program)
+            ->get();
+
+        $pks_data = DB::table('program_kumpulan_sasar')
+            ->leftJoin('kumpulan_sasar','kumpulan_sasar.id','=','program_kumpulan_sasar.kumpulan_sasar_id')
+            ->select('program_kumpulan_sasar.*','kumpulan_sasar.nama as ks_nama')
+            ->where('program_kumpulan_sasar.program_id', $program)
+            ->get();
+        
+        foreach($pks_data as $pks_k => $pks_val){
+            $pks[] = $pks_val->kumpulan_sasar_id;
+        }
+
+        $prog_master = DB::table('program_master')
+            ->leftjoin('program', 'program.id', '=', 'program_master.program_id')
+            ->leftjoin('sub_kategori', 'sub_kategori.id', '=', 'program_master.sub_kategori_id')
+            ->leftjoin('jenis_sub_kategori', 'jenis_sub_kategori.id', '=', 'program_master.jenis_sub_kategori_id')
+            ->select( 'program_master.*', 
+                'sub_kategori.id as sub_kat_id', 
+                'sub_kategori.nama_sub_kategori', 
+                'jenis_sub_kategori.id as jenis_sub_cat_id',
+                'jenis_sub_kategori.nama_jenis_sub_kategori as jenis_sub_cat_name')
+            ->where('program_master.program_id', $program)
+            ->get();
+        
+        // $sub_kategori_opt = [];
+        // $jenis_sub_kategori_opt = [];
+        // foreach($prog_master as $pm_key => $pm_data){
+        //     $sub_kategori_opt[] = $pm_data->sub_kategori_id;
+        //     $jenis_sub_kategori_opt[$pm_data->sub_kategori_id][] = $pm_data->jenis_sub_kategori_id;
+        // }
+
+        // dd($prog_master);
+        // $sub_kategori_opt = array_unique($sub_kategori_opt);
+
+        return view('program.view', [
+            'subkat'=>$subkat,
+            'jenissubkat'=>$jenissubkat,
+            'program_data'=>$program_data[0],
+            'agensi'=>$agensi,
+            'prog_master'=>$prog_master,
+            // 'sub_kategori_opt'=>$sub_kategori_opt,
+            // 'jenis_sub_kategori_opt'=>$jenis_sub_kategori_opt,
+            'role_id'=>$role_id,
+            'kumpulansasar'=>$pks_data
+        ]);
+    }
+
     public function update(ProgramRequest $request,$program)
     {
         $userid = auth()->user()->id; 
@@ -489,7 +544,7 @@ class ProgramController extends Controller
                 'task'=>'update'
             ];
                 
-            Mail::send('orgdata.emailAdminUpdate',$data, function ($message) {
+            Mail::send('program.email',$data, function ($message) {
                 $message->from('noreply@pipeline.com.my', 'pipeline noreply');
                 $message->to('yusliadiyusof@pipeline.com.my');
                 $message->subject('Update Program');
@@ -512,6 +567,7 @@ class ProgramController extends Controller
         // $program = Program::where('id',$id)->delete();  // ni piun boleh
         $program = Program::find($id);
         $program->destroy($id);
-        return redirect()->route('program.index')->withStatus(__('program Berjaya Dipadam.'));
+        // return redirect()->route('program.index')->withStatus(__('program Berjaya Dipadam.'));
+        return redirect()->route('program.index')->with('alert', 'Deleted!');
     }
 }

@@ -11,7 +11,11 @@ use Carbon\Carbon;
 use App\Http\Requests\ProfilRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 // use Maatwebsite\Excel\Excel;
 use Excel;
 
@@ -184,27 +188,87 @@ class LaporanController extends Controller
     {
     }
 
-    function excel()
+    public function excel()
     {
         $profil_data = DB::table('profil')->get()->toArray();
         $profil_array[] = array('nama', 'no_kp');
-        //  dd($profil_array);
+
+        $agensi = Agensi::all();
 
         foreach($profil_data as $profil)
         {
-            $profil_array[] = array(
-                'nama'  => $profil->nama,
-                'no_kp'   => $profil->no_kp,
-            );
+            // $profil_array[] = array(
+            //     'nama'  => $profil->nama,
+            //     'no_kp'   => $profil->no_kp,
+            // );
+            
         }
+        // $profil_array = [
+        //         [1, 2, 3],
+        //         [4, 5, 6]
+        //     ];
 
-        Excel::download('profil Data', function($excel) use ($profil_array){
-            $excel->setTitle('profil Data');
-            $excel->sheet('profil Data', function($sheet) use ($profil_array){
-            $sheet->fromArray($profil_array, null, 'A1', false, false);
-        });
-        })->download('xlsx');
+        // $profil_array = [
+        //     'creator'        => 'Patrick Brouwers',
+        //     'lastModifiedBy' => 'Patrick Brouwers',
+        //     'title'          => 'Invoices Export',
+        //     'description'    => 'Latest Invoices',
+        //     'subject'        => 'Invoices',
+        //     'keywords'       => 'invoices,export,spreadsheet',
+        //     'category'       => 'Invoices',
+        //     'manager'        => 'Patrick Brouwers',
+        //     'company'        => 'Maatwebsite',
+        // ];
+        $profil_array = ['qqqqq'];
+
+        // echo '<pre>';
+        // print_r($profil_array);
+        // echo '</pre>';
+        // die;
+        // return (new Profil)->download('invoices.xlsx');
+        // return Excel::download($agensi, 'test.xlsx');
+        return Excel::download(new InvoicesExport, 'invoices.xlsx');
+        // return (new InvoicesExport(2018))->download('invoices.xlsx');
+        
+        // return Excel::create('profile_data',function ($excel) use ($profil_array){
+        //     $excel->sheet('sheet name',function($sheet) use ($profil_array){
+        //         $sheet->fromArray($profil_array);
+        //     });
+        // })->download('csv');
+
+        // Excel::download('profil_data.xlsx', function($excel) use ($profil_array){
+        //     $excel->setTitle('profil Data');
+        //     $excel->sheet('profil Data', function($sheet) use ($profil_array){
+        //     $sheet->fromArray($profil_array, null, 'A1', false, false);
+        // });
+        // })->download('xlsx');
     }
 
     public function store(LaporanRequest $request,Laporan $model){}
+}
+
+class InvoicesExport implements FromCollection, WithHeadings
+{
+
+    public function collection()
+    {
+        return Agensi::all();
+    }
+    
+    public function headings(): array
+    {
+        return [
+            '#',
+            'Date',
+        ];
+    }
+    
+    // public function FromCollection($row): array
+    // {
+    //     dd($row);
+    //     return [
+    //         $row->nama,
+    //         Date::dateTimeToExcel($invoice->created_at),
+    //     ];
+    // }
 }

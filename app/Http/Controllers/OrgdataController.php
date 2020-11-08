@@ -130,7 +130,7 @@ class OrgdataController extends Controller
 
         if($orgdata){
 
-            Mail::send('orgdata.emailCreate', [], function ($message) {
+            Mail::send('orgdata.email', [], function ($message) {
                 $message->from('noreply@pipeline.com.my', 'Pemohonan Data');
                 $message->to('yusliadiyusof@pipeline.com.my')->cc('yusliadiyusof@pipeline.com.my');
                 $message->subject('Pemohonan Data');
@@ -192,7 +192,7 @@ class OrgdataController extends Controller
                     'task'=>'update'
                 ];
                 
-                Mail::send('orgdata.emailAdminUpdate',$data, function ($message) {
+                Mail::send('orgdata.email',$data, function ($message) {
                     $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
                     $message->to('yusliadiyusof@pipeline.com.my');
                     $message->subject('Pemohonan Data');
@@ -216,7 +216,7 @@ class OrgdataController extends Controller
                     'task'=>'update'
                 ];
 
-                Mail::send('orgdata.emailAdminUpdate',$data, function ($message) {
+                Mail::send('orgdata.email',$data, function ($message) {
                     $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
                     $message->to('yusliadiyusof@pipeline.com.my');
                     $message->subject('Pemohonan Data');
