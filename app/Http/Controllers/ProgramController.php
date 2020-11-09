@@ -14,6 +14,7 @@ use App\ProgramKumpulanSasar;
 use App\Teras;
 use App\Kekerapan;
 use App\Manfaat;
+use App\User;
 use Carbon\Carbon;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
@@ -27,16 +28,11 @@ class ProgramController extends Controller
         // $this->authorizeResource(Program::class);
     }
 
-    /**
-     * Display a listing of the program
-     *
-     * @param \App\Program  $model
-     * @return \Illuminate\View\View
-     */
     public function index(ProgramRequest $request,Program $model)
     {   
         // $program = $model->all();
 
+        $this->authorize('manage-items', User::class);
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
@@ -146,18 +142,10 @@ class ProgramController extends Controller
         }
         
         // return view('Program.index', ['Program' => $model->with(['tags', 'category'])->get()]);
-        // $this->authorize('manage-items', User::class);
 
         return view('program.index', ['program' => $program,'agensi'=>$agensi,'programList'=>$programList]);
     }
 
-    /**
-     * Show the form for creating a new item
-     *
-     * @param  \App\Tag $tagModel
-     * @param  \App\Category $categoryModel
-     * @return \Illuminate\View\View
-     */
     public function create(ProgramRequest $request, Program $model)
     {
         $agensi_id = auth()->user()->agensi_id; 
@@ -194,15 +182,9 @@ class ProgramController extends Controller
         // return redirect()->route('program.index')->withStatus(__('Role successfully created.'));
     }
 
-    /**
-     * Store a newly created item in storage
-     *
-     * @param  \App\Http\Requests\ItemRequest  $request
-     * @param  \App\Item  $model
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(ProgramRequest $request, Program $model )
     {   
+
         $userid = auth()->user()->id; 
         
         $program = $model->create($request->merge([
@@ -276,16 +258,46 @@ class ProgramController extends Controller
                 }
             }
             
-            $data = [
-                'userid'=>$userid,
-                'task'=>'create'
-            ];
-                
-            Mail::send('program.email',$data, function ($message) {
-                $message->from('noreply@pipeline.com.my', 'pipeline noreply');
-                $message->to('yusliadiyusof@pipeline.com.my');
-                $message->subject('Create Program');
-            });
+
+            if ($role_id != '1'){
+                // get admin email
+                $usernama = auth()->user()->name; 
+                $agensi_id = auth()->user()->agensi_id; 
+                $pemohon = User::find($program->rekod_oleh);
+                $agensi_data = Agensi::find($agensi_id);
+                $program_data = Program::find($program->id);
+                // dd($agensi_id);
+
+                $data = [
+                    'title'=>'Pemohonan Baru Telah Dipohon pada',
+                    'task'=>'create',
+                    'program'=>($program_data->nama ? $program_data->nama : "-"),
+                    'agensi'=>($agensi_data->nama ? $agensi_data->nama : '-'),
+                    'pemohon'=>$usernama,
+                    'mula'=>($program_data->tarikh_mula ? $program_data->tarikh_mula : '-'),
+                    'tamat'=>($program_data->tarikh_tamat ? $program_data->tarikh_tamat : '-'),
+                    'tarikh_pohon'=>$program_data->created_at,
+                    'status'=>$program_data->status_program_id
+
+                ];
+
+                // dd($data);
+
+                // get admin email
+                $admin_data = DB::table('users')->where('role_id', 1)->get();
+                $admin_email = [];
+                foreach($admin_data as $ad){
+                    $admin_email[] = $ad->email;
+                }
+                // dd($admin_email);
+                    
+                Mail::send('program.email',$data, function ($message) use ($admin_email) {
+                    $message->from('noreply@pdps.com.my', 'PDPS noreply');
+                    // $message->to(['yusliadiyusof@pipeline.com.my','yusliadi46@gmail.com']);
+                    $message->to($admin_email);
+                    $message->subject('Permohonan Program Baru');
+                });
+            }
 
         }
 
@@ -539,28 +551,40 @@ class ProgramController extends Controller
                 }
             }
 
-            $data = [
-                'userid'=>$userid,
-                'task'=>'update'
-            ];
+            if ($role_id == '1'){
+
+                // get email
+                $program_data = Program::find($pid);
+                $pemohon = User::find($program_data->rekod_oleh);
+
+                $email_pemohon = $pemohon->email;
                 
-            Mail::send('program.email',$data, function ($message) {
-                $message->from('noreply@pipeline.com.my', 'pipeline noreply');
-                $message->to('yusliadiyusof@pipeline.com.my');
-                $message->subject('Update Program');
-            });
+                // dd($pemohon->email);
+
+                $data = [
+                    'title'=>'Status Pemohonan Program.',
+                    'task'=>'update',
+                    'program'=>($program_data->nama ? $program_data->nama : "-"),
+                    'agensi'=>'-',
+                    'pemohon'=>$pemohon->name,
+                    'mula'=>'-',
+                    'tamat'=>'-',
+                    'tarikh_pohon'=>$program_data->created_at,
+                    'status'=>$program_data->status_program_id
+                ];
+                    
+                Mail::send('program.email',$data, function ($message) use ($email_pemohon) {
+                    $message->from('noreply@pdps.com.my', 'PDPS noreply');
+                    $message->to($email_pemohon);
+                    // $message->to($admin_email);
+                    $message->subject('Status Pemohonan Program');
+                });
+            }
         }
 
         // $program->update($request->all());
         return redirect()->route('program.index')->withStatus(__('Program Berjaya Dikemaskini.'));
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
 
     public function destroy($id)
     {

@@ -72,9 +72,13 @@
                                 @endforeach
                             </div>
                             <div class="col-md-2 text-right">
-                                <button class="btn btn-secondary btn-sm"><i class="fa fa-file-excel-o text-success fa-2x" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-secondary btn-sm"><i class="fas fa-file-pdf text-danger fa-2x"></i></button>
+
+                                <a href="{{ route('profil.excel', $nokp) }}" class="btn btn-secondary btn-sm">
+                                    <i class="fa fa-file-excel-o text-success fa-2x"></i>
+                                </a>
+                                <a href="{{ route('profil.exportPdf', $nokp) }}" class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-file-pdf text-danger fa-2x"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -227,7 +227,7 @@ class LaporanController extends Controller
         // die;
         // return (new Profil)->download('invoices.xlsx');
         // return Excel::download($agensi, 'test.xlsx');
-        return Excel::download(new InvoicesExport, 'invoices.xlsx');
+        return Excel::download(new InvoicesExport($profil_array), 'invoices.xlsx');
         // return (new InvoicesExport(2018))->download('invoices.xlsx');
         
         // return Excel::create('profile_data',function ($excel) use ($profil_array){

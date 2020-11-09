@@ -59,10 +59,10 @@ class MediaRequest extends FormRequest
      * @return array
      */
     
-    // public function attributes()
-    // {
-    //     return [
-    //         'photo' => 'gambar'
-    //     ];
-    // }
+    public function attributes()
+    {
+        return [
+            'photo' => 'gambar'
+        ];
+    }
 }

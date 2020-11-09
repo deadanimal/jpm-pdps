@@ -28,6 +28,7 @@ class OrgdataController extends Controller
      */
     public function index(Orgdata $model)
     {
+        $this->authorize('manage-items', User::class);
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id;
@@ -41,6 +42,7 @@ class OrgdataController extends Controller
                 ->select('permintaan_data.*', 'users.name as user_name','program.nama as program_name','agensi.nama as nama_agensi')
                 ->where('permintaan_data.created_by',$user_id)
                 // ->get();
+                ->orderBy('id', 'desc')
                 ->paginate(3);
         }else if ($role_id == '2'){
             $permitaandata = DB::table('permintaan_data')
@@ -51,6 +53,7 @@ class OrgdataController extends Controller
                 // ->where('permintaan_data.agensi_id',$agensi_id)
                 ->where('permintaan_data.created_by',$user_id)
                 // ->get();
+                ->orderBy('id', 'desc')
                 ->paginate(3);
         }else if ($role_id == '1'){
             $permitaandata = DB::table('permintaan_data')
@@ -59,18 +62,14 @@ class OrgdataController extends Controller
                 ->leftjoin('agensi', 'agensi.id', '=', 'permintaan_data.agensi_id')
                 ->select( 'permintaan_data.*', 'users.name as user_name','program.nama as program_name','agensi.nama as nama_agensi')
                 // ->get();
+                ->orderBy('id', 'desc')
                 ->paginate(3);
-        }
-
-        foreach($permitaandata as $qweqwe){
-            
         }
 
         // $user = User::all();
         // $program = Program::all();
         // print_r("qweqweqweq");die;
         // return view('orgdata.index', ['orgdata' => $model->with(['tags', 'category'])->get()]);
-        // $this->authorize('manage-items', User::class);
         // $perimtaanData = $model->all();
         // $permitaandata = DB::table('permintaan_data')
         //     ->leftjoin('users', 'users.id', '=', 'permintaan_data.created_by')
@@ -114,6 +113,7 @@ class OrgdataController extends Controller
     public function store(OrgdataRequest $request, Orgdata $model)
     {   
         $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
         
         // dd($request->all());
         
@@ -128,13 +128,44 @@ class OrgdataController extends Controller
             'updated_at' => now()
         ])->all());
 
-        if($orgdata){
 
-            Mail::send('orgdata.email', [], function ($message) {
-                $message->from('noreply@pipeline.com.my', 'Pemohonan Data');
-                $message->to('yusliadiyusof@pipeline.com.my')->cc('yusliadiyusof@pipeline.com.my');
-                $message->subject('Pemohonan Data');
-            });
+        if($orgdata){
+            if ($role_id != '1'){
+
+                // get email
+                $usernama = auth()->user()->name; 
+                $agensi_id = auth()->user()->agensi_id; 
+                $agensi_pemohon = Agensi::find($agensi_id);
+                $dipohon = Agensi::find($orgdata->agensi_id);
+
+                $data = [
+                    'title'=>'Pemohonan data telah dimohon',
+                    'task'=>'create',
+                    'pemohon'=>($agensi_pemohon->nama?$agensi_pemohon->nama:'-'),
+                    'dipohon'=>($dipohon->nama?$dipohon->nama:'-'),
+                    'tarikh_pohon'=>$orgdata->created_at,
+                    'status'=>'-'
+                ];
+
+                // get admin email
+                $admin_data = DB::table('users')->where('role_id', 1)->get();
+                $admin_email = [];
+                foreach($admin_data as $ad){
+                    $admin_email[] = $ad->email;
+                }
+                    
+                Mail::send('orgdata.email',$data, function ($message) use ($admin_email) {
+                    $message->from('noreply@pdps.com.my', 'PDPS noreply');
+                    $message->to($admin_email);
+                    $message->subject('Pemohonan Data Baru');
+                });
+            }
+
+            // Mail::send('orgdata.email', [], function ($message) {
+            //     $message->from('noreply@pipeline.com.my', 'Pemohonan Data');
+            //     $message->to('yusliadiyusof@pipeline.com.my')->cc('yusliadiyusof@pipeline.com.my');
+            //     $message->subject('Pemohonan Data');
+            // });
 
         }
 
@@ -158,22 +189,12 @@ class OrgdataController extends Controller
             'role_id'=>$role_id,
             ]);
     }
-    // public function edit(Orgdata  $orgdata)
-    // {
-    //     return view('orgdata.edit', compact('orgdata'));
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Itemuest  $request
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function update(OrgdataRequest $request,$orgdata)
     {
         $userid = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
+        $oid = $orgdata;
         $orgdata = Orgdata::find($orgdata);
         // dd($request);
 
@@ -187,15 +208,25 @@ class OrgdataController extends Controller
 
             if($orgdata){
 
+                // get email
+                $org_data = Orgdata::find($oid);
+                $dimohon_data = User::find($org_data->created_by);
+                $agensi_dimohon = Agensi::find($dimohon_data->agensi_id);
+                $email_pemohon = $dimohon_data->email;
+
                 $data = [
-                    'userid'=>$userid,
-                    'task'=>'update'
+                    'title'=>'Pemohonan data telah dimohon',
+                    'task'=>'update',
+                    'pemohon'=>$dimohon_data->name,
+                    'dipohon'=>($org_data->nama?$org_data->nama:'-'),
+                    'tarikh_pohon'=>$org_data->created_at,
+                    'status'=>'-'
                 ];
-                
-                Mail::send('orgdata.email',$data, function ($message) {
-                    $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
-                    $message->to('yusliadiyusof@pipeline.com.my');
-                    $message->subject('Pemohonan Data');
+                 
+                Mail::send('orgdata.email',$data, function ($message) use ($email_pemohon) {
+                    $message->from('noreply@pdps.com.my', 'PDPS noreply');
+                    $message->to($email_pemohon);
+                    $message->subject('Status Pemohonan Data');
                 });
             }
             
@@ -209,19 +240,19 @@ class OrgdataController extends Controller
                 'updated_at' => now()
             ])->all());
 
-            if($orgdata){
+            // if($orgdata){
 
-                $data = [
-                    'userid'=>$userid,
-                    'task'=>'update'
-                ];
+            //     $data = [
+            //         'userid'=>$userid,
+            //         'task'=>'update'
+            //     ];
 
-                Mail::send('orgdata.email',$data, function ($message) {
-                    $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
-                    $message->to('yusliadiyusof@pipeline.com.my');
-                    $message->subject('Pemohonan Data');
-                });
-            }
+            //     Mail::send('orgdata.email',$data, function ($message) {
+            //         $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
+            //         $message->to('yusliadiyusof@pipeline.com.my');
+            //         $message->subject('Pemohonan Data');
+            //     });
+            // }
         }
 
 

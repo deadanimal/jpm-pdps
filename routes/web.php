@@ -40,11 +40,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('media', 'MediaController', ['except' => ['show']]);
 	Route::get('media/email', 'mediaController@email')->name('media.email');
 
-	Route::resource('profil', 'ProfilController', ['except' => ['show']]);
 	Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 
-	Route::get('profil', 'ProfilController@index')->name('profil.index');
+	Route::get('profil', 'ProfilController@index')->name('profil.index');	
+	Route::get('profil/excel/{icno}', 'ProfilController@excel')->name('profil.excel');
+	Route::get('profil/profilPdf', 'ProfilController@profilPdf')->name('profil.profilPdf');
+	Route::get('profil/exportPdf/{icno}', 'ProfilController@exportPdf')->name('profil.exportPdf');
+
 
 	Route::get('laporan', 'LaporanController@index')->name('laporan.index');
 	Route::get('laporan/program-bantuan', 'LaporanController@program_bantuan')->name('laporan.program_bantuan');

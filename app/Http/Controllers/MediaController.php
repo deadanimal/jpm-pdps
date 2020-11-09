@@ -21,14 +21,9 @@ class MediaController extends Controller
         // $this->authorizeResource(Media::class);
     }
 
-    /**
-     * Display a listing of the Media
-     *
-     * @param \App\Media  $model
-     * @return \Illuminate\View\View
-     */
     public function index(Media $model)
     {
+        $this->authorize('manage-items', User::class);
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
@@ -40,6 +35,7 @@ class MediaController extends Controller
                 ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
                 ->where('media.created_by',$user_id)
                 // ->get();
+                ->orderBy('id', 'desc')
                 ->paginate(3);
         }else if ($role_id == '2'){
             $media = DB::table('media')
@@ -49,6 +45,7 @@ class MediaController extends Controller
                 // ->where('media.agensi_id',$agensi_id)
                 ->where('media.created_by',$user_id)
                 // ->get();
+                ->orderBy('id', 'desc')
                 ->paginate(3);
         }else if ($role_id == '1'){
             $media = DB::table('media')
@@ -56,6 +53,7 @@ class MediaController extends Controller
                 ->leftJoin('program', 'program.id', '=', 'media.program_id')
                 ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
                 // ->get();
+                ->orderBy('id', 'desc')
                 ->paginate(3);
         }
 
@@ -74,7 +72,6 @@ class MediaController extends Controller
 
         // print_r("qweqweqweq");die;
         // return view('Media.index', ['Media' => $model->with(['tags', 'category'])->get()]);
-        // $this->authorize('manage-items', User::class);
 
         // return view('media.index', ['media' => $model->all());
         return view('media.index', ['medias' => $media]);
@@ -108,6 +105,7 @@ class MediaController extends Controller
     public function store(MediaRequest $request,Media $model)
     {   
         $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
         // echo "<pre>";
         // print_r($request->name);
         // dd($request->all());
@@ -137,31 +135,48 @@ class MediaController extends Controller
             ])->all()
         );
 
-        if($media){
+        if ($role_id != '1'){
+            if($media){
 
-            $data = [
-                'userid'=>$userid,
-                'task'=>'update'
-            ];
+                // get admin email
+                $usernama = auth()->user()->name; 
+                $agensi_id = auth()->user()->agensi_id; 
+                $agensi_data = Agensi::find($agensi_id);
 
-            Mail::send('media.email',$data, function ($message) {
-                $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
-                $message->to('yusliadiyusof@pipeline.com.my');
-                $message->subject('Pemohonan Data');
-            });
+                $data = [
+                    'title'=>'Banner & Berita Telah Dimohon pada',
+                    'task'=>'create',
+                    'media'=>($media->jenis ? $media->jenis : "-"),
+                    'agensi'=>($agensi_data->nama ? $agensi_data->nama : '-'),
+                    'pemohon'=>$usernama,
+                    'mula'=>($media->tarikh_mula ? $media->tarikh_mula : '-'),
+                    'tamat'=>($media->tarikh_tamat ? $media->tarikh_tamat : '-'),
+                    'tarikh_pohon'=>$media->created_at,
+                    'status'=>$media->status
+                ];
+
+                // dd($data);
+
+                // get admin email
+                $admin_data = DB::table('users')->where('role_id', 1)->get();
+                $admin_email = [];
+                foreach($admin_data as $ad){
+                    $admin_email[] = $ad->email;
+                }
+                // dd($admin_email);
+
+                Mail::send('media.email',$data, function ($message) use ($admin_email) {
+                    $message->from('noreply@pdps.com.my', 'PDPS noreply');
+                    $message->to($admin_email);
+                    // $message->to(['yusliadiyusof@pipeline.com.my','yusliadi46@gmail.com']);
+                    $message->subject('Status Pemohonan Banner & Berita');
+                });
+            }
         }
 
         return redirect()->route('media.index')->withStatus(__('Media successfully created.'));
     }
 
-    /**
-     * Show the form for editing the specified item
-     *
-     * @param  \App\Item  $item
-     * @param  \App\Tag   $tagModel
-     * @param  \App\Category $categoryModel
-     * @return \Illuminate\View\View
-     */
     public function edit($media)
     {
         $role_id = auth()->user()->role_id; 
@@ -175,30 +190,18 @@ class MediaController extends Controller
             'agensi'=>$agensi
         ]);
     }
-    // public function edit(media  $media)
-    // {
-    //     return view('media.edit', compact('media'));
-    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Itemuest  $request
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
-
-    public function update(MediaRequest $request, Media $media)
+    public function update(MediaRequest $request, $media)
     {
         $userid = auth()->user()->id; 
-        // $media = Media::find($media);
+        $role_id = auth()->user()->role_id; 
+        $mid = $media;
+        $media = Media::find($media);
         // print_r($request->name);
         // print_r($request->description);
         // dd($request);
 
         // $item->tags()->sync($request->get('tags'));
-
-        dd($request->all());
 
         $success = $media->update(
             $request->merge([
@@ -214,21 +217,43 @@ class MediaController extends Controller
             // ])->all()
             ])->except([$request->hasFile('photo') ? '' : 'gambar'])
         );
-
-        dd($success);
         
-        if($media){
+        if($success){
+            if ($role_id == '1'){
 
-            $data = [
-                'userid'=>$userid,
-                'task'=>'update'
-            ];
+                // get admin email
+                $media_data = Media::find($mid);
+                if($media_data->jenis == '2'){
+                    $program_data = Media::find($media_data->program_id);
+                    $pnama = $program_data->nama;
+                    $tajuk = '-';
+                }else{
+                    $pnama = '-';
+                    $tajuk = $media_data->tajuk;
+                }
+                $user_data = User::find($media_data->created_by);
+                $user_email = $user_data->email;
 
-            Mail::send('media.email',$data, function ($message) {
-                $message->from('noreply@pipeline.com.my', 'Pipeline noreply');
-                $message->to('yusliadiyusof@pipeline.com.my');
-                $message->subject('Pemohonan Banner & Berita');
-            });
+                $data = [
+                    'title'=>'Pemohonan',
+                    'task'=>'update',
+                    'media'=>($media->jenis ? $media->jenis : "-"),
+                    'agensi'=>'-',
+                    'pemohon'=>( $user_data->name ? $user_data->name : '-'),
+                    'program'=>$pnama,
+                    'tajuk'=>$tajuk,
+                    'mula'=>'-',
+                    'tamat'=>'-',
+                    'tarikh_pohon'=>$media->created_at,
+                    'status'=>$media->status
+                ];
+
+                Mail::send('media.email',$data, function ($message) use ($user_email) {
+                    $message->from('noreply@pdps.com.my', 'PDPS noreply');
+                    $message->to($user_email);
+                    $message->subject('Status Pemohonan Banner & Berita');
+                });
+            }
         }
 
         // $program->update($request->all());
