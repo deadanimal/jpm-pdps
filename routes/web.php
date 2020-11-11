@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('tag', 'TagController', ['except' => ['show']]);
 	Route::resource('item', 'ItemController', ['except' => ['show']]);
 	
-	Route::resource('orgdata', 'OrgdataController', ['except' => ['show']]);
+	Route::resource('orgdata', 'OrgdataController');
 	Route::get('orgdata/email', 'OrgdataController@email')->name('orgdata.email');
 
 	// Route::resource('program', 'ProgramController', ['except' => ['show']]);
@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
 	// Route::get('program/view', 'ProgramController@view')->name('program.view');
 	// Route::get('/program', [ProgramController::class, 'view']);
 
-	Route::resource('media', 'MediaController', ['except' => ['show']]);
+	Route::resource('media', 'MediaController');
 	Route::get('media/email', 'mediaController@email')->name('media.email');
 
 	Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profil/excel/{icno}', 'ProfilController@excel')->name('profil.excel');
 	Route::get('profil/profilPdf', 'ProfilController@profilPdf')->name('profil.profilPdf');
 	Route::get('profil/exportPdf/{icno}', 'ProfilController@exportPdf')->name('profil.exportPdf');
+	Route::get('profil/view/{icno}', 'ProfilController@view')->name('profil.view');
 
 
 	Route::get('laporan', 'LaporanController@index')->name('laporan.index');

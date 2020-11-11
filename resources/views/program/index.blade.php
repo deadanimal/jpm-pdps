@@ -19,69 +19,40 @@
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
+                {{-- <div class="card">
+                    <div class="card-header"> --}}
                         <div class="row align-items-center">
-                            <div class="col-8">
-                                <h3 class="mb-0 text-dark">{{ __('Senarai Program') }}</h3>
+                            <div class="col-12">
+                                <h3 class="text-dark">{{ __('Senarai Program') }}</h3>
                                 <p class="text-sm mb-0">
                                     <!-- {{ __('This is an example of item management. This is a minimal setup in order to get started fast.') }} -->
                                 </p>
                             </div>
-                            @if (auth()->user()->can('create', App\Program::class))
-                                <div class="col-4 text-right">
-                                    <a href="{{ route('program.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Program') }}</a>
-                                </div>
-                            @endif
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form method="get" class="item-form" action="{{ route('program.index') }}" autocomplete="off" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="form-control-label">{{ __('Program') }}</label>
-                                        <input type="text" class="form-control" name="program" autofocus>
-                                
-                                        @include('alerts.feedback', ['field' => 'program'])
+                        <div class="row align-items-center">
+                                @if (auth()->user()->can('create', App\Program::class))
+                                    <div class="col-12 text-right">
+                                            <form method="get" class="item-form" action="{{ route('program.index') }}" autocomplete="off" enctype="multipart/form-data">
+                                                @csrf
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Nama program" name="program">
+                                                            <button type="submit" class="btn btn-sm btn-default">{{ __('Cari') }}</button>
+                                        <a href="{{ route('program.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Program') }}</a>
+                                                        </div>
+                                            </form>
                                     </div>
-                                </div>
-                                {{-- <div class="col">
-                                    <div class="form-group">
-                                        <label class="form-control-label">{{ __('Program') }}</label>
-                                        <select type="text" id="setactive-links" class="form-control" name="program" autofocus>
-                                            <option selected value="00">Sila Pilih</option>
-                                            @foreach ($programList as $program_no => $program_data)
-                                                <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
-                                            @endforeach
-                                            <option value="all">Semua</option>
-                                        </select>
+                                @endif
+                        </div>
+                    {{-- </div> --}}
 
-                                        @include('alerts.feedback', ['field' => 'program_id'])
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="form-control-label">{{ __('Agensi') }}</label>
-                                        <select type="text" id="setactive-links" class="form-control" name="agensi" autofocus>
-                                            <option selected value="00">Sila Pilih</option>
-                                            @foreach ($agensi as $agensi_no => $agensi_data)
-                                                <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
-                                            @endforeach
-                                            <option value="all">Semua</option>
-                                        </select>
-
-                                        @include('alerts.feedback', ['field' => 'agensi_id'])
-                                    </div>
-                                </div> --}}
-                            </div>
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
-                            </div>
-                        </form>
+                    <div class="col-12 mt-2">
+                        @include('alerts.success')
+                        @include('alerts.errors')
                     </div>
-                </div>
+                    {{-- <div class="card-body"> --}}
+                        
+                    {{-- </div> --}}
+                {{-- </div> --}}
             </div>
         </div>
         <?php $no = 1; ?>
@@ -186,10 +157,10 @@
                                             @endif
                                             @if (auth()->user()->can('delete', App\Program::class))
                                                 <div class="col">
-                                                    <form action="{{ route('program.destroy', $data->id) }}" method="POST">
+                                                    <form action="{{ route('program.destroy', $data->id) }}" method="POST" onsubmit="return confirm('Padam Program ?');">
                                                         {{ method_field('DELETE') }}
                                                         {{ csrf_field() }}
-                                                        <button class="btn btn-danger btn-sm" onclick="confirm('{{ __("Padam Data ?") }}') ? this.parentElement.submit() : ''">
+                                                        <button class="btn btn-danger btn-sm">
                                                             <i class="fas fa-trash fa-2x"></i>
                                                         </button>
 

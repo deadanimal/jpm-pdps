@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="col-md-6 text-left">
                                         @if (auth()->user()->can('delete', App\Media::class))
-                                            <form action="{{ route('media.destroy', $media->id) }}" method="POST">
+                                            <form action="{{ route('media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Padam Banner/Berita ?');">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                                 <button class="btn btn-danger btn-sm">

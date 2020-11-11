@@ -31,7 +31,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" class="item-form" action="{{ route('media.store') }}" autocomplete="off" enctype="multipart/form-data">
+                    {{-- onsubmit="return confirm('Tambah Banner/Berita ?');" --}}
+                        <form method="post" class="item-form" action="{{ route('media.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Tambah Banner/Berita ?');">
                             @csrf
 
                             {{-- <h6 class="heading-small text-muted mb-4">{{ __('Item information') }}</h6> --}}
@@ -43,11 +44,13 @@
                                         <?php if($role_id == '1'){ ?>
                                             <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
                                                 <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
-                                                <select type="text" id="setactive-links" class="form-control" name="agensi_id" autofocus>
+                                                <select type="text" id="agensi_id" id="setactive-links" class="form-control" name="agensi_id" required autofocus>
+                                                    <option selected="selected" value="0">Sila Pilih</option>
                                                     @foreach ($agensi as $agensi_no => $agensi_data)
                                                         <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
                                                     @endforeach
                                                 </select>
+                                                <p class="text-red" id="err_agensi_id"></p>
         
                                                 @include('alerts.feedback', ['field' => 'agensi_id'])
                                             </div>
@@ -61,7 +64,8 @@
                                                         } ?>
                                                     @endforeach
                                                     <input disabled type="text" class="form-control" value="{{$agensiname}}" autofocus>
-                                                    <input type="hidden" name="agensi_id" value="{{$agensi_id}}">
+                                                    <input type="hidden" id="agensi_id" name="agensi_id" value="{{$agensi_id}}">
+                                                    <p class="text-red" id="err_agensi_id"></p>
                                                 @include('alerts.feedback', ['field' => 'agensi_id'])
                                             </div>
                                         <?php } ?>
@@ -69,23 +73,26 @@
                                     <div class="col-md-6">
                                         {{-- jenis --}}
                                         <div  class="form-group{{ $errors->has('jenis') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label">{{ __('Jenis Pemohonan') }}</label>
-                                            <select class="form-control jenisMedia" name="jenis" required autofocus>
+                                            <label class="form-control-label">{{ __('Jenis Pemohonan') }} <span class="text-red">*</span></label>
+                                            <select class="form-control jenisMedia" name="jenis" id="jenis" required autofocus>
                                                 <option selected="selected" value="1">Berita</option>
                                                 <option value="2">Banner</option>
                                             </select>
+                                            <p class="text-red" id="err_jenis"></p>
                                             @include('alerts.feedback', ['field' => 'jenis'])
                                         </div>
                                     </div>
                                     <div class="col-md-6 programList" style="display: none">
                                         {{-- program --}}
                                         <div class="form-group{{ $errors->has('program') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label">{{ __('Program') }}</label>
-                                            <select type="text" id="setactive-links" class="form-control" name="program_id" required autofocus>
+                                            <label class="form-control-label">{{ __('Program') }} <span class="text-red">*</span></label>
+                                            <select type="text" id="program_id" class="form-control" name="program_id" autofocus>
+                                                <option selected="selected" value="0">Sila Pilih</option>
                                                 @foreach ($program as $program_no => $program_data)
                                                     <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
                                                 @endforeach
                                             </select>
+                                            <p class="text-red" id="err_program_id"></p>
         
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
@@ -93,47 +100,51 @@
                                     <div class="col-md-6 berita-tajuk">
                                         {{-- tajuk --}}
                                         <div class="form-group{{ $errors->has('tajuk') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-name">{{ __('Tajuk') }}</label>
-                                            <input type="text" name="tajuk" id="input-name" class="form-control{{ $errors->has('tajuk') ? ' is-invalid' : '' }}" placeholder="{{ __('Tajuk') }}" value="{{ old('tajuk') }}" autofocus>
-        
+                                            <label class="form-control-label" for="input-name">{{ __('Tajuk') }} <span class="text-red">*</span></label>
+                                            <input type="text" name="tajuk" id="tajuk" class="form-control{{ $errors->has('tajuk') ? ' is-invalid' : '' }}" placeholder="{{ __('Tajuk') }}" value="{{ old('tajuk') }}" autofocus>
+                                            <p class="text-red" id="err_tajuk"></p>
                                             @include('alerts.feedback', ['field' => 'tajuk'])
                                         </div>
                                     </div>
                                     <div class="berita-keterangan col-md-6">
                                         {{-- keterangan --}}
                                         <div class="form-group{{ $errors->has('keterangan') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-name">{{ __('Keterangan') }}</label>
-                                            <textarea type="text" name="keterangan" id="input-name" class="form-control{{ $errors->has('Keterangan') ? ' is-invalid' : '' }}" placeholder="{{ __('Keterangan') }}" value="{{ old('keterangan') }}" autofocus></textarea>
+                                            <label class="form-control-label" for="input-name">{{ __('Keterangan') }} <span class="text-red">*</span></label>
+                                            <textarea type="text" name="keterangan" id="keterangan" class="form-control{{ $errors->has('Keterangan') ? ' is-invalid' : '' }}" placeholder="{{ __('Keterangan') }}" value="{{ old('keterangan') }}" autofocus></textarea>
+                                            <p class="text-red" id="err_keterangan"></p>
                                             @include('alerts.feedback', ['field' => 'keterangan'])
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         {{-- tarikh_mula --}}
                                         <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }}</label>
-                                            <input type="date" name="tarikh_mula" id="input-name" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('Tarikh Mula') }}" value="{{ old('tarikh_mula') }}" autofocus>
+                                            <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }} <span class="text-red">*</span></label>
+                                            <input type="date" name="tarikh_mula" id="tarikh_mula" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('Tarikh Mula') }}" value="{{ old('tarikh_mula') }}" autofocus>
+                                            <p class="text-red" id="err_tarikh_mula"></p>
                                             @include('alerts.feedback', ['field' => 'tarikh_mula'])
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         {{-- tarikh_tamat --}}
                                         <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }}</label>
-                                            <input type="date" name="tarikh_tamat" id="input-name" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('Tarikh Tamat') }}" value="{{ old('tarikh_tamat') }}" autofocus>
+                                            <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }} <span class="text-red">*</span></label>
+                                            <input type="date" name="tarikh_tamat" id="tarikh_tamat" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('Tarikh Tamat') }}" value="{{ old('tarikh_tamat') }}" autofocus>
+                                            <p class="text-red" id="err_tarikh_tamat"></p>
                                             @include('alerts.feedback', ['field' => 'tarikh_tamat'])
                                         </div>
                                     </div>
                                     <div style="display: none" class="gambar-banner col-md-6">
                                         {{-- gambar --}}
                                         <div class="form-group{{ $errors->has('gambar') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label">{{ __('Gambar') }}</label>
-                                            <input type="file" name="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" id="input-picture" accept="image/*" />
+                                            <label class="form-control-label">{{ __('Gambar') }} <span class="text-red">*</span></label>
+                                            <input type="file" name="photo" id="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" id="input-picture" accept="image/*" />
+                                            <p class="text-red" id="err_photo"></p>
                                             @include('alerts.feedback', ['field' => 'photo'])
                                         </div></div>
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="success">Simpan</button>
+                                    <button type="submit" class="btn btn-default" onclick="return mediaValidationEvent()">Simpan</button>
                                     {{-- <button type="submit" class="btn btn-success mt-4">{{ __('Simpan') }}</button> --}}
                                 </div>
                             </div>
@@ -146,121 +157,80 @@
         @include('layouts.footers.auth')
     </div>
     <script>
-        (function($) {
-        "use strict";
-    
-        $(function() {
-            $('[data-toggle="sweet-alert"]').on("click", function() {
-                var type = $(this).data("sweet-alert");
-    
-                switch (type) {
-                    case "basic":
-                        swal({
-                            title: "Here's a message!",
-                            text: "A few words about this sweet alert ...",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-primary"
-                        });
-                        break;
-    
-                    case "info":
-                        swal({
-                            title: "Info",
-                            text: "A few words about this sweet alert ...",
-                            type: "info",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-info"
-                        });
-                        break;
-    
-                    case "info":
-                        swal({
-                            title: "Info",
-                            text: "A few words about this sweet alert ...",
-                            type: "info",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-info"
-                        });
-                        break;
-    
-                    case "success":
-                        swal({
-                            title: "Berjaya",
-                            text: "Banner / Berita Berjaya Disimpan",
-                            type: "success",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-success"
-                        });
-                        break;
-    
-                    case "warning":
-                        swal({
-                            title: "Warning",
-                            text: "A few words about this sweet alert ...",
-                            type: "warning",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-warning"
-                        });
-                        break;
-    
-                    case "question":
-                        swal({
-                            title: "Are you sure?",
-                            text: "A few words about this sweet alert ...",
-                            type: "question",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-default"
-                        });
-                        break;
-    
-                    case "confirm":
-                        swal({
-                            title: "Are you sure?",
-                            text: "You won't be able to revert this!",
-                            type: "warning",
-                            showCancelButton: true,
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-danger",
-                            confirmButtonText: "Yes, delete it!",
-                            cancelButtonClass: "btn btn-secondary"
-                        }).then(result => {
-                            if (result.value) {
-                                // Show confirmation
-                                swal({
-                                    title: "Deleted!",
-                                    text: "Your file has been deleted.",
-                                    type: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonClass: "btn btn-primary"
-                                });
-                            }
-                        });
-                        break;
-    
-                    case "image":
-                        swal({
-                            title: "Sweet",
-                            text: "Modal with a custom image ...",
-                            imageUrl: "../../assets/img/ill/ill-1.svg",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: "Super!"
-                        });
-                        break;
-    
-                    case "timer":
-                        swal({
-                            title: "Auto close alert!",
-                            text: "I will close in 2 seconds.",
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
-                        break;
+        // Below Function Executes On Form Submit
+        function mediaValidationEvent() {
+            // Storing Field Values In Variables
+            var agensi_id = document.getElementById("agensi_id").value;
+            var jenis = document.getElementById("jenis").value;
+            var program_id = document.getElementById("program_id").value;
+            var tajuk = document.getElementById("tajuk").value;
+            var keterangan = document.getElementById("keterangan").value;
+            var tarikh_mula = document.getElementById("tarikh_mula").value;
+            var tarikh_tamat = document.getElementById("tarikh_tamat").value;
+            var photo = document.getElementById("photo").value;
+            
+        
+            // alert(tarikh_mula);
+            // alert(tarikh_tamat);
+
+            // Conditions
+            if (agensi_id == '0') {
+                text = "Sila Pilih Agensi";
+                document.getElementById("err_agensi_id").innerHTML = text;
+                return false;
+            }
+
+            // check if it is banner/berita
+            if (jenis == '2') {
+                if(program_id == '0'){
+                    text = "Sila Pilih program";
+                    document.getElementById("err_program_id").innerHTML = text;
+                    return false;
                 }
-            });
-        });
-    })(jQuery);
+            }
+            if (jenis == '1') {
+                if (tajuk == '') {
+                    text = "Sila Isi tajuk";
+                    document.getElementById("err_tajuk").innerHTML = text;
+                    return false;
+                }
+            }
+            if (jenis == '1') {
+                if (keterangan == '') {
+                    text = "Sila Isi keterangan";
+                    document.getElementById("err_keterangan").innerHTML = text;
+                    return false;
+                }
+            }
+
+            if (tarikh_mula == '') {
+                text = "Sila Isi tarikh mula";
+                document.getElementById("err_tarikh_mula").innerHTML = text;
+                return false;
+            }
+
+            if (tarikh_tamat == '') {
+                text = "Sila Isi tarikh tamat";
+                document.getElementById("err_tarikh_tamat").innerHTML = text;
+                return false;
+            }
+            if (jenis == '2') {
+                if (photo == '') {
+                    text = "Sila Pilih Photo";
+                    document.getElementById("err_photo").innerHTML = text;
+                    return false;
+                }
+            }
+            
+            return true
+            // else {
+                // alert("All fields are required.....!");
+                // return false;
+            // }
+            
+        }
     </script>
+
 @endsection
 
 @push('css')

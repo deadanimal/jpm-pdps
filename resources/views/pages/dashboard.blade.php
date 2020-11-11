@@ -22,10 +22,10 @@
             <div class="col-xl-4 col-md-4 col-sm-6">
                 <a href="{{ route('program.index') }}">
                     <div class="card" style="cursor: pointer;">
-                        <div class="card-body">
-                            <img src="{{ asset('custom') }}/images/graphic2/g1.png" width="100%" height="150px" alt="" />
+                        <div class="card-body text-center">
+                            <img src="{{ asset('custom') }}/images/graphic2/g1.png" width="70%" height="80px" alt="" />
                         </div>
-                        <div class="card-footer text-center header-dark bg-transparent">
+                        <div class="card-footer text-center header-dark">
                             <div class="text-black">Program</div>
                         </div>
                     </div>
@@ -35,10 +35,10 @@
             <div class="col-xl-4 col-md-4 col-sm-6">
                 <a href="{{ route('media.index') }}">
                     <div class="card" style="cursor: pointer;">
-                        <div class="card-body">
-                            <img src="{{ asset('custom') }}/images/graphic2/g2.png" width="100%" height="150px" alt="" />
+                        <div class="card-body text-center">
+                            <img src="{{ asset('custom') }}/images/graphic2/g2.png" width="70%" height="80px" alt="" />
                         </div>
-                        <div class="card-footer text-center bg-transparent bg-white">
+                        <div class="card-footer text-center">
                             <div class="text-black">Banner & Berita Semasa</div>
                         </div>
                     </div>
@@ -51,10 +51,10 @@
             <div class="col-xl-4 col-md-4 col-sm-6">
                 <a href="{{ route('profil.index') }}">
                     <div class="card" style="cursor: pointer;">
-                        <div class="card-body">
-                            <img src="{{ asset('custom') }}/images/graphic2/g3.png" width="100%" height="150px" alt="" />
+                        <div class="card-body text-center">
+                            <img src="{{ asset('custom') }}/images/graphic2/g3.png" width="70%" height="80px" alt="" />
                         </div>
-                        <div class="card-footer text-center header-dark bg-transparent">
+                        <div class="card-footer text-center header-dark">
                             <div class="text-black">Carian Profil Individu</div>
                         </div>
                     </div>
@@ -64,10 +64,10 @@
             <div class="col-xl-4 col-md-4 col-sm-6">
                 <a href="{{ route('user.index') }}">
                     <div class="card" style="cursor: pointer;">
-                        <div class="card-body">
-                            <img src="{{ asset('custom') }}/images/graphic2/g4.png" width="100%" height="150px" alt="" />
+                        <div class="card-body text-center">
+                            <img src="{{ asset('custom') }}/images/graphic2/g4.png" width="70%" height="80px" alt="" />
                         </div>
-                        <div class="card-footer text-center bg-transparent bg-white">
+                        <div class="card-footer text-center">
                             <div class="text-black">Pengurusan Penguna</div>
                         </div>
                     </div>
@@ -80,10 +80,10 @@
             <div class="col-xl-4 col-md-4 col-sm-6">
                 <a href="{{ route('laporan.index') }}">
                     <div class="card" style="cursor: pointer;">
-                        <div class="card-body">
-                            <img src="{{ asset('custom') }}/images/graphic2/g5.png" width="100%" height="150px" alt="" />
+                        <div class="card-body text-center">
+                            <img src="{{ asset('custom') }}/images/graphic2/g5.png" width="70%" height="80px" alt="" />
                         </div>
-                        <div class="card-footer text-center header-dark bg-transparent">
+                        <div class="card-footer text-center header-dark">
                             <div class="text-black">Laporan</div>
                         </div>
                     </div>
@@ -93,10 +93,10 @@
             <div class="col-xl-4 col-md-4 col-sm-6">
                 <a href="{{ route('orgdata.index') }}">
                     <div class="card" style="cursor: pointer;">
-                        <div class="card-body">
-                            <img src="{{ asset('custom') }}/images/graphic2/g6.png" width="100%" height="150px" alt="" />
+                        <div class="card-body text-center">
+                            <img src="{{ asset('custom') }}/images/graphic2/g6.png" width="70%" height="80px" alt="" />
                         </div>
-                        <div class="card-footer text-center bg-transparent bg-white">
+                        <div class="card-footer text-center">
                             <div class="text-black">Pemohonan Data</div>
                         </div>
                     </div>

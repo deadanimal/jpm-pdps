@@ -72,6 +72,71 @@ class ProfilController extends Controller
         return view('profil.index');
     }
 
+    public function view($bantuan_id)
+    {
+        if($bantuan_id){
+            $user_id = auth()->user()->id; 
+            $role_id = auth()->user()->role_id; 
+            $agensi_id = auth()->user()->agensi_id; 
+
+            // if($role_id == '3'){
+            // }else if ($role_id == '2'){
+            // }else if ($role_id == '1'){
+                $profil = DB::table('bantuan')
+                    ->leftJoin('profil', 'profil.id', '=', 'bantuan.profil_id')
+                    ->leftJoin('program', 'program.id', '=', 'bantuan.program_id')
+                    ->leftJoin('agensi', 'agensi.id', '=', 'program.agensi_id')
+                    ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                    ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                    ->leftJoin('jantina', 'jantina.id', '=', 'profil.jantina_id')
+                    ->leftJoin('etnik', 'etnik.id', '=', 'profil.etnik_id')
+                    ->leftJoin('agama', 'agama.id', '=', 'profil.agama_id')
+                    ->leftJoin('status_kahwin', 'status_kahwin.id', '=', 'profil.status_kahwin_id')
+                    ->leftJoin('negeri', 'negeri.id', '=', 'profil.negeri_id')
+                    ->leftJoin('daerah', 'daerah.id', '=', 'profil.daerah_id')
+                    ->leftJoin('mukim', 'mukim.id', '=', 'profil.mukim_id')
+                    ->leftJoin('strata', 'strata.id', '=', 'profil.strata_id')
+                    ->leftJoin('pekerjaan', 'pekerjaan.id', '=', 'profil.pekerjaan_id')
+                    ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                    ->select( 'bantuan.*','bantuan.jumlah as jumlah_bantuan',
+                            'profil.nama as profil_nama',
+                            'profil.no_kp as profil_kp',
+                            'profil.poskod as profil_poskod',
+                            'program.nama as program_nama',
+                            'program.id as program_id',
+                            'agensi.nama as agensi_nama',
+                            'kekerapan.nama as kekerapan_nama',
+                            'kategori.nama_kategori as nama_kategori',
+                            'jantina.nama as jantina_nama',
+                            'etnik.nama as etnik_nama',
+                            'agama.nama as agama_nama',
+                            'status_kahwin.nama as status_kahwin_nama',
+                            'negeri.nama as negeri_nama',
+                            'daerah.nama as daerah_nama',
+                            'mukim.nama as mukim_nama',
+                            'strata.nama as strata_nama',
+                            'pekerjaan.nama as pekerjaan_nama',
+                            'manfaat.nama as manfaat_nama'
+                    )
+                    ->where('bantuan.id',$bantuan_id)
+                    ->get()->first();
+            // }
+            // dd($profil);
+
+            // $this->profilPdf($profil,$request->no_kp);
+            // dd($profil);
+
+            return view('profil.view', 
+                [
+                    'profil' => $profil
+                ]
+            );
+            // }
+        }
+
+        return view('profil.index');
+    }
+
     public function excel($icno){
         return Excel::download(new ProfilExport($icno), 'profil_data.xlsx');
         // return (new ProfilExport($icno))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
@@ -126,7 +191,7 @@ class ProfilController extends Controller
         $pdf = PDF::loadView('profil.profilPdf',['profil' => $profil]);
 
         // download PDF file with download method
-        return $pdf->download('pdf_file.pdf');
+        return $pdf->download('profil_data.pdf');
     }
 
 

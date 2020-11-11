@@ -24,9 +24,8 @@ class PasswordRequest extends FormRequest
      */
     public function rules()
     {
-        $message='asdasd';
         return [
-            'old_password' => ['required', 'min:6',$message],
+            'old_password' => ['required', 'min:6', new CurrentPasswordCheckRule],
             'password' => ['required', 'min:6', 'confirmed', 'different:old_password'],
             'password_confirmation' => ['required', 'min:6'],
         ];

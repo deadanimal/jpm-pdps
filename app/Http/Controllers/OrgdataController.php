@@ -20,12 +20,6 @@ class OrgdataController extends Controller
         // $this->authorizeResource(Orgdata::class);
     }
 
-    /**
-     * Display a listing of the orgdata
-     *
-     * @param \App\Orgdata  $model
-     * @return \Illuminate\View\View
-     */
     public function index(Orgdata $model)
     {
         $this->authorize('manage-items', User::class);
@@ -83,13 +77,6 @@ class OrgdataController extends Controller
         return view('orgdata.index', ['orgdata' => $permitaandata,'agensidata'=>$agensi,'agensi_id'=>$agensi_id]);
     }
 
-    /**
-     * Show the form for creating a new item
-     *
-     * @param  \App\Tag $tagModel
-     * @param  \App\Category $categoryModel
-     * @return \Illuminate\View\View
-     */
     public function create(OrgdataRequest $request, Orgdata $model)
     {
 
@@ -103,13 +90,6 @@ class OrgdataController extends Controller
         // return redirect()->route('orgdata.index')->withStatus(__('Role successfully created.'));
     }
 
-    /**
-     * Store a newly created item in storage
-     *
-     * @param  \App\Http\Requests\ItemRequest  $request
-     * @param  \App\Item  $model
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(OrgdataRequest $request, Orgdata $model)
     {   
         $userid = auth()->user()->id; 
@@ -189,6 +169,37 @@ class OrgdataController extends Controller
             'role_id'=>$role_id,
             ]);
     }
+
+    public function show($orgdata)
+    {
+        $user_id = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $orgdata_detail = DB::table('permintaan_data')
+                    ->leftjoin('users', 'users.id', '=', 'permintaan_data.created_by')
+                    ->leftjoin('program', 'program.id', '=', 'permintaan_data.program_id')
+                    ->leftjoin('agensi', 'agensi.id', '=', 'permintaan_data.agensi_id')
+                    ->select( 'permintaan_data.*', 
+                            'users.name as user_name',
+                            'program.nama as program_name',
+                            'agensi.nama as nama_agensi','users.agensi_id as agensi_pemohon_id')
+                    ->where('permintaan_data.id','=',$orgdata)
+                    ->first();
+        // dd($orgdata);
+        // $program = Program::find($orgdata->program_id);
+        // $agensi_dipohon = Agensi::find($orgdata->agensi_id);
+        // $user = User::find($orgdata->created_by);
+        // echo $orgdata_detail->agensi_pemohon_id;
+        // die;
+        $agensi_pemohon = Agensi::find($orgdata_detail->agensi_pemohon_id);
+        // echo $orgdata->agensi_id." ".$user->agensi_id;
+        // dd($agensi_pemohon);
+        return view('orgdata.view', [
+            'orgdata'=>$orgdata_detail,
+            // 'agensi_dipohon'=>$agensi_dipohon,
+            'agensi_pemohon'=>$agensi_pemohon,
+            'role_id'=>$role_id,
+            ]);
+    }
     
     public function update(OrgdataRequest $request,$orgdata)
     {
@@ -259,13 +270,7 @@ class OrgdataController extends Controller
         // $orgdata->update($request->all());
         return redirect()->route('orgdata.index')->withStatus(__('Pemohonan Data Berjaya Disimpan.'));
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function destroy($id)
     {
         $orgdata = Orgdata::find($id);

@@ -19,28 +19,37 @@
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
+                {{-- <div class="card">
+                    <div class="card-header"> --}}
                         <div class="row align-items-center">
-                            <div class="col-8">
-                                <h3 class="mb-0">{{ __('Senarai Pemohonan Data') }}</h3>
-                                <p class="text-sm mb-0">
-                                    <!-- {{ __('This is an example of item management. This is a minimal setup in order to get started fast.') }} -->
-                                </p>
+                            <div class="col-12">
+                                <h3 class="text-dark">{{ __('Senarai Pemohonan Data') }}</h3>
                             </div>
-                            @if (auth()->user()->can('create', App\Orgdata::class))
-                                <div class="col-4 text-right">
-                                    <a href="{{ route('orgdata.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Pemohonan Data') }}</a>
+                        </div>
+                        <div class="row align-items-center">
+                            @if (auth()->user()->can('create', App\Program::class))
+                                <div class="col-12 text-right">
+                                        <form method="get" class="item-form" action="{{ route('orgdata.index') }}" autocomplete="off" enctype="multipart/form-data">
+                                            @csrf
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Nama program" name="nama">
+                                                        <button type="submit" class="btn btn-sm btn-default">{{ __('Cari') }}</button>
+                                    <a href="{{ route('orgdata.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Program') }}</a>
+                                                    </div>
+                                        </form>
                                 </div>
                             @endif
                         </div>
-                    </div>
-                    
-                    {{-- <div class="col-12 mt-2">
+                    {{-- </div> --}}
+
+                    <div class="col-12 mt-2">
                         @include('alerts.success')
                         @include('alerts.errors')
-                    </div> --}}
-                </div>
+                    </div>
+                    {{-- <div class="card-body"> --}}
+                        
+                    {{-- </div> --}}
+                {{-- </div> --}}
             </div>
         </div>
 
@@ -124,20 +133,27 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 text-right">
+                                    @if (auth()->user()->can('update', App\Orgdata::class))
+                                        <div class="col text-center">
+                                                <a href="{{ route('orgdata.show', $val->id) }}" class="btn btn-info">
+                                                    <span class="btn-inner--text"><i class="fas fa-eye fa-2x"></i></span>
+                                                </a>
+                                        </div>
+                                    @endif
+                                    <div class="col text-center">
                                         @if (auth()->user()->can('update', App\Orgdata::class))
-                                            <a href="{{ route('orgdata.edit', $val->id) }}" class="btn btn-success btn-sm">
-                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
+                                            <a href="{{ route('orgdata.edit', $val->id) }}" class="btn btn-success">
+                                                <span class="btn-inner--text"><i class="fas fa-edit fa-2x"></i></span>
                                             </a>
                                         @endif
                                     </div>
-                                    <div class="col-md-6 text-left">
+                                    <div class="col text-center">
                                         @if (auth()->user()->can('delete', App\Orgdata::class))
-                                            <form action="{{ route('orgdata.destroy', $val->id) }}" method="POST">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button class="btn btn-danger btn-sm">
-                                                    <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
+                                            <form action="{{ route('orgdata.destroy', $val->id) }}" method="POST" onsubmit="return confirm('Padam Pemohonan ?');">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger">
+                                                    <span class="btn-inner--text"><i class="fas fa-trash fa-2x"></i></span>
                                                 </button>
                                             </form>
                                         @endif

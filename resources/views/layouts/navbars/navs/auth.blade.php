@@ -22,7 +22,7 @@
         <ul class="menuzord-menu text-white">
           <li class="pr-20">
             <a href="#home" class="text-white">Perlindungan Sosial</a>
-            <ul class="dropdown">
+            {{-- <ul class="dropdown">
               <li>
                 <a href="#">MySPC</a>
                 <ul class="dropdown">
@@ -71,7 +71,7 @@
               <li>
                 <a href="#">Agensi Perlindungan Sosial</a>
               </li>
-            </ul>
+            </ul> --}}
           </li>
 
           <li>

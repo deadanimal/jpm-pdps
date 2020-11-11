@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('program.update', $program->id) }}" autocomplete="off">
+                        <form method="post" action="{{ route('program.update', $program->id) }}" autocomplete="off"  onsubmit="return confirm('Kemaskini Program ?');">
                             @csrf
                             @method('put')
 
@@ -49,7 +49,7 @@
                                                         $agensiname = $agensi_data->nama;
                                                     } ?>
                                                 @endforeach
-                                                <input disabled type="text" class="form-control" value="{{$program->nama}}" autofocus>
+                                                <input disabled type="text" name="agensi_id" class="form-control" value="{{$agensiname}}" autofocus>
         
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
@@ -70,12 +70,15 @@
                                         {{-- kategori --}}
                                         <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Kategori') }} <span class="text-red">*</span></label>
-                                            <select type="text" id="setactive-links" class="form-control" name="kategori_id" value="{{ old('name', $program->kategori_id) }}" autofocus>
-                                                <option>Sila Pilih</option>
-                                                <option value="1" {{ $program->kategori_id == 1 ? 'selected' : '' }}>Kategori 1</option>
-                                                <option value="2" {{ $program->kategori_id == 2 ? 'selected' : '' }}>Kategori 2</option>
-                                                <option value="3" {{ $program->kategori_id == 3 ? 'selected' : '' }}>Kategori 3</option>
-                                                <option value="4" {{ $program->kategori_id == 4 ? 'selected' : '' }}>Kategori 4</option>
+                                            <select type="text" id="setactive-links" class="form-control" name="kategori_id" required autofocus>
+                                                <option selected="selected">Sila Pilih</option>
+                                                    @foreach ($kat as $katid => $kdata)
+                                                        <?php if($program->kategori_id == $katid){ ?>
+                                                            <option selected value='{{$kdata->id}}'>{{$kdata->nama_kategori}}</option>
+                                                        <?php }else{ ?>
+                                                            <option value='{{$kdata->id}}'>{{$kdata->nama_kategori}}</option>
+                                                        <?php } ?>
+                                                    @endforeach
                                             </select>
 
                                             @include('alerts.feedback', ['field' => 'kategori_id'])
@@ -85,7 +88,8 @@
                                         {{-- teras --}}
                                         <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Teras') }} <span class="text-red">*</span></label>
-                                            <select type="text" id="setactive-links" class="form-control" name="teras_id" value="{{ old('name', $program->teras_id) }}" autofocus>
+                                            <select type="text" id="setactive-links" class="form-control" name="teras_id" value="{{ old('name', $program->teras_id) }}" required autofocus>
+                                                <option selected="selected">Sila Pilih</option>
                                                 @foreach ($teras as $teras_k => $teras_val)
                                                     <option value="{{$teras_val->id}}" {{ $teras_val->id == $program->teras_id ? 'selected' : '' }}>{{$teras_val->nama}}</option>
                                                 @endforeach
@@ -96,68 +100,68 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
-                                <?php 
-                                    $no = 1;
-                                    $arrno = 0;
-                                    foreach($jenis_sub_kategori_opt as $jsko_key => $jsko_data){ 
-                                ?>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    <?php 
+                                        $no = 1;
+                                        $arrno = 0;
+                                        foreach($jenis_sub_kategori_opt as $jsko_key => $jsko_data){ 
+                                    ?>
 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
-                                                    <select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>
-                                                        <?php foreach($subkat as $sk_key => $sk_data ){
-                                                            if($sk_data->id == $jsko_key){
-                                                                echo '<option selected value="'.$sk_data->id.'">'.$sk_data->nama_sub_kategori.'</option>';
-                                                            }else{
-                                                                echo '<option value="'.$sk_data->id.'">'.$sk_data->nama_sub_kategori.'</option>';
-                                                            }
-                                                        } ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
-                                                    <select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat select2 select-multiple" data-toggle="select" multiple="multiple" >
-                                                        <?php 
-                                                        foreach($jenissubkat as $jsk_key => $jsk_data ){
-                                                            if($jsk_data->sub_kategori_id == $jsko_key){
-                                                                if(in_array($jsk_data->id, $jsko_data)){
-                                                                    echo '<option selected value="'.$jsko_key.'_'.$jsk_data->id.'">'.$jsk_data->nama_jenis_sub_kategori.'</option>';
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
+                                                        <select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>
+                                                            <?php foreach($subkat as $sk_key => $sk_data ){
+                                                                if($sk_data->id == $jsko_key){
+                                                                    echo '<option selected value="'.$sk_data->id.'">'.$sk_data->nama_sub_kategori.'</option>';
                                                                 }else{
-                                                                    echo '<option value="'.$jsk_data->sub_kategori_id.'_'.$jsk_data->id.'">'.$jsk_data->nama_jenis_sub_kategori.'</option>';
+                                                                    echo '<option value="'.$sk_data->id.'">'.$sk_data->nama_sub_kategori.'</option>';
                                                                 }
-                                                            }
-                                                        } ?>
-                                                    </select>
+                                                            } ?>
+                                                        </select>
+                                                    </div>
                                                 </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
+                                                        <select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat select2 select-multiple" data-toggle="select" multiple="multiple" >
+                                                            <?php 
+                                                            foreach($jenissubkat as $jsk_key => $jsk_data ){
+                                                                if($jsk_data->sub_kategori_id == $jsko_key){
+                                                                    if(in_array($jsk_data->id, $jsko_data)){
+                                                                        echo '<option selected value="'.$jsko_key.'_'.$jsk_data->id.'">'.$jsk_data->nama_jenis_sub_kategori.'</option>';
+                                                                    }else{
+                                                                        echo '<option value="'.$jsk_data->sub_kategori_id.'_'.$jsk_data->id.'">'.$jsk_data->nama_jenis_sub_kategori.'</option>';
+                                                                    }
+                                                                }
+                                                            } ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <?php // if($role_id != '1'){ ?>
+                                                    <?php if($no != '1'){ ?>
+                                                    <div class="col-md-1">
+                                                        <div class="form-group">
+                                                            <span class="btn btn-danger mt-4" style="font-size:1.3em" id="buangBtn"> - </span>
+                                                        </div>
+                                                    </div>
+                                                    <?php }else if($no == '1'){ ?>
+                                                    <div class="col-md-1">
+                                                        <div class="form-group">
+                                                            <span class="btn btn-info mt-4" style="font-size:1.3em" id="add"> + </span>
+                                                        </div>
+                                                    </div>
+                                                    <?php } ?>
+                                                <?php // } ?>
                                             </div>
-                                            <?php // if($role_id != '1'){ ?>
-                                                <?php if($no != '1'){ ?>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label">Buang</label><br/>
-                                                        <span class="btn btn-danger" id="buangBtn">- Buang</span>
-                                                    </div>
-                                                </div>
-                                                <?php }else if($no == '1'){ ?>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label">Tambah</label><br/>
-                                                        <span class="btn btn-info text-sm" id="add">+ Tambah</span>
-                                                    </div>
-                                                </div>
-                                                <?php } ?>
-                                            <?php // } ?>
-                                        </div>
-                                    <?php $no++; } ?>
-                                    <?php // if($role_id != '1'){ ?>
-                                        <div id="dynamic_sub_kat_que">
-                                        </div>
-                                    <?php // } ?>
+                                        <?php $no++; } ?>
+                                        <?php // if($role_id != '1'){ ?>
+                                            <div id="dynamic_sub_kat_que">
+                                            </div>
+                                        <?php // } ?>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -181,7 +185,7 @@
                                         {{-- kekerapan --}}
                                         <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Kekerapan') }} <span class="text-red">*</span></label>
-                                            <select name="kekerapan_id" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan_id') }}" autofocus>
+                                            <select name="kekerapan_id" id="input-name" class="form-control{{ $errors->has('kekerapan') ? ' is-invalid' : '' }}" value="{{ old('kekerapan_id') }}" required autofocus>
                                                 @foreach ($kekerapan as $kekerapan_k => $kekerapan_val)
                                                     <option value="{{$kekerapan_val->id}}" {{ $kekerapan_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$kekerapan_val->nama}}</option>
                                                 @endforeach
@@ -197,7 +201,6 @@
                                         <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('tarikh_mula') }} <span class="text-red">*</span></label>
                                             <input type="date" name="tarikh_mula" id="input-name" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_mula') }}" value="{{ old('tarikh_mula', $program->tarikh_mula) }}" autofocus>
-        
                                             @include('alerts.feedback', ['field' => 'tarikh_mula'])
                                         </div>
                                     </div>
@@ -257,7 +260,7 @@
                                     <div class="col-md-6">
                                         {{-- status_pelaksanaan	 --}}
                                         <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label">{{ __('Status Pelaksanaan') }}</label>
+                                            <label class="form-control-label">{{ __('Status Pelaksanaan') }} <span class="text-red">*</span></label>
                                             <select type="text" id="statuspelaksanaan" class="form-control" name="status_pelaksanaan_id" value="{{ old('status_pelaksanaan_id', $program->status_pelaksanaan_id) }}" autofocus>
                                                 <option value="1" {{ $program->status_pelaksanaan_id	 == 1 ? 'selected' : '' }}>Aktif</option>
                                                 <option value="2" {{ $program->status_pelaksanaan_id	 == 2 ? 'selected' : '' }}>Tidak Aktif</option>
@@ -270,7 +273,7 @@
                                         <div class="col-md-6">
                                             {{-- status_program	 --}}
                                             <div class="form-group{{ $errors->has('status_program') ? ' has-danger' : '' }}">
-                                                <label class="form-control-label">{{ __('Status Program') }}</label>
+                                                <label class="form-control-label">{{ __('Status Program') }} <span class="text-red">*</span></label>
                                                 <select type="text" id="setactive-links" class="form-control" name="status_program_id" value="{{ old('status_program_id', $program->status_program_id) }}" autofocus>
                                                     <option value="1" {{ $program->status_program_id	 == 1 ? 'selected' : '' }}>Dihantar</option>
                                                     <option value="2" {{ $program->status_program_id	 == 2 ? 'selected' : '' }}>Berjaya</option>
@@ -288,7 +291,7 @@
                                             ?>
                                         <div class="col-md-6" style="display: {{ $div }};" id="sebabxaktif">
                                             <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
-                                                <label class="form-control-label" for="input-name">{{$program->status_pelaksanaan}}{{ __('Sebab Tidak Aktif') }}</label>
+                                                <label class="form-control-label" for="input-name">{{$program->status_pelaksanaan}}{{ __('Sebab Tidak Aktif') }} <span class="text-red">*</span></label>
                                                 <textarea rows="3" type="text" name="sebab_tidak_aktif" id="input-name" class="form-control{{ $errors->has('sebab_tidak_aktif') ? ' is-invalid' : '' }}" placeholder="{{ __('Sebab TIdak Aktif') }}"  autofocus>{{$program->sebab_tidak_aktif}}</textarea>
                                                 @include('alerts.feedback', ['field' => 'sebab_tidak_aktif'])
                                             </div>
@@ -317,9 +320,9 @@
 
                                 <div class="text-center">
                                     <?php if($role_id == '1'){ ?>
-                                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="success">Simpan</button>
+                                        <button class="btn btn-default">Simpan</button>
                                     <?php }else{ ?>
-                                        <button class="btn btn-default" data-toggle="sweet-alert" data-sweet-alert="confirm">Simpan</button>
+                                        <button class="btn btn-default">Simpan</button>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -505,7 +508,7 @@
         function dynamic_field(number)
         {
             html = '<div class="row">';
-                html += '<div class="col-md-4">';
+                html += '<div class="col-md-6">';
                     html += '<div class="form-group">';
                         html += '<label class="form-control-label">Sub Kategori</label>';
                         html += '<select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>';
@@ -518,17 +521,16 @@
                         html += '</select>';
                     html += '</div>';
                 html += '</div>';
-                html += '<div class="col-md-6">';
+                html += '<div class="col-md-5">';
                     html += '<div class="form-group">';
                         html += '<label class="form-control-label">Sub Kategori</label>';
                         html += '<select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat'+count+' select2 select-multiple" data-toggle="select" multiple="multiple" >';
                         html += '</select>';
                     html += '</div>';
                 html += '</div>';
-                html += '<div class="col-md-2">';
+                html += '<div class="col-md-1">';
                     html += '<div class="form-group">';
-                        html += '<label class="form-control-label">Buang</label><br/>';
-                        html += '<span class="btn btn-danger" id="buangBtn">- Buang</span>';
+                        html += '<span class="btn btn-danger mt-4" style="font-size:1.3em" id="buangBtn"> - </span>';
                     html += '</div>';
                 html += '</div>';
             html += '</div>';

@@ -47,22 +47,89 @@
                             <span class="nav-link-text">{{ __('Utama') }}</span>
                         </a>
                     </li>
-
-                    @can('manage-items', App\User::class)
-                        <li class="nav-item {{ $elementName == 'program' ? 'active' : '' }}">
+                    
+                    {{-- start Program --}}
+                        {{-- @can('manage-items', App\User::class) --}}
+                        <li class="nav-item">
+                            <a class="nav-link collapse" href="#program_link" data-toggle="collapse" 
+                            role="button" aria-expanded="false" aria-controls="program_link">
+                                <i class="ni ni-ui-04 text-default"></i>
+                                <span class="nav-link-text">{{ __('Program') }}</span>
+                            </a>
+                            
+                            <div class="hide" id="program_link">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item {{ $elementName == 'program' ?'' : 'active' }}">
+                                        <a href="{{ route('program.index') }}" class="nav-link">{{ __('Senarai Program') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'program' ?'' : 'active' }}">
+                                        <a href="{{ route('program.create') }}" class="nav-link">{{ __('Tambah Program') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        {{-- <li class="nav-item {{ $elementName == 'program' ? 'active' : '' }}">
                             <a href="{{ route('program.index') }}" class="nav-link">
                                 <i class="ni ni-ui-04 text-default"></i>
                                 <span class="nav-link-text">{{ __('Program') }}</span>
                             </a>
-                        </li>
-                    @endcan
+                        </li> --}}
+                    {{-- @endcan --}}
+                    {{-- start Program --}}
 
-                    <li class="nav-item {{ $elementName == 'orgdata' ? 'active' : '' }}">
-                        <a href="{{ route('orgdata.index') }}" class="nav-link">
-                            <i class="ni ni-collection text-default"></i>
-                            <span class="nav-link-text">{{ __('Pemohonan Data') }}</span>
-                        </a>
-                    </li>
+                    {{-- start Banner/Berita Semasa --}}
+                        <li class="nav-item">
+                            <a class="nav-link collapse" href="#media_link" data-toggle="collapse" 
+                            role="button" aria-expanded="false" aria-controls="media_link">
+                                <i class="ni ni-ui-04 text-default"></i>
+                                <span class="nav-link-text">{{ __('Banner/Berita Semasa') }}</span>
+                            </a>
+                            
+                            <div class="hide" id="media_link">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item {{ $elementName == 'media' ?'' : 'active' }}">
+                                        <a href="{{ route('media.index') }}" class="nav-link">{{ __('Senarai Banner/Berita') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'media' ?'' : 'active' }}">
+                                        <a href="{{ route('media.create') }}" class="nav-link">{{ __('Tambah Banner/Berita') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        {{-- <li class="nav-item {{ $elementName == 'media' ? 'active' : '' }}">
+                            <a href="{{ route('media.index') }}" class="nav-link">
+                                <i class="ni ni-collection text-default"></i>
+                                <span class="nav-link-text">{{ __('Banner & Berita') }}</span>
+                            </a>
+                        </li> --}}
+                    {{-- end Banner/Berita Semasa --}}
+                    
+                    {{-- start orgdata --}}
+                        <li class="nav-item">
+                            <a class="nav-link collapse" href="#orgdata_link" data-toggle="collapse" 
+                            role="button" aria-expanded="false" aria-controls="orgdata_link">
+                                <i class="ni ni-ui-04 text-default"></i>
+                                <span class="nav-link-text">{{ __('Pemohonan Data') }}</span>
+                            </a>
+                            
+                            <div class="hide" id="orgdata_link">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item {{ $elementName == 'orgdata' ?'' : 'active' }}">
+                                        <a href="{{ route('orgdata.index') }}" class="nav-link">{{ __('Senarai Pemohonan Data') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'orgdata' ?'' : 'active' }}">
+                                        <a href="{{ route('orgdata.create') }}" class="nav-link">{{ __('Tambah Pemohonan Data') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        {{-- <li class="nav-item {{ $elementName == 'orgdata' ? 'active' : '' }}">
+                            <a href="{{ route('orgdata.index') }}" class="nav-link">
+                                <i class="ni ni-collection text-default"></i>
+                                <span class="nav-link-text">{{ __('Pemohonan Data') }}</span>
+                            </a>
+                        </li> --}}
+                    {{-- end orgdata --}}
 
                     {{-- @can('manage-items', App\User::class)
                     <li class="nav-item {{ $elementName == 'category-management' ? 'active' : '' }}">
@@ -72,19 +139,12 @@
                         </a>
                     </li>
                     @endcan --}}
-                    
-                    <li class="nav-item {{ $elementName == 'media' ? 'active' : '' }}">
-                        <a href="{{ route('media.index') }}" class="nav-link">
-                            <i class="ni ni-collection text-default"></i>
-                            <span class="nav-link-text">{{ __('Banner & Berita') }}</span>
-                        </a>
-                    </li>
 
                     @can('manage-items', App\User::class)
                     <li class="nav-item {{ $elementName == 'profil' ? 'active' : '' }}">
                         <a href="{{ route('profil.index') }}" class="nav-link">
                             <i class="ni ni-collection text-default"></i>
-                            <span class="nav-link-text">{{ __('Profil') }}</span>
+                            <span class="nav-link-text">{{ __('Carian Profil Individu') }}</span>
                         </a>
                     </li>
                     @endcan
@@ -96,7 +156,7 @@
                             <span class="nav-link-text">{{ __('Laporan') }}</span>
                         </a>
                         
-                        <div class="show" id="reporting">
+                        <div class="hide" id="reporting">
                             <ul class="nav nav-sm">
                                 <li class="nav-item {{ $elementName == 'program-bantuan' ?'' : 'active' }}">
                                     <a href="{{ route('laporan.program_bantuan') }}" class="nav-link">{{ __('Program Bantuan') }}</a>
@@ -142,12 +202,12 @@
                         <a class="nav-link" href="#navbar-examples" data-toggle="collapse" 
                         role="button" aria-expanded="true" aria-controls="navbar-examples">
                             <i class="ni ni-chart-pie-35  text-default"></i>
-                            <span class="nav-link-text">{{ __('Sistem') }}</span>
+                            <span class="nav-link-text">{{ __('Pengurusan Penguna') }}</span>
                         </a>
-                        <div class="show" id="navbar-examples">
+                        <div class="hide" id="navbar-examples">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{ $elementName == 'profile' ? 'active' : '' }}">
-                                    <a href="{{ route('profile.edit') }}" class="nav-link">{{ __('Profil') }}</a>
+                                    <a href="{{ route('profile.edit') }}" class="nav-link">{{ __('Profil Penguna') }}</a>
                                 </li>
                                 @can('manage-users', App\User::class)
                                     <li class="nav-item  {{ $elementName == 'role-management' ? 'active' : '' }}">
@@ -156,7 +216,10 @@
                                 @endcan
                                 @can('manage-users', App\User::class)
                                     <li class="nav-item {{ $elementName == 'user-management' ? 'active' : '' }}">
-                                        <a href="{{ route('user.index') }}" class="nav-link">{{ __('Pengurusan Penguna') }}</a>
+                                        <a href="{{ route('user.index') }}" class="nav-link">{{ __('Senarai Pengurusan Penguna') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'user-management' ? 'active' : '' }}">
+                                        <a href="{{ route('user.create') }}" class="nav-link">{{ __('Tambah Pengurusan Penguna') }}</a>
                                     </li>
                                 @endcan
                                 {{-- 

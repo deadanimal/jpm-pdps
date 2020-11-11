@@ -17,58 +17,58 @@
     @endcomponent
 
     <div class="container-fluid mt--6">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
+        <div class="row pt-2 pb-5" style="padding: 1.5rem;">
+            <div class="col text-left"><h2>Carian Profil Individu</h2></div>
+        </div>
+        <div class="row pb-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
 
                         <?php 
                         if(!empty($profil)){
                             $val = 'value='.$nokp.'';
                         }else{
-                            $val = 'value=950305112010';
+                            $val = 'value=';
                         }
                         ?>
 
                         <form method="get" class="item-form" action="{{ route('profil.index') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group">
-                                <div class="row">
+                                <div class="row bg-transparent">
                                     <div class="col-md-10">
-                                        <input class="form-control" name="no_kp" {{ $val }} placeholder="Masukkan No. Kad Pengenalan Pemohon" type="text">
+                                        <input class="form-control" name="no_kp" placeholder="Masukkan No. Kad Pengenalan Pemohon" type="number" {{ $val }}>
+                                        <span class="text-sm">Contoh : 621027095057, 691009095081, 650828045167</span>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
+                                        <button type="submit" class="btn btn-default">{{ __('Cari') }}</button>
                                     </div>
                                 </div>
-                            </div>
                         </form>
-
-                    </div>
-                </div>
             </div>
+            <div class="col-md-2"></div>
         </div>
         <?php
             $no = 1; 
             if(!empty($profil)){ ?>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-10">
+        {{-- <div class="row">
+            <div class="col"> --}}
+                {{-- <div class="card">
+                    <div class="card-header"> --}}
+                        <div class="row pb-3" style="margin-right: -15px;margin-left: -15px;">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-8">
                                 <?php $run_no = 1; ?>
                                 @foreach ($profil as $pro_k => $pro_data)
                                     <?php if($run_no == 1){ ?>
-                                        <div class="row align-items-center">
+                                        <div class="row">
                                             <div class="col-md-3">Nama </div>
                                             <div class="col-md-7">: {{ ucwords($pro_data->profil_nama) }}</div>
                                         </div>
-                                        <div class="row align-items-center">
+                                        <div class="row">
                                             <div class="col-md-3">No Kad Pengenalan </div>
                                             <div class="col-md-7">: {{ $pro_data->profil_kp }}</div>
                                         </div>
-                                    <?php $run_no++; } ?>
+                                    <?php $run_no++;  } ?>
                                 @endforeach
                             </div>
                             <div class="col-md-2 text-right">
@@ -79,11 +79,13 @@
                                 <a href="{{ route('profil.exportPdf', $nokp) }}" class="btn btn-secondary btn-sm">
                                     <i class="fas fa-file-pdf text-danger fa-2x"></i>
                                 </a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="table-responsive py-4">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    {{-- </div> --}}
+                    <div class="card-body">
+                    <div class="table-responsive py-4 bg-white">
                         <table class="table align-items-center table-flush"  id="datatable-basic">
                             <thead class="thead-light">
                                 <tr>
@@ -94,6 +96,7 @@
                                     <th scope="col">{{ __('Kekerapan') }}</th>
                                     <th scope="col">{{ __('Tarikh Terima') }}</th>
                                     <th scope="col">{{ __('Tarikh Tamat') }}</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,7 +106,11 @@
                                         @foreach ($profil as $pro_k => $pro_data)
                                             <tr>
                                                 <td>{{ $no }}</td>
-                                                <td>{{ $pro_data->program_nama }}</td>
+                                                <td>
+                                                    <a href="{{ route('profil.view', $pro_data->id) }}">
+                                                        {{ $pro_data->program_nama }}
+                                                    </a>
+                                                </td>
                                                 <td>{{ $pro_data->agensi_nama }}</td>
                                                 <td>{{ $pro_data->jumlah }}</td>
                                                 <td>{{ $pro_data->kekerapan_nama }}</td>
@@ -117,8 +124,8 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
+            {{-- </div>
+        </div> --}}
         <?php } ?>
             
         @include('layouts.footers.auth')

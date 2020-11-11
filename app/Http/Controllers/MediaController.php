@@ -21,40 +21,43 @@ class MediaController extends Controller
         // $this->authorizeResource(Media::class);
     }
 
-    public function index(Media $model)
+    public function index(MediaRequest $request,Media $model)
     {
         $this->authorize('manage-items', User::class);
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
         
-        if($role_id == '3'){
-            $media = DB::table('media')
-                ->leftJoin('users', 'users.id', '=', 'media.created_by')
-                ->leftJoin('program', 'program.id', '=', 'media.program_id')
-                ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
-                ->where('media.created_by',$user_id)
-                // ->get();
-                ->orderBy('id', 'desc')
-                ->paginate(3);
-        }else if ($role_id == '2'){
-            $media = DB::table('media')
-                ->leftJoin('users', 'users.id', '=', 'media.created_by')
-                ->leftJoin('program', 'program.id', '=', 'media.program_id')
-                ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
-                // ->where('media.agensi_id',$agensi_id)
-                ->where('media.created_by',$user_id)
-                // ->get();
-                ->orderBy('id', 'desc')
-                ->paginate(3);
-        }else if ($role_id == '1'){
-            $media = DB::table('media')
-                ->leftJoin('users', 'users.id', '=', 'media.created_by')
-                ->leftJoin('program', 'program.id', '=', 'media.program_id')
-                ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
-                // ->get();
-                ->orderBy('id', 'desc')
-                ->paginate(3);
+        if($request->all() != []){
+        }else{
+            if($role_id == '3'){
+                $media = DB::table('media')
+                    ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    ->where('media.created_by',$user_id)
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }else if ($role_id == '2'){
+                $media = DB::table('media')
+                    ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    // ->where('media.agensi_id',$agensi_id)
+                    ->where('media.created_by',$user_id)
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }else if ($role_id == '1'){
+                $media = DB::table('media')
+                    ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }
         }
 
         // echo Request::ip();

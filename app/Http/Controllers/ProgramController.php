@@ -184,7 +184,7 @@ class ProgramController extends Controller
 
     public function store(ProgramRequest $request, Program $model )
     {   
-
+        $role_id = auth()->user()->role_id; 
         $userid = auth()->user()->id; 
         
         $program = $model->create($request->merge([
@@ -379,11 +379,8 @@ class ProgramController extends Controller
 
     public function show($program)
     {
-
         $agensi_id = auth()->user()->agensi_id; 
         $role_id = auth()->user()->role_id; 
-        $agensi = Agensi::find($agensi_id);
-        // $program = Program::find($program);
         $jenissubkat = JenisSubKategori::all();
         $subkat = SubKategori::all();
         $teras = Teras::all();
@@ -392,7 +389,6 @@ class ProgramController extends Controller
         $manfaat = Manfaat::all();
         $kumpulansasar = KumpulanSasar::all();
         $programkumpulansasar = ProgramKumpulanSasar::all();
-
 
         $program_data = DB::table('program')
             ->leftJoin('manfaat','manfaat.id','=','program.manfaat_id')
@@ -404,7 +400,10 @@ class ProgramController extends Controller
                     'kategori.nama_kategori as kategori_nama'
                     )
             ->where('program.id', $program)
-            ->get();
+            ->get()->first();
+
+        $agensi_data = Agensi::find($program_data->agensi_id);
+        // dd($agensi_data);
 
         $pks_data = DB::table('program_kumpulan_sasar')
             ->leftJoin('kumpulan_sasar','kumpulan_sasar.id','=','program_kumpulan_sasar.kumpulan_sasar_id')
@@ -441,8 +440,8 @@ class ProgramController extends Controller
         return view('program.view', [
             'subkat'=>$subkat,
             'jenissubkat'=>$jenissubkat,
-            'program_data'=>$program_data[0],
-            'agensi'=>$agensi,
+            'program_data'=>$program_data,
+            'agensi'=>$agensi_data,
             'prog_master'=>$prog_master,
             // 'sub_kategori_opt'=>$sub_kategori_opt,
             // 'jenis_sub_kategori_opt'=>$jenis_sub_kategori_opt,
