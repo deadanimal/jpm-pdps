@@ -32,9 +32,9 @@
                                         <form method="get" class="item-form" action="{{ route('orgdata.index') }}" autocomplete="off" enctype="multipart/form-data">
                                             @csrf
                                                     <div class="form-group">
-                                                        <input type="text" placeholder="Nama program" name="nama">
+                                                        <input type="text" placeholder="Subjek" name="subjek">
                                                         <button type="submit" class="btn btn-sm btn-default">{{ __('Cari') }}</button>
-                                    <a href="{{ route('orgdata.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Program') }}</a>
+                                    <a href="{{ route('orgdata.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Pemohonan') }}</a>
                                                     </div>
                                         </form>
                                 </div>
@@ -52,118 +52,117 @@
                 {{-- </div> --}}
             </div>
         </div>
-
+        
         <?php $no = 1; ?>
         @foreach ($orgdata as $val)
+                <div class="row mt-20">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{-- <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Agensi Yang Memohon :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            
+                                            @foreach ($agensidata as $ag_val)
 
-            <div class="row mt-20">
-                <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                {{-- <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Agensi Yang Memohon :</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        
-                                        @foreach ($agensidata as $ag_val)
+                                                <?php // if($ag_val->id == $agensi_id){ ?>
+                                                    <span>{{ ucwords($ag_val->nama) }}</span>
+                                                <?php //xs } ?>
 
-                                            <?php // if($ag_val->id == $agensi_id){ ?>
-                                                <span>{{ ucwords($ag_val->nama) }}</span>
-                                            <?php //xs } ?>
+                                            @endforeach
+                                        </div>
+                                    </div> --}}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Program :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                                <span>{{ ucwords($val->program_name) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Agensi Yang Dipohon :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                                <span>{{ ucwords($val->nama_agensi) }}</span>
+                                        </div>
+                                    </div>
 
-                                        @endforeach
-                                    </div>
-                                </div> --}}
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Program :</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                            <span>{{ ucwords($val->program_name) }}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Agensi Yang Dipohon :</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                            <span>{{ ucwords($val->nama_agensi) }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Subjek :</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                            <span>{{ $val->subjek }}</span>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Subjek :</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                                <span>{{ $val->subjek }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-body">
-                            {{-- <div class="form-group"> --}}
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-control-label" for="input-name">Tarikh Dihantar </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <span>:{{ date('d-m-Y', strtotime($val->created_at)) }}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-control-label" for="input-name">Status</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <?php 
-                                        if ($val->status == '1')
-                                            { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
-                                        else if ($val->status == '2')
-                                            { echo "<span class='badge badge-success'>Berjaya</span>"; }
-                                        else if ($val->status == '3')
-                                            { echo "<span class='badge badge-danger'>Ditolak</span>"; }
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @if (auth()->user()->can('update', App\Orgdata::class))
-                                        <div class="col text-center">
-                                                <a href="{{ route('orgdata.show', $val->id) }}" class="btn btn-info">
-                                                    <span class="btn-inner--text"><i class="fas fa-eye fa-2x"></i></span>
-                                                </a>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                {{-- <div class="form-group"> --}}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="input-name">Tarikh Dihantar </label>
                                         </div>
-                                    @endif
-                                    <div class="col text-center">
+                                        <div class="col-md-6">
+                                            <span>:{{ date('d-m-Y', strtotime($val->created_at)) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="input-name">Status</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php 
+                                            if ($val->status == '1')
+                                                { echo "<span class='badge badge-warning'>Dihantar</span>"; }  
+                                            else if ($val->status == '2')
+                                                { echo "<span class='badge badge-success'>Berjaya</span>"; }
+                                            else if ($val->status == '3')
+                                                { echo "<span class='badge badge-danger'>Ditolak</span>"; }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         @if (auth()->user()->can('update', App\Orgdata::class))
-                                            <a href="{{ route('orgdata.edit', $val->id) }}" class="btn btn-success">
-                                                <span class="btn-inner--text"><i class="fas fa-edit fa-2x"></i></span>
-                                            </a>
+                                            <div class="col text-center">
+                                                    <a href="{{ route('orgdata.show', $val->id) }}" class="btn btn-info btn-sm">
+                                                        <span class="btn-inner--text"><i class="fas fa-eye fa-2x"></i></span>
+                                                    </a>
+                                            </div>
                                         @endif
-                                    </div>
-                                    <div class="col text-center">
+                                        @if (auth()->user()->can('update', App\Orgdata::class))
+                                            <div class="col text-center">
+                                                    <a href="{{ route('orgdata.edit', $val->id) }}" class="btn btn-success btn-sm">
+                                                        <span class="btn-inner--text"><i class="fas fa-edit fa-2x"></i></span>
+                                                    </a>
+                                            </div>
+                                        @endif
                                         @if (auth()->user()->can('delete', App\Orgdata::class))
-                                            <form action="{{ route('orgdata.destroy', $val->id) }}" method="POST" onsubmit="return confirm('Padam Pemohonan ?');">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btn-danger">
-                                                    <span class="btn-inner--text"><i class="fas fa-trash fa-2x"></i></span>
-                                                </button>
-                                            </form>
+                                            <div class="col text-center">
+                                                <form action="{{ route('orgdata.destroy', $val->id) }}" method="POST" onsubmit="return confirm('Padam Pemohonan ?');">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btn-danger btn-sm">
+                                                        <span class="btn-inner--text"><i class="fas fa-trash fa-2x"></i></span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @endif
                                     </div>
-                                </div>
-                            {{-- </div> --}}
+                                {{-- </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
         @endforeach
         <div class="row text-center">

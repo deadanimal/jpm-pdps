@@ -29,6 +29,36 @@ class MediaController extends Controller
         $agensi_id = auth()->user()->agensi_id; 
         
         if($request->all() != []){
+
+            if($role_id == '3'){
+                $media = DB::table('media')
+                    ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    ->where([['media.created_by',$user_id],['media.jenis',$request->media]])
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }else if ($role_id == '2'){
+                $media = DB::table('media')
+                    ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    // ->where('media.agensi_id',$agensi_id)
+                    ->where([['media.created_by',$user_id],['media.jenis',$request->media]])
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }else if ($role_id == '1'){
+                $media = DB::table('media')
+                    ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                    ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                    ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                    // ->get();
+                    ->where('media.jenis',$request->media)
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }
         }else{
             if($role_id == '3'){
                 $media = DB::table('media')
@@ -194,6 +224,32 @@ class MediaController extends Controller
         ]);
     }
 
+    public function show($media)
+    {
+        $role_id = auth()->user()->role_id; 
+        // $media = Media::find($media);
+        $agensi = Agensi::all();
+        $program = Program::all();
+
+        $media_data = DB::table('media')
+        ->leftJoin('users', 'users.id', '=', 'media.created_by')
+        ->leftJoin('agensi', 'agensi.id', '=', 'users.agensi_id')
+        ->leftJoin('program', 'program.id', '=', 'media.program_id')
+        ->select( 'media.*', 
+                'users.name as user_name',
+                'program.nama as program_name',
+                'agensi.nama as nama_agensi')
+        ->where([['media.id',$media]])
+        ->first();
+
+        return view('media.view',[
+            'media'=>$media_data,
+            'program'=>$program,
+            'role_id'=>$role_id,
+            'agensi'=>$agensi
+        ]);
+    }
+
     public function update(MediaRequest $request, $media)
     {
         $userid = auth()->user()->id; 
@@ -227,7 +283,8 @@ class MediaController extends Controller
                 // get admin email
                 $media_data = Media::find($mid);
                 if($media_data->jenis == '2'){
-                    $program_data = Media::find($media_data->program_id);
+                    $program_data = Program::find($media_data->program_id);
+
                     $pnama = $program_data->nama;
                     $tajuk = '-';
                 }else{

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Request;
 use Mail;
 use App\JenisSubKategori; 
 use App\SubKategori; 
@@ -16,7 +15,6 @@ use App\Teras;
 use App\Kekerapan;
 use App\Manfaat;
 use App\User;
-use App\AuditTrail;
 use Carbon\Carbon;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
@@ -35,13 +33,6 @@ class ProgramController extends Controller
         // $program = $model->all();
 
         $this->authorize('manage-items', User::class);
-
-        $log = [
-            'task'=>'program',
-            'details'=>'Senarai Program',
-            'entity_id'=>'0'
-        ];
-        $this->log_audit_trail($log);
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
@@ -157,14 +148,6 @@ class ProgramController extends Controller
 
     public function create(ProgramRequest $request, Program $model)
     {
-        // save log
-        $log = [
-            'task'=>'program',
-            'details'=>'Halaman bina program baru',
-            'entity_id'=>'0'
-        ];
-        $this->log_audit_trail($log);
-
         $agensi_id = auth()->user()->agensi_id; 
         $role_id = auth()->user()->role_id; 
         $jenissubkat = JenisSubKategori::all();
@@ -275,6 +258,7 @@ class ProgramController extends Controller
                 }
             }
             
+
             if ($role_id != '1'){
                 // get admin email
                 $usernama = auth()->user()->name; 
@@ -314,14 +298,6 @@ class ProgramController extends Controller
                     $message->subject('Permohonan Program Baru');
                 });
             }
-            
-            // log
-            $log = [
-                'task'=>'program',
-                'details'=>'Simpan program baru',
-                'entity_id'=>$program->id
-            ];
-            $this->log_audit_trail($log);
 
         }
 
@@ -332,14 +308,6 @@ class ProgramController extends Controller
 
     public function edit($program)
     {
-        // log
-        $log = [
-            'task'=>'program',
-            'details'=>'Halaman Kemaskini program',
-            'entity_id'=>$program
-        ];
-        $this->log_audit_trail($log);
-
         $role_id = auth()->user()->role_id; 
         $agensi = Agensi::all();
         $program = Program::find($program);
@@ -383,7 +351,13 @@ class ProgramController extends Controller
             $jenis_sub_kategori_opt[$pm_data->sub_kategori_id][] = $pm_data->jenis_sub_kategori_id;
         }
 
+        // dd($jenis_sub_kategori_opt);
         $sub_kategori_opt = array_unique($sub_kategori_opt);
+        // print_r($sub_kategori_opt);
+        // die;
+
+        // dd($prog_master);
+
 
         return view('program.edit', [
             'subkat'=>$subkat,
@@ -405,14 +379,6 @@ class ProgramController extends Controller
 
     public function show($program)
     {
-        // log
-        $log = [
-            'task'=>'program',
-            'details'=>'Halaman lihat program',
-            'entity_id'=>$program
-        ];
-        $this->log_audit_trail($log);
-
         $agensi_id = auth()->user()->agensi_id; 
         $role_id = auth()->user()->role_id; 
         $jenissubkat = JenisSubKategori::all();
@@ -613,14 +579,6 @@ class ProgramController extends Controller
                     $message->subject('Status Pemohonan Program');
                 });
             }
-
-            // log
-            $log = [
-                'task'=>'program',
-                'details'=>'Halaman lihat program',
-                'entity_id'=>$pid
-            ];
-            $this->log_audit_trail($log);
         }
 
         // $program->update($request->all());
@@ -629,39 +587,10 @@ class ProgramController extends Controller
 
     public function destroy($id)
     {
-        // log
-        $log = [
-            'task'=>'program',
-            'details'=>'Padam Program',
-            'entity_id'=>$id
-        ];
-        $this->log_audit_trail($log);
-
         // $program = Program::where('id',$id)->delete();  // ni piun boleh
         $program = Program::find($id);
         $program->destroy($id);
         // return redirect()->route('program.index')->withStatus(__('program Berjaya Dipadam.'));
         return redirect()->route('program.index')->with('alert', 'Deleted!');
     }
-    
-    public function log_audit_trail($log){
-
-        $userid = auth()->user()->id; 
-        $role_id = auth()->user()->role_id; 
-        $agensi_id = auth()->user()->agensi_id; 
-        $ip_address = Request::ip();
-
-        $auditTrail = new AuditTrail;
-        $auditTrail->entity_id = $log['entity_id'];
-        $auditTrail->proses = $log['task'];
-        $auditTrail->keterangan_proses = $log['details'];
-        $auditTrail->ip_address = $ip_address;
-        $auditTrail->created_by = $userid;
-        // $auditTrail->created_at = now();
-        $auditTrail->updated_by = $userid;
-        // $auditTrail->updated_at = now();
-        $auditTrail->save();
-        
-        return $auditTrail;
-    } 
 }

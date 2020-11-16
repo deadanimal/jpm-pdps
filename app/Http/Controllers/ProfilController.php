@@ -66,10 +66,10 @@ class ProfilController extends Controller
             );
             // }
         }else{
-            $profil = '';
+            $profil = '-';
         }
 
-        return view('profil.index');
+        return view('profil.index',['profil'=>$profil,'nokp'=>'-']);
     }
 
     public function view($bantuan_id)

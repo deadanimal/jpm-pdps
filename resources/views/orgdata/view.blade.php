@@ -36,7 +36,7 @@
                             <?php if($role_id == '1'){ ?>
                             <div class="row pt-2 pb-2">
                                 <div class="col-md-4">Nama Agensi Pemohon</div>
-                                <div class="col-md-8">: {{ ucwords($agensi_pemohon->nama) }}</div>
+                                <div class="col-md-8">: {{ ($agensi_pemohon!=''?ucwords($agensi_pemohon):'admin') }}</div>
                             </div>
                             <?php } ?>
                             <div class="row pt-2 pb-2">

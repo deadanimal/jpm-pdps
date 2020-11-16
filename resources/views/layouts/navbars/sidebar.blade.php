@@ -17,7 +17,9 @@
                 <img src="{{ asset('argon') }}/img/google/jata-logo.png" width="100%">
             </a>
         </div> --}}
-        <div class="text-center"><a class="text-black nav-link-text">{{ auth()->user()->name }}</a></div>
+        <div class="text-center">
+            <a class="text-black nav-link-text nav-link">{{ auth()->user()->name }}</a>
+        </div>
         <hr style="width:100%;text-align:left;margin-left:0;height:3px;color:black">
         <div class="navbar-inner">
             <!-- Collapse -->
@@ -158,26 +160,20 @@
                         
                         <div class="hide" id="reporting">
                             <ul class="nav nav-sm">
-                                <li class="nav-item {{ $elementName == 'program-bantuan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.program_bantuan') }}" class="nav-link">{{ __('Program Bantuan') }}</a>
+                                <li class="nav-item {{ $elementName == 'laporan-program-bantuan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan-program-bantuan.index') }}" class="nav-link">{{ __('Program Bantuan') }}</a>
                                 </li>
-                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Penerima Program Bantuan') }}</a>
+                                <li class="nav-item {{ $elementName == 'laporan-senarai-program' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan-senarai-program.index') }}" class="nav-link">{{ __('senarai Program') }}</a>
                                 </li>
-                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Pengunjung Program') }}</a>
+                                <li class="nav-item {{ $elementName == 'laporan-penerima-program-bantuan' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan-penerima-program-bantuan.index') }}" class="nav-link">{{ __('Penerima Program Bantuan') }}</a>
                                 </li>
-                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Senarai Program') }}</a>
+                                <li class="nav-item {{ $elementName == 'laporan-penerima-program' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan-penerima-program.index') }}" class="nav-link">{{ __('Penerima Program') }}</a>
                                 </li>
-                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Penerima Program') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Pengunjung Program') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'laporan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan.index') }}" class="nav-link">{{ __('Keseluruhan Pengunjung') }}</a>
+                                <li class="nav-item {{ $elementName == 'laporan-jejak-audit' ?'' : 'active' }}">
+                                    <a href="{{ route('laporan-jejak-audit.index') }}" class="nav-link">{{ __('Jejak Audit') }}</a>
                                 </li>
                             </ul>
                         </div>

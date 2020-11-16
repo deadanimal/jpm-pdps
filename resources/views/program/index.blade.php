@@ -64,34 +64,34 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Nama Program :</label>
+                                        <label class="form-control-label" for="input-name">Nama Program</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <span>{{ ucwords($data->nama) }}</span>
+                                        <span>: {{ ucwords($data->nama) }}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Kategori :</label>
+                                        <label class="form-control-label" for="input-name">Kategori</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <span>{{ ucwords($data->nama_kategori) }}</span>
+                                        <span>: {{ ucwords($data->nama_kategori) }}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Manfaat :</label>
+                                        <label class="form-control-label" for="input-name">Manfaat</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <span>{{ ucwords($data->nama_manfaat) }}</span>
+                                        <span>: {{ ucwords($data->nama_manfaat) }}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class="form-control-label" for="input-name">Kekerapan :</label>
+                                        <label class="form-control-label" for="input-name">Kekerapan</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <span>{{ ucwords($data->nama_kekerapan) }}</span>
+                                        <span>: {{ ucwords($data->nama_kekerapan) }}</span>
                                     </div>
                                 </div>
                             </div>

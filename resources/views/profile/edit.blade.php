@@ -153,6 +153,16 @@
 
                                     @include('alerts.feedback', ['field' => 'email'])
                                 </div>
+                                <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Agensi') }}</label>
+                                    <select type="text" id="agensi_id" class="form-control" required name="agensi_id" autofocus>
+                                        <option selected="selected" value="0">Sila Pilih</option>
+                                        @foreach ($agensi as $agensi_no => $agensi_data)
+                                            <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                        @endforeach
+                                    </select>
+                                    @include('alerts.feedback', ['field' => 'agensi_id'])
+                                </div>
                                 <div class="form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Gambar Profil') }}</label>
                                     <div class="custom-file">

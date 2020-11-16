@@ -49,10 +49,40 @@
 
                                     @include('alerts.feedback', ['field' => 'email'])
                                 </div>
+
+                                <div class="form-group{{ $errors->has('ic_no') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('No Kad Pengenalan') }}</label>
+                                    <input type="number" name="ic_no" class="form-control{{ $errors->has('No Kad Pengenalan') ? ' is-invalid' : '' }}" placeholder="{{ __('No Kad Pengenalan') }}" value="{{ old('nric') }}" required>
+
+                                    @include('alerts.feedback', ['field' => 'ic_no'])
+                                </div>
+
+                                <div class="form-group{{ $errors->has('no_telepon') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('No Telepon') }}</label>
+                                    <input type="number" name="no_telepon" class="form-control{{ $errors->has('no_telepon') ? ' is-invalid' : '' }}" placeholder="{{ __('No Telepon') }}" value="{{ old('no_telepon') }}" required>
+
+                                    @include('alerts.feedback', ['field' => 'no_telepon'])
+                                </div>
+
+                                <div class="form-group{{ $errors->has('alamat') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Alamat') }}</label>
+                                    <input type="text" name="alamat" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" placeholder="{{ __('Alamat') }}" value="{{ old('alamat') }}" required>
+
+                                    @include('alerts.feedback', ['field' => 'alamat'])
+                                </div>
+
+                                <div class="form-group{{ $errors->has('jawatan') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Jawatan') }}</label>
+                                    <input type="text" name="jawatan" class="form-control{{ $errors->has('jawatan') ? ' is-invalid' : '' }}" placeholder="{{ __('Jawatan') }}" value="{{ old('jawatan') }}" required>
+
+                                    @include('alerts.feedback', ['field' => 'jawatan'])
+                                </div>
+                                
+
                                 <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-role">{{ __('Role') }}</label>
-                                    <select name="role_id" id="input-role" class="form-control{{ $errors->has('role_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Role') }}" required>
-                                        <option value="">-</option>
+                                    <select name="role_id" id="userrole" class="form-control{{ $errors->has('role_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Role') }}" required>
+                                        <option value="">Sila Pilih</option>
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}" {{ $role->id == old('role_id') ? 'selected' : '' }}>{{ $role->name }}</option>
                                         @endforeach
@@ -60,6 +90,29 @@
 
                                     @include('alerts.feedback', ['field' => 'role_id'])
                                 </div>
+
+                                <div id="usseragensi" class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Agensi') }}</label>
+                                    <select type="text" id="agensi_id" class="form-control" required name="agensi_id" autofocus>
+                                        <option selected="selected" value="0">Sila Pilih</option>
+                                        @foreach ($agensi as $agensi_no => $agensi_data)
+                                            <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                        @endforeach
+                                    </select>
+                                    @include('alerts.feedback', ['field' => 'agensi_id'])
+                                </div>
+
+                                <div class="form-group{{ $errors->has('negeri_id') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-role">{{ __('Negeri') }}</label>
+                                    <select name="negeri_id" id="negeri_id" class="form-control{{ $errors->has('negeri_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Negeri') }}" required>
+                                        <option value="">Sila Pilih</option>
+                                        @foreach ($negeri as $negeri_val)
+                                            <option value="{{ $negeri_val->id }}" {{ $negeri_val->id == old('negeri_id') ? 'selected' : '' }}>{{ $negeri_val->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    @include('alerts.feedback', ['field' => 'negeri_id'])
+                                </div>
+
                                 <div class="form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Profile photo') }}</label>
                                     <div class="custom-file">
@@ -92,4 +145,18 @@
 
         @include('layouts.footers.auth')
     </div>
+    <script>
+    
+    $(document).ready(function() {
+        $("#userrole").change(function () {
+            console.log( $(this).val() );
+            
+            if($(this).val() != '1'){
+                $("#usseragensi").show();
+            }else{
+                $("#usseragensi").hide();
+            }
+        });
+    });
+    </script>
 @endsection

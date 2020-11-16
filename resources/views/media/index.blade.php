@@ -20,26 +20,43 @@
     @endcomponent
 
     <div class="container-fluid mt--6">
+
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
+                {{-- <div class="card">
+                    <div class="card-header"> --}}
                         <div class="row align-items-center">
-                            <div class="col-8">
-                                <h3 class="mb-0 text-dark">{{ __('Senarai Banner & Berita') }}</h3>
-                                <p class="text-sm mb-0">
-                                    <!-- {{ __('This is an example of item management. This is a minimal setup in order to get started fast.') }} -->
-                                </p>
+                            <div class="col-12">
+                                <h3 class="text-dark">{{ __('Senarai Banner & Berita') }}</h3>
                             </div>
-                            @if (auth()->user()->can('create', App\Media::class))
-                                <div class="col-4 text-right">
-                                    <a href="{{ route('media.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Banner & Berita') }}</a>
+                        </div>
+                        <div class="row align-items-center">
+                            @if (auth()->user()->can('create', App\Program::class))
+                                <div class="col-12 text-right">
+                                        <form method="get" class="item-form" action="{{ route('media.index') }}" autocomplete="off" enctype="multipart/form-data">
+                                        @csrf
+                                            <div class="form-group">
+                                                <select type="text" placeholder="Subjek" name="media">
+                                                    <option value="1">Berita</option>
+                                                    <option value="2">Banner</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-sm btn-default">{{ __('Cari') }}</button>
+                                                <a href="{{ route('media.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Banner/Berita') }}</a>
+                                            </div>
+                                        </form>
                                 </div>
                             @endif
                         </div>
+                    {{-- </div> --}}
+
+                    <div class="col-12 mt-2">
+                        @include('alerts.success')
+                        @include('alerts.errors')
                     </div>
-                    
-                </div>
+                    {{-- <div class="card-body"> --}}
+                        
+                    {{-- </div> --}}
+                {{-- </div> --}}
             </div>
         </div>
 
@@ -132,24 +149,29 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 text-right">
-                                        @if (auth()->user()->can('update', App\Media::class))
+                                    @if (auth()->user()->can('update', App\Media::class))
+                                        <div class="col text-center">
+                                                <a href="{{ route('media.show', $media->id) }}" class="btn btn-info btn-sm">
+                                                    <span class="btn-inner--text"><i class="fas fa-eye fa-2x"></i></span>
+                                                </a>
+                                        </div>
+                                        <div class="col text-center">
                                             <a href="{{ route('media.edit', $media->id) }}" class="btn btn-success btn-sm">
-                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
+                                                <span class="btn-inner--text"><i class="fas fa-edit fa-2x"></i></span>
                                             </a>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6 text-left">
-                                        @if (auth()->user()->can('delete', App\Media::class))
+                                        </div>
+                                    @endif
+                                    @if (auth()->user()->can('delete', App\Media::class))
+                                        <div class="col text-center">
                                             <form action="{{ route('media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Padam Banner/Berita ?');">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                                 <button class="btn btn-danger btn-sm">
-                                                    <span class="btn-inner--text"><i class="fas fa-trash"></i></span>
+                                                    <span class="btn-inner--text"><i class="fas fa-trash fa-2x"></i></span>
                                                 </button>
                                             </form>
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                             {{-- </div> --}}
                         </div>

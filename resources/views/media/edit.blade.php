@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" class="item-form"  action="{{ route('media.update', $media) }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return ValidationEventForm()">
+                        <form method="post" class="item-form"  action="{{ route('media.update', $media) }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Kemaskini Banner/Berita ?');">
                             @csrf
                             @method('put')
 
@@ -52,6 +52,7 @@
                                                     }
                                                 } ?>
                                             </select>
+                                            <input type="hidden" value="{{$media->agensi_id}}">
                                             <p class="text-red" id="err_agensi_id"></p>
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
@@ -63,6 +64,7 @@
                                             <div class="form-group{{ $errors->has('program') ? ' has-danger' : '' }}">
                                                 <label class="form-control-label">{{ __('Program') }} <span class="text-red">*</span></label>
                                                 <select type="text" id="program_id" class="form-control" name="program_id" required autofocus>
+                                                    <option selected="selected" value="0">Sila Pilih</option>
                                                     <?php 
                                                     foreach ($program as $program_no => $program_data){ 
                                                         if($program_data->id == $media->program_id){
@@ -126,8 +128,8 @@
                                         {{-- gambar --}}
                                             <div class="form-group{{ $errors->has('gambar') ? ' has-danger' : '' }}">
                                                 <label style="padding-right:50px" class="form-control-label">{{ __('Banner') }} <span class="text-red">*</span></label>
-                                                {{-- <img src='/storage/{{$media->gambar}}' alt='qq' style='max-width: 50px;height:50px;'> --}}
-                                                <input type="file" name="photo" id="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" placeholder="{{ __('Gambar') }}" value="{{ old('gambar',$media->gambar) }}" autofocus>
+                                                <img src='/storage/{{$media->gambar}}' alt='qq' style='max-width: 50px;height:50px;'>
+                                                {{-- <input type="file" name="photo" id="photo" class="form-control{{ $errors->has('gambar') ? ' is-invalid' : '' }}" placeholder="{{ __('Gambar') }}" value="{{ old('gambar',$media->gambar) }}" autofocus> --}}
                                                 <p class="text-red" id="err_photo"></p>
                                                 @include('alerts.feedback', ['field' => 'photo'])
                                             </div>
@@ -149,11 +151,13 @@
                                             </div>
                                         </div>
                                     <?php } ?>
-
-                                <div class="text-center">
-                                    <input type="hidden" name="jenis" value="{{$media->jenis}}" />
-                                    <button type="submit" class="btn btn-default">Simpan</button>
-                                    {{-- <button type="submit" class="btn btn-success mt-4">{{ __('Simpan') }}</button> --}}
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <input type="hidden" name="jenis" value="{{$media->jenis}}" />
+                                        <button type="submit" class="btn btn-default" onclick="return mediaValidationEvent()">Simpan</button>
+                                        {{-- <button type="submit" class="btn btn-success mt-4">{{ __('Simpan') }}</button> --}}
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -166,65 +170,64 @@
     </div>
     <script>
         // Below Function Executes On Form Submit
-        function ValidationEventForm() {
-
+        function mediaValidationEvent() {
             // Storing Field Values In Variables
-            var jenis = document.getElementById("jenis").value;
-            var tajuk = document.getElementById("tajuk").value;
-            // var program_id = document.getElementById("program_id").value;
-            // var keterangan = document.getElementById("keterangan").value;
-            // var tarikh_mula = document.getElementById("tarikh_mula").value;
-            // var tarikh_tamat = document.getElementById("tarikh_tamat").value;
-            // var photo = document.getElementById("photo").value;
+            var jenis = <?php echo $media->jenis; ?>;
+            var agensi_id = document.getElementById("agensi_id").value;
+            var tarikh_mula = document.getElementById("tarikh_mula").value;
+            var tarikh_tamat = document.getElementById("tarikh_tamat").value;
+            
+        
+            // alert(tarikh_mula);
+            // alert(tarikh_tamat);
 
-            alert(jenis);
+            // Conditions
 
             // check if it is banner/berita
-            // if (jenis == '2') {
-                // if(program_id == '0'){
-                //     text = "Sila Pilih program";
-                //     document.getElementById("err_program_id").innerHTML = text;
-                //     return false;
-                // }
-            // }
-            // if (jenis == '1') {
-                // if (tajuk == '') {
-                //     text = "Sila Isi tajuk";
-                //     document.getElementById("err_tajuk").innerHTML = text;
-                //     return false;
-                // }
-            // }
-            // if (jenis == '1') {
-            //     if (keterangan == '') {
-            //         text = "Sila Isi keterangan";
-            //         document.getElementById("err_keterangan").innerHTML = text;
-            //         return false;
-            //     }
-            // }
+            if (jenis == '2') {
 
-            // if (tarikh_mula == '') {
-            //     text = "Sila Isi tarikh mula";
-            //     document.getElementById("err_tarikh_mula").innerHTML = text;
-            //     return false;
-            // }
+                var program_id = document.getElementById("program_id").value;
 
-            // if (tarikh_tamat == '') {
-            //     text = "Sila Isi tarikh tamat";
-            //     document.getElementById("err_tarikh_tamat").innerHTML = text;
-            //     return false;
-            // }
-            // if (jenis == '2') {
-            //     if (photo == '') {
-            //         text = "Sila Pilih Photo";
-            //         document.getElementById("err_photo").innerHTML = text;
-            //         return false;
-            //     }
-            // }
+                if(program_id == '0'){
+                    text = "Sila Pilih program";
+                    document.getElementById("err_program_id").innerHTML = text;
+                    return false;
+                }
+            }
+            if (jenis == '1') {
+
+                var tajuk = document.getElementById("tajuk").value;
+                var keterangan = document.getElementById("keterangan").value;
+
+                if (tajuk == '') {
+                    text = "Sila Isi tajuk";
+                    document.getElementById("err_tajuk").innerHTML = text;
+                    return false;
+                }
+
+                if (keterangan == '') {
+                    text = "Sila Isi keterangan";
+                    document.getElementById("err_keterangan").innerHTML = text;
+                    return false;
+                }
+            }
+
+            if (tarikh_mula == '') {
+                text = "Sila Isi tarikh mula";
+                document.getElementById("err_tarikh_mula").innerHTML = text;
+                return false;
+            }
+
+            if (tarikh_tamat == '') {
+                text = "Sila Isi tarikh tamat";
+                document.getElementById("err_tarikh_tamat").innerHTML = text;
+                return false;
+            }
             
-            // return true
+            return true;
             // else {
                 // alert("All fields are required.....!");
-                return false;
+                // return false;
             // }
             
         }

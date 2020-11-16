@@ -21,7 +21,14 @@ class User extends Authenticatable
         'password',
         'picture',
         'role_id',
-        'agensi_id'
+        'negeri_id',
+        'no_telepon',
+        'alamat',
+        'jawatan',
+        'nric',
+        'agensi_id',
+        'created_by',
+        'updated_by'
     ];
 
     /**
@@ -54,7 +61,7 @@ class User extends Authenticatable
             return "/storage/{$this->picture}";
         }
 
-        return 'http://i.pravatar.cc/200';
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6N4vGCUaa3tOlRA98UJZEpDAIqB_OyjhwJg&usqp=CAU';
     }
 
     /**

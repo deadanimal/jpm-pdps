@@ -36,11 +36,12 @@
                             @csrf
                                 <div class="row bg-transparent">
                                     <div class="col-md-10">
-                                        <input class="form-control" name="no_kp" placeholder="Masukkan No. Kad Pengenalan Pemohon" type="number" {{ $val }}>
-                                        <span class="text-sm">Contoh : 621027095057, 691009095081, 650828045167</span>
+                                        <input class="form-control" name="no_kp" id="no_kp" placeholder="Masukkan No. Kad Pengenalan Pemohon" type="number" {{ $val }}>
+                                        <span class="text-sm">Contoh : 621027095057, 691009095081, 650828045167</span><br/>
+                                        <p class="text-red" id="err_no_kp"></p>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="submit" class="btn btn-default">{{ __('Cari') }}</button>
+                                        <button type="submit" class="btn btn-default" onclick="return orgdataValidationEvent()">{{ __('Cari') }}</button>
                                     </div>
                                 </div>
                         </form>
@@ -49,7 +50,8 @@
         </div>
         <?php
             $no = 1; 
-            if(!empty($profil)){ ?>
+            if($profil != '-' && $profil != [] ){ 
+        ?>
         {{-- <div class="row">
             <div class="col"> --}}
                 {{-- <div class="card">
@@ -126,10 +128,43 @@
                 </div>
             {{-- </div>
         </div> --}}
-        <?php } ?>
+        <?php 
+            }else{  
+                if($nokp != '-'){
+        ?>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3>No Kad Pengenalan Tidak Wujud</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php }} ?>
             
         @include('layouts.footers.auth')
     </div>
+
+    <script>
+        // Below Function Executes On Form Submit
+        function orgdataValidationEvent() {
+            // Storing Field Values In Variables
+            var no_kp = document.getElementById("no_kp").value;
+            if (no_kp.length != 12) {
+                text = "Sila isi nombor kad pengenalan yang sah";
+                document.getElementById("err_no_kp").innerHTML = text;
+                return false;
+            }
+            
+            return true;
+            // return false;
+            // else {
+                // alert("All fields are required.....!");
+            // }
+            
+        }
+    </script>
 @endsection
 
 @push('css')

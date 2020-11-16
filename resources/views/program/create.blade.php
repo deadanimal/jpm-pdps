@@ -32,7 +32,7 @@
                     </div>
                     <div class="card-body">
                         
-                        <form method="post" name="myform" class="item-form" action="{{ route('program.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return checkForm(this);">
+                        <form method="post" name="myform" class="item-form" action="{{ route('program.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Tambah Pemohonan ?');">
                             @csrf
 
                             {{-- <h6 class="heading-small text-muted mb-4">{{ __('Item information') }}</h6> --}}
@@ -227,7 +227,7 @@
                                     
                                     {{-- sebab tidak aktif --}}
                                     <div class="col-md-6" style="display: none ;" id="sebabxaktif">
-                                        <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
+                                        <div class="form-group{{ $errors->has('Sebab Tidak Aktif') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Sebab Tidak Aktif') }} <span class="text-red">*</span></label>
                                             <textarea rows="3" type="text" name="sebab_tidak_aktif" id="sebab_tidak_aktif" class="form-control{{ $errors->has('sebab_tidak_aktif') ? ' is-invalid' : '' }}" placeholder="{{ __('Sebab TIdak Aktif') }}"  autofocus></textarea>
                                             <p class="text-red" id="err_sebab_tidak_aktif"></p>
@@ -255,11 +255,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <?php if($role_id == '1'){ ?>
                                         <button class="btn btn-default" onclick="return programValidationEvent()">Simpan</button>
-                                    <?php }else{ ?>
-                                        <button class="btn btn-default" onclick="return programValidationEvent()">Simpan</button>
-                                    <?php } ?>
                                 </div>
                             </div>
                         </form>
@@ -463,7 +459,7 @@
             html = '<div class="row">';
             html += '<div class="col-md-6">';
             html += '<div class="form-group">';
-            html += '<label class="form-control-label">Sub Kategori '+ count +' <span class="text-red">*</span></label>';
+            html += '<label class="form-control-label">Sub Kategori '+ count +' </label>';
             html += '<select type="text" class="form-control kategoriId" name="sub_kategori_id[]" id="sub_kategori_id" autofocus>';
             html += '<option selected="selected" value="0">Sila Pilih</option>';
             
@@ -477,7 +473,7 @@
             html += '</div>';
             html += '<div class="col-md-5">';
             html += '<div class="form-group">';
-            html += '<label class="form-control-label">Sub Kategori '+ count +' <span class="text-red">*</span></label>';
+            html += '<label class="form-control-label">Sub Kategori '+ count +'</label>';
             html += '<select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat'+count+' select2 select-multiple" data-toggle="select" multiple="multiple" >';
 
             html += '</select>';

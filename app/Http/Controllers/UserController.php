@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Role;
+use App\Negeri;
 use App\User;
+use App\Agensi;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 
@@ -23,7 +25,6 @@ class UserController extends Controller
     public function index(User $model)
     {
         $this->authorize('manage-users', User::class);
-
         return view('users.index', ['users' => $model->with('role')->get()]);
     }
 
@@ -35,7 +36,11 @@ class UserController extends Controller
      */
     public function create(Role $model)
     {
-        return view('users.create', ['roles' => $model->get(['id', 'name'])]);
+        $negeri = Negeri::all();
+        $agensi = Agensi::all();
+        return view('users.create', [ 
+            'roles' => $model->get(['id', 'name']),'agensi'=>$agensi,'negeri'=>$negeri
+        ]);
     }
 
     /**
@@ -47,7 +52,19 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
+        // dd($request->all());
         $model->create($request->merge([
+            'name'=> $request->name,
+            'email'=> $request->email,
+            'nric'=> $request->ic_no,
+            'no_telepon'=> $request->no_telepon,
+            'alamat'=> $request->alamat,
+            'jawatan'=> $request->jawatan,
+            'role_id'=> $request->role_id,
+            'negeri_id'=> $request->negeri_id,
+            'agensi_id'=> $request->agensi_id,
+            'created_by'=> auth()->user()->id,
+            'updated_by'=> auth()->user()->id,
             'picture' => $request->photo ? $request->photo->store('profile', 'public') : null,
             'password' => Hash::make($request->get('password'))
         ])->all());

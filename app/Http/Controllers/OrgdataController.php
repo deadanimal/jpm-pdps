@@ -20,13 +20,51 @@ class OrgdataController extends Controller
         // $this->authorizeResource(Orgdata::class);
     }
 
-    public function index(Orgdata $model)
+    public function index(OrgdataRequest $request,Orgdata $model)
     {
         $this->authorize('manage-items', User::class);
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id;
         $agensi = Agensi::all();
+
+        if($request->all() != []){
+
+            if($role_id == '3'){
+                $permitaandata = DB::table('permintaan_data')
+                    ->leftjoin('users', 'users.id', '=', 'permintaan_data.created_by')
+                    ->leftjoin('program', 'program.id', '=', 'permintaan_data.program_id')
+                    ->leftjoin('agensi', 'agensi.id', '=', 'permintaan_data.agensi_id')
+                    ->select('permintaan_data.*', 'users.name as user_name','program.nama as program_name','agensi.nama as nama_agensi')
+                    ->where([['permintaan_data.created_by',$user_id],['permintaan_data.subjek','like','%'.$request->subjek.'%']])
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }else if ($role_id == '2'){
+                $permitaandata = DB::table('permintaan_data')
+                    ->leftjoin('users', 'users.id', '=', 'permintaan_data.created_by')
+                    ->leftjoin('program', 'program.id', '=', 'permintaan_data.program_id')
+                    ->leftjoin('agensi', 'agensi.id', '=', 'permintaan_data.agensi_id')
+                    ->select('permintaan_data.*', 'users.name as user_name','program.nama as program_name','agensi.nama as nama_agensi')
+                    // ->where('permintaan_data.agensi_id',$agensi_id)
+                    ->where([['permintaan_data.created_by',$user_id],['permintaan_data.subjek','like','%'.$request->subjek.'%']])
+                    // ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }else if ($role_id == '1'){
+                $permitaandata = DB::table('permintaan_data')
+                    ->leftjoin('users', 'users.id', '=', 'permintaan_data.created_by')
+                    ->leftjoin('program', 'program.id', '=', 'permintaan_data.program_id')
+                    ->leftjoin('agensi', 'agensi.id', '=', 'permintaan_data.agensi_id')
+                    ->select( 'permintaan_data.*', 'users.name as user_name','program.nama as program_name','agensi.nama as nama_agensi')
+                    // ->get();
+                    ->where('permintaan_data.subjek','like','%'.$request->subjek.'%')
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+            }
+
+            return view('orgdata.index', ['orgdata' => $permitaandata,'agensidata'=>$agensi,'agensi_id'=>$agensi_id]);
+        }
 
         if($role_id == '3'){
             $permitaandata = DB::table('permintaan_data')
@@ -74,16 +112,28 @@ class OrgdataController extends Controller
 
             // dd($permitaandata);
 
-        return view('orgdata.index', ['orgdata' => $permitaandata,'agensidata'=>$agensi,'agensi_id'=>$agensi_id]);
+        return view('orgdata.index', [
+                'orgdata' => $permitaandata,
+                'agensidata'=>$agensi,
+                'agensi_id'=>$agensi_id
+                ]);
     }
 
     public function create(OrgdataRequest $request, Orgdata $model)
     {
 
+        $user_id = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id;
         $program = Program::all();
         $agensi = Agensi::all();
 
-        return view('orgdata.create', ['program'=>$program,'agensi'=>$agensi]);
+        return view('orgdata.create', [
+            'program'=>$program,
+            'agensi'=>$agensi,
+            'agensi_id'=>$agensi_id,
+            'role_id'=>$role_id
+        ]);
         // return view('orgdata.create');
 
         // $model->create($request->all());
@@ -184,13 +234,19 @@ class OrgdataController extends Controller
                             'agensi.nama as nama_agensi','users.agensi_id as agensi_pemohon_id')
                     ->where('permintaan_data.id','=',$orgdata)
                     ->first();
-        // dd($orgdata);
+        // dd($orgdata_detail);
         // $program = Program::find($orgdata->program_id);
         // $agensi_dipohon = Agensi::find($orgdata->agensi_id);
         // $user = User::find($orgdata->created_by);
         // echo $orgdata_detail->agensi_pemohon_id;
         // die;
-        $agensi_pemohon = Agensi::find($orgdata_detail->agensi_pemohon_id);
+        
+        if($orgdata_detail->agensi_pemohon_id != '0'){
+            $agensi_pemohon = Agensi::find($orgdata_detail->agensi_pemohon_id);
+            $agensi_pemohon = $agensi_pemohon->nama;
+        }else{
+            $agensi_pemohon = $orgdata_detail->user_name;
+        }
         // echo $orgdata->agensi_id." ".$user->agensi_id;
         // dd($agensi_pemohon);
         return view('orgdata.view', [

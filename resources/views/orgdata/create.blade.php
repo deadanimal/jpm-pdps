@@ -40,12 +40,15 @@
                                 {{-- agensi --}}
                                 <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Pemohonan data kepada agensi') }} <span class="text-red">*</span></label>
+                                    
                                     <select type="text" id="agensi_id" class="form-control" name="agensi_id" autofocus>
                                         <option selected="selected" value="0">Sila Pilih</option>
                                         @foreach ($agensi as $agensi_no => $agensi_data)
-                                            <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                                <option class="form-control" value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
                                         @endforeach
                                     </select>
+                                    
+                                    {{-- </select> --}}
                                     <p class="text-red" id="err_orgdata_agensi_id"></p>
                                 </div>
 
@@ -86,17 +89,17 @@
         // Below Function Executes On Form Submit
         function orgdataValidationEvent() {
             // Storing Field Values In Variables
-            var agensi_id = document.getElementById("agensi_id").value;
+            // var agensi_id = document.getElementById("agensi_id").value;
             var program_id = document.getElementById("program_id").value;
             var subjek = document.getElementById("subjek").value;
             
             // Conditions
 
-            if (agensi_id == '0') {
-                text = "Sila pilih agensi";
-                document.getElementById("err_orgdata_agensi_id").innerHTML = text;
-                return false;
-            }
+            // if (agensi_id == '0') {
+            //     text = "Sila pilih agensi";
+            //     document.getElementById("err_orgdata_agensi_id").innerHTML = text;
+            //     return false;
+            // }
         
             if (program_id == '0') {
                 text = "Sila pilih program";

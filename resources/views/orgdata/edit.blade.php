@@ -41,7 +41,8 @@
                                 {{-- agensi --}}
                                 <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Pemohonan data kepada agensi') }}</label>
-                                    <select {{ ($role_id == '1' ? 'disabled':'' ) }} type="text" id="setactive-links" class="form-control" name="agensi_id" value="{{ old('agensi_id', $orgdata->agensi_id) }}" autofocus>
+                                    <?php if($role_id == '1'){ ?>
+                                    <select  disabled type="text" id="agensi_id" class="form-control" name="agensi_id" value="{{ old('agensi_id', $orgdata->agensi_id) }}" autofocus>
                                         <?php 
                                         foreach ($agensi as $agensi_no => $agensi_data){ 
                                             if($agensi_data->id == $orgdata->agensi_id){
@@ -51,14 +52,27 @@
                                             }
                                         } ?>
                                     </select>
-
+                                    <input type="hidden" value="{{$orgdata->agensi_id}}" name="agensi_id" />
+                                    <?php }else{ ?>
+                                        <select type="text" id="agensi_id" class="form-control" name="agensi_id" value="{{ old('agensi_id', $orgdata->agensi_id) }}" autofocus>
+                                            <?php 
+                                            foreach ($agensi as $agensi_no => $agensi_data){ 
+                                                if($agensi_data->id == $orgdata->agensi_id){
+                                                    echo "<option selected value='$agensi_data->id'>$agensi_data->nama</option>";
+                                                }else{
+                                                    echo "<option value='$agensi_data->id'>$agensi_data->nama</option>";
+                                                }
+                                            } ?>
+                                        </select>
+                                    <?php } ?>
+                                    <p class="text-red" id="err_agensi_id"></p>
                                     @include('alerts.feedback', ['field' => 'agensi_id'])
                                 </div>
 
                                 {{-- program --}}
                                 <div class="form-group{{ $errors->has('program') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Program') }}</label>
-                                    <select {{ ($role_id == '1' ? 'disabled':'' ) }} type="text" id="setactive-links" class="form-control" name="program_id" value="{{ old('program_id', $orgdata->program_id) }}" autofocus>
+                                    <select {{ ($role_id == '1' ? 'disabled':'' ) }} type="text" id="program_id" class="form-control" name="program_id" value="{{ old('program_id', $orgdata->program_id) }}" autofocus>
                                         <?php 
                                         foreach ($program as $program_no => $program_data){ 
                                             if($program_data->id == $orgdata->program_id){
@@ -68,13 +82,15 @@
                                             }
                                         } ?>
                                     </select>
+                                    <p class="text-red" id="err_program_id"></p>
 
                                     @include('alerts.feedback', ['field' => 'program_id'])
                                 </div>
 
                                 <div class="form-group{{ $errors->has('subjek') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Subjek') }}</label>
-                                    <input {{ ($role_id == '1' ? 'disabled':'' ) }} type="text" name="subjek" class="form-control{{ $errors->has('subjek') ? ' is-invalid' : '' }}" placeholder="{{ __('Subjek') }}" value="{{ old('subjek', $orgdata->subjek) }}" autofocus />
+                                    <input {{ ($role_id == '1' ? 'disabled':'' ) }} id="subjek" type="text" name="subjek" class="form-control{{ $errors->has('subjek') ? ' is-invalid' : '' }}" placeholder="{{ __('Subjek') }}" value="{{ old('subjek', $orgdata->subjek) }}" autofocus />
+                                    <p class="text-red" id="err_subjek"></p>
                                     @include('alerts.feedback', ['field' => 'subjek'])
                                 </div>
 
@@ -94,7 +110,7 @@
                                 <?php } ?>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4" data-toggle="sweet-alert" data-sweet-alert="success">{{ __('Simpan') }}</button>
+                                    <button type="submit" onclick="return orgdataValidationEvent()" class="btn btn-success mt-4">{{ __('Simpan') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -105,6 +121,42 @@
         
         @include('layouts.footers.auth')
     </div>
+    <script>
+        // Below Function Executes On Form Submit
+        function orgdataValidationEvent() {
+            // Storing Field Values In Variables
+            var agensi_id = document.getElementById("agensi_id").value;
+            var program_id = document.getElementById("program_id").value;
+            var subjek = document.getElementById("subjek").value;
+            
+            // Conditions
+
+            if (agensi_id == '0') {
+                text = "Sila pilih agensi";
+                document.getElementById("err_orgdata_agensi_id").innerHTML = text;
+                return false;
+            }
+        
+            if (program_id == '0') {
+                text = "Sila pilih program";
+                document.getElementById("err_program_id").innerHTML = text;
+                return false;
+            }
+
+            if (subjek == '') {
+                text = "Sila isi subjek";
+                document.getElementById("err_subjek").innerHTML = text;
+                return false;
+            }
+            
+            return true
+            // return false;
+            // else {
+                // alert("All fields are required.....!");
+            // }
+            
+        }
+    </script>
     <script>
         (function($) {
         "use strict";

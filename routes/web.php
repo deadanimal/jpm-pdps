@@ -55,6 +55,36 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('laporan/penerima-program-bantuan', 'LaporanController@penerima_program_bantuan')->name('laporan.penerima_program_bantuan');
 	Route::get('laporan/excel', 'LaporanController@excel')->name('laporan.excel');
 
+	Route::get('laporan-program-bantuan', 'LaporanProgramBantuanController@index')->name('laporan-program-bantuan.index');
+	Route::get('laporan-program-bantuan/excel/{program_id}/{agensi_id}', 'LaporanProgramBantuanController@excel')->name('laporan-program-bantuan.excel');
+	Route::get('laporan-program-bantuan/viewpdf', 'LaporanProgramBantuanController@viewpdf')->name('laporan-program-bantuan.viewpdf');
+	Route::get('laporan-program-bantuan/exportPdf/{program_id}/{agensi_id}', 'LaporanProgramBantuanController@exportPdf')->name('laporan-program-bantuan.exportPdf');
+	Route::get('laporan-program-bantuan/view/{icno}', 'LaporanProgramBantuanController@view')->name('laporan-program-bantuan.view');
+
+	Route::get('laporan-senarai-program', 'LaporanSenaraiProgramController@index')->name('laporan-senarai-program.index');
+	Route::get('laporan-senarai-program/excel/{program_id}/{agensi_id}', 'LaporanSenaraiProgramController@excel')->name('laporan-senarai-program.excel');
+	Route::get('laporan-senarai-program/viewpdf', 'LaporanSenaraiProgramController@viewpdf')->name('laporan-senarai-program.viewpdf');
+	Route::get('laporan-senarai-program/exportPdf/{program_id}/{agensi_id}', 'LaporanSenaraiProgramController@exportPdf')->name('laporan-senarai-program.exportPdf');
+	Route::get('laporan-senarai-program/view/{icno}', 'LaporanSenaraiProgramController@view')->name('laporan-senarai-program.view');
+
+	Route::get('laporan-penerima-program-bantuan', 'LaporanPenerimaProgramBantuanController@index')->name('laporan-penerima-program-bantuan.index');
+	Route::get('laporan-penerima-program-bantuan/excel/{program_id}/{agensi_id}', 'LaporanPenerimaProgramBantuanController@excel')->name('laporan-penerima-program-bantuan.excel');
+	Route::get('laporan-penerima-program-bantuan/viewpdf', 'LaporanPenerimaProgramBantuanController@viewpdf')->name('laporan-penerima-program-bantuan.viewpdf');
+	Route::get('laporan-penerima-program-bantuan/exportPdf/{program_id}/{agensi_id}', 'LaporanPenerimaProgramBantuanController@exportPdf')->name('laporan-penerima-program-bantuan.exportPdf');
+	Route::get('laporan-penerima-program-bantuan/view/{icno}', 'LaporanPenerimaProgramBantuanController@view')->name('laporan-penerima-program-bantuan.view');
+
+	Route::get('laporan-penerima-program', 'LaporanPenerimaProgramController@index')->name('laporan-penerima-program.index');
+	Route::get('laporan-penerima-program/excel/{program_id}/{agensi_id}', 'LaporanPenerimaProgramController@excel')->name('laporan-penerima-program.excel');
+	Route::get('laporan-penerima-program/viewpdf', 'LaporanPenerimaProgramController@viewpdf')->name('laporan-penerima-program.viewpdf');
+	Route::get('laporan-penerima-program/exportPdf/{program_id}/{agensi_id}', 'LaporanPenerimaProgramController@exportPdf')->name('laporan-penerima-program.exportPdf');
+	Route::get('laporan-penerima-program/view/{icno}', 'LaporanPenerimaProgramController@view')->name('laporan-penerima-program.view');
+
+	Route::get('laporan-jejak-audit', 'LaporanJejakAuditController@index')->name('laporan-jejak-audit.index');
+	Route::get('laporan-jejak-audit/excel/{program_id}/{agensi_id}', 'LaporanJejakAuditController@excel')->name('laporan-jejak-audit.excel');
+	Route::get('laporan-jejak-audit/viewpdf', 'LaporanJejakAuditController@viewpdf')->name('laporan-jejak-audit.viewpdf');
+	Route::get('laporan-jejak-audit/exportPdf/{program_id}/{agensi_id}', 'LaporanJejakAuditController@exportPdf')->name('laporan-jejak-audit.exportPdf');
+	Route::get('laporan-jejak-audit/view/{icno}', 'LaporanJejakAuditController@view')->name('laporan-jejak-audit.view');
+	
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
