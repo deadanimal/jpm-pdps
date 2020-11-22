@@ -6,7 +6,7 @@ use Gate;
 use App\Profil;
 use App\Program;
 use App\Agensi;
-use App\AuditTrail;
+use App\AuditTrailPortal;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +18,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Excel;
 use PDF;
 
-class LaporanJejakAuditController extends Controller
+class LaporanPengunjungPortalController extends Controller
 {
     public function __construct()
     {
@@ -41,13 +41,12 @@ class LaporanJejakAuditController extends Controller
 
                 $mysql = "select *,audit_trail.created_at as audit_created  from audit_trail
                 left join users on audit_trail.created_by = users.id
-                where audit_trail.created_at between '".$request->tarikh_mula."' and '".$request->tarikh_tamat."' 
-                order by audit_trail.id desc";
+                where audit_trail.created_at between '".$request->tarikh_mula."' and '".$request->tarikh_tamat."'";
                 //" where ".$prog_sql.$agensi_sql;
                 $laporan = DB::select($mysql);
             }
 
-            return view('laporan-jejak-audit.index', [
+            return view('laporan-pengunjung-portal.index', [
                 'laporan' => $laporan,
                 'agensi'=>$agensi,
                 'program'=>$program,
@@ -59,7 +58,7 @@ class LaporanJejakAuditController extends Controller
         $tarikh_mula = '00';
         $tarikh_tamat = '00';
 
-        return view('laporan-jejak-audit.index',[
+        return view('laporan-pengunjung-portal.index',[
             'agensi'=>$agensi,
             'program'=>$program,
             'tarikh_mula'=>$tarikh_mula,
@@ -70,8 +69,7 @@ class LaporanJejakAuditController extends Controller
     public function excel($tarikh_mula,$tarikh_tamat){
 
         $mysql = "select users.name as username, users.email as email,
-        audit_trail.created_at as audit_created, audit_trail.ip_address as alamat_ip,
-        audit_trail.proses as proses, 
+        audit_trail.created_at as audit_created, audit_trail.proses as proses, 
         audit_trail.keterangan_proses as keterangan
         from audit_trail
         left join users on audit_trail.created_by = users.id
@@ -88,7 +86,7 @@ class LaporanJejakAuditController extends Controller
 
         $laporan = '';
 
-        return view('laporan-jejak-audit.viewpdf',['laporan' => $laporan]);
+        return view('laporan-pengunjung-portal.viewpdf',['laporan' => $laporan]);
     }
 
     public function exportPdf($tarikh_mula,$tarikh_tamat){
@@ -103,7 +101,7 @@ class LaporanJejakAuditController extends Controller
         $laporan = DB::select($mysql);
 
         // view()->share('profil.viewpdf',$data);
-        $pdf = PDF::loadView('laporan-jejak-audit.viewpdf',['laporan' => $laporan]);
+        $pdf = PDF::loadView('laporan-pengunjung-portal.viewpdf',['laporan' => $laporan]);
 
         // download PDF file with download method
         return $pdf->download('jejak-audit.pdf');
@@ -127,7 +125,7 @@ class ProgramBantuanExport implements  WithHeadings,FromArray
     public function headings(): array
     {
         return [
-            'Nama Penguna','Email','Tarikh Cipta','Alamat IP','Proses','Keterangan'
+            'Nama Penguna','Email','Tarikh Cipta','Proses','Keterangan'
         ];
     }
     

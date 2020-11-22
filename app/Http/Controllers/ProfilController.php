@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Gate;
+use Request;
 use App\Profil;
 use App\Agensi;
+use App\AuditTrail;
 use App\Http\Requests\ProfilRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -54,9 +56,14 @@ class ProfilController extends Controller
                     )
                     ->where('profil.no_kp', 'LIKE', '%' . $request->no_kp . '%')
                     ->get()->toArray();
-            // }
 
-            // $this->profilPdf($profil,$request->no_kp);
+            // log data
+            $log = [
+                'task'=>'Carian Profil',
+                'details'=>'Mencarian Profil',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
 
             return view('profil.index', 
                 [
@@ -67,6 +74,14 @@ class ProfilController extends Controller
             // }
         }else{
             $profil = '-';
+
+            // log data
+            $log = [
+                'task'=>'Carian Profil',
+                'details'=>'Halaman Carian Profil',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
         }
 
         return view('profil.index',['profil'=>$profil,'nokp'=>'-']);
@@ -126,6 +141,14 @@ class ProfilController extends Controller
             // $this->profilPdf($profil,$request->no_kp);
             // dd($profil);
 
+            // log data
+            $log = [
+                'task'=>'Carian Profil',
+                'details'=>'Lihat Perincian Profil',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
+
             return view('profil.view', 
                 [
                     'profil' => $profil
@@ -138,6 +161,15 @@ class ProfilController extends Controller
     }
 
     public function excel($icno){
+
+        // log data
+        $log = [
+            'task'=>'Carian Profil',
+            'details'=>'Eksport Excel Profil',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         return Excel::download(new ProfilExport($icno), 'profil_data.xlsx');
         // return (new ProfilExport($icno))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
@@ -187,6 +219,14 @@ class ProfilController extends Controller
         ->where('profil.no_kp', 'LIKE', '%'.$icno.'%')
         ->get();
 
+        // log data
+        $log = [
+            'task'=>'Carian Profil',
+            'details'=>'Eksport PDF Profil',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         // view()->share('profil.profilPdf',$data);
         $pdf = PDF::loadView('profil.profilPdf',['profil' => $profil]);
 
@@ -194,9 +234,26 @@ class ProfilController extends Controller
         return $pdf->download('profil_data.pdf');
     }
 
+    public function log_audit_trail($log){
 
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
 
-    // public function store(ProfilRequest $request,Profil $model){}
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProfilExport implements FromCollection, WithHeadings

@@ -33,29 +33,71 @@
                         <form method="get" class="item-form" action="{{ route('laporan-penerima-program-bantuan.index') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                                <div class="col">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{{ __('Program') }}</label>
-                                        <select type="text" id="setactive-links" class="form-control" name="program" autofocus>
+                                        <label class="form-control-label">{{ __('Jantina') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="jantina" autofocus>
                                             <option selected value="00">Sila Pilih</option>
-                                            @foreach ($program as $program_no => $program_data)
-                                                <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
+                                            @foreach ($jantina as $jantina_no => $jantina_data)
+                                                <option value='{{$jantina_data->id}}'>{{$jantina_data->nama}}</option>
                                             @endforeach
-                                            <option value="all">Semua</option>
+                                            <option value="00">Semua</option>
                                         </select>
 
                                         @include('alerts.feedback', ['field' => 'program_id'])
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">{{ __('Agensi') }}</label>
-                                        <select type="text" id="setactive-links" class="form-control" name="agensi" autofocus>
+                                        <label class="form-control-label">{{ __('Etnik') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="etnik" autofocus>
                                             <option selected value="00">Sila Pilih</option>
-                                            @foreach ($agensi as $agensi_no => $agensi_data)
-                                                <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                            @foreach ($etnik as $etnik_no => $etnik_data)
+                                                <option value='{{$etnik_data->id}}'>{{$etnik_data->nama}}</option>
                                             @endforeach
-                                            <option value="all">Semua</option>
+                                            <option value="00">Semua</option>
+                                        </select>
+
+                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Agama') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="agama" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($agama as $agama_no => $agama_data)
+                                                <option value='{{$agama_data->id}}'>{{$agama_data->nama}}</option>
+                                            @endforeach
+                                            <option value="00">Semua</option>
+                                        </select>
+
+                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Status Perkahwinan') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="status_perkahwinan" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($status_perkahwinan as $status_perkahwinan_no => $status_perkahwinan_data)
+                                                <option value='{{$status_perkahwinan_data->id}}'>{{$status_perkahwinan_data->nama}}</option>
+                                            @endforeach
+                                            <option value="00">Semua</option>
+                                        </select>
+
+                                        @include('alerts.feedback', ['field' => 'agensi_id'])
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Negeri') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="negeri" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($negeri as $negeri_no => $negeri_data)
+                                                <option value='{{$negeri_data->id}}'>{{$negeri_data->nama}}</option>
+                                            @endforeach
+                                            <option value="00">Semua</option>
                                         </select>
 
                                         @include('alerts.feedback', ['field' => 'agensi_id'])
@@ -83,10 +125,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <a href="{{ route('laporan-penerima-program-bantuan.excel',[$req_program,$req_agensi]) }}" class="btn btn-secondary btn-sm">
+                                <a href="{{ route('laporan-penerima-program-bantuan.excel',[$req_jantina,$req_etnik,$req_agama,$req_status_perkahwinan,$req_negeri]) }}" class="btn btn-secondary btn-sm">
                                     <i class="fa fa-file-excel-o text-success fa-2x"></i>
                                 </a>
-                                <a href="{{ route('laporan-penerima-program-bantuan.exportPdf', [$req_program,$req_agensi]) }}" class="btn btn-secondary btn-sm">
+                                <a href="{{ route('laporan-penerima-program-bantuan.exportPdf', [$req_jantina,$req_etnik,$req_agama,$req_status_perkahwinan,$req_negeri]) }}" class="btn btn-secondary btn-sm">
                                     <i class="fas fa-file-pdf text-danger fa-2x"></i>
                                 </a>
                             </div>
@@ -153,7 +195,7 @@
         </div>
         <?php 
             }else{
-                if($req_program != '00' || $req_agensi != '00'){
+                if($req_jantina != '00' || $req_etnik != '00' || $req_agama != '00' || $req_status_perkahwinan != '00' || $req_negeri != '00'){
         ?>
                 <div class="row">
                     <div class="col">

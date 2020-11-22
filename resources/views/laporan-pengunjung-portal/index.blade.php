@@ -11,7 +11,7 @@
                 {{ __('Cari Profil') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('laporan-jejak-audit.index') }}" class="">{{ __('Jejak Audit') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('laporan-pengunjung-portal.index') }}" class="">{{ __('Pengunjung Portal') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Cari') }}</li>
         @endcomponent
     @endcomponent
@@ -30,7 +30,7 @@
                         // }
                         ?>
 
-                        <form method="get" class="item-form" action="{{ route('laporan-jejak-audit.index') }}" autocomplete="off" enctype="multipart/form-data">
+                        <form method="get" class="item-form" action="{{ route('laporan-pengunjung-portal.index') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col">

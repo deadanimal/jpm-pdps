@@ -41,13 +41,12 @@
                                             @foreach ($program as $program_no => $program_data)
                                                 <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
                                             @endforeach
-                                            <option value="all">Semua</option>
                                         </select>
 
                                         @include('alerts.feedback', ['field' => 'program_id'])
                                     </div>
                                 </div>
-                                <div class="col">
+                                {{-- <div class="col">
                                     <div class="form-group">
                                         <label class="form-control-label">{{ __('Agensi') }}</label>
                                         <select type="text" id="setactive-links" class="form-control" name="agensi" autofocus>
@@ -60,7 +59,7 @@
 
                                         @include('alerts.feedback', ['field' => 'agensi_id'])
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
@@ -83,10 +82,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <a href="{{ route('laporan-program-bantuan.excel',[$req_program,$req_agensi]) }}" class="btn btn-secondary btn-sm">
+                                <a href="{{ route('laporan-program-bantuan.excel',[$req_program]) }}" class="btn btn-secondary btn-sm">
                                     <i class="fa fa-file-excel-o text-success fa-2x"></i>
                                 </a>
-                                <a href="{{ route('laporan-program-bantuan.exportPdf', [$req_program,$req_agensi]) }}" class="btn btn-secondary btn-sm">
+                                <a href="{{ route('laporan-program-bantuan.exportPdf', [$req_program]) }}" class="btn btn-secondary btn-sm">
                                     <i class="fas fa-file-pdf text-danger fa-2x"></i>
                                 </a>
                             </div>
@@ -139,7 +138,7 @@
         </div>
         <?php 
             }else{
-                if($req_program != '00' || $req_agensi != '00'){
+                if($req_program != '00'){
         ?>
                 <div class="row">
                     <div class="col">

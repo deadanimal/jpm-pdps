@@ -69,55 +69,6 @@
                 </div>
             </div>
             <div class="col-xl-8 order-xl-1">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card bg-gradient-info border-0">
-                            <!-- Card body -->
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0 text-white">JUMLAH TRAFIK
-                                        </h5>
-                                        <span class="h2 font-weight-bold mb-0 text-white">350,897</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-white text-dark rounded-circle shadow">
-                                            <i class="ni ni-active-40"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mt-3 mb-0 text-sm">
-                                    <span class="text-white mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                    <span class="text-nowrap text-light">Sejak bulan lalu
-</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="card bg-gradient-danger border-0">
-                            <!-- Card body -->
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0 text-white">Prestasi</h5>
-                                        <span class="h2 font-weight-bold mb-0 text-white">49,65%</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-white text-dark rounded-circle shadow">
-                                            <i class="ni ni-spaceship"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mt-3 mb-0 text-sm">
-                                    <span class="text-white mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                    <span class="text-nowrap text-light">Sejak bulan lalu
-</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
@@ -153,7 +104,7 @@
 
                                     @include('alerts.feedback', ['field' => 'email'])
                                 </div>
-                                <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
+                                {{-- <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
                                     <label class="form-control-label">{{ __('Agensi') }}</label>
                                     <select type="text" id="agensi_id" class="form-control" required name="agensi_id" autofocus>
                                         <option selected="selected" value="0">Sila Pilih</option>
@@ -162,7 +113,7 @@
                                         @endforeach
                                     </select>
                                     @include('alerts.feedback', ['field' => 'agensi_id'])
-                                </div>
+                                </div> --}}
                                 <div class="form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Gambar Profil') }}</label>
                                     <div class="custom-file">

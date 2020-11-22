@@ -62,7 +62,17 @@ class UserPolicy
      */
     public function manageUsers(User $user)
     {
+        return $user->isIcuAdmin() || $user->isAgensiAdmin();
+    }
+
+    public function manageUsersAdmin(User $user)
+    {
         return $user->isIcuAdmin();
+    }
+    
+    public function manageUsersAgensi(User $user)
+    {
+        return $user->isAgensiAdmin();
     }
 
     /**
@@ -74,5 +84,15 @@ class UserPolicy
     public function manageItems(User $user)
     {
         return $user->isIcuAdmin() || $user->isAgensiAdmin() || $user->isAgensi();
+    }
+
+    public function manageReportAdmin(User $user)
+    {
+        return $user->isIcuAdmin();
+    }
+    
+    public function manageReportAgensi(User $user)
+    {
+        return $user->isAgensiAdmin() || $user->isAgensi();
     }
 }

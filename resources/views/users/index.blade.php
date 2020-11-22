@@ -23,13 +23,9 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Penguna') }}</h3>
-                                <p class="text-sm mb-0">
-                                    {{ __('Ini adalah contoh pengurusan pengguna. Ini adalah persediaan minimum untuk memulakan dengan pantas.
-                                    .') }}
-                                </p>
+                                <h3 class="mb-0">{{ __('Senarai Penguna') }}</h3>
                             </div>
-                            @can('create', App\User::class)
+                            @can('manage-users', App\User::class)
                                 <div class="col-4 text-right">
                                     <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Penguna') }}</a>
                                 </div>
@@ -61,42 +57,41 @@
                                     <tr>
                                         <td>
                                             <span class="avatar avatar-sm rounded-circle">
-                                                <img src="{{ $user->profilePicture() }}" alt="" style="max-width: 100px; border-radiu: 25px">
+                                                <?php if($user->picture!=NULL){ ?>
+                                                    <img src="/storage/{{$user->picture}}" alt="" style="max-width: 100px; border-radiu: 25px">
+                                                <?php }else{ ?>
+                                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6N4vGCUaa3tOlRA98UJZEpDAIqB_OyjhwJg&usqp=CAU" alt="" style="max-width: 100px; border-radiu: 25px">
+                                                <?php } ?>
                                             </span>
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>
                                             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                                         </td>
-                                        <td>{{ $user->role->name }}</td>
-                                        <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                        <td>{{ $user->role_name }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($user->created_at)) }}</td>
                                         @can('manage-users', App\User::class)
                                             <td class="text-right">
-                                                @if (auth()->user()->can('update', $user) || auth()->user()->can('delete', $user))
-                                                    <div class="dropdown">
-                                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            @if ($user->id != auth()->id())
-                                                                @can('update', $user)
-                                                                    <a class="dropdown-item" href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>
-                                                                @endcan
-                                                                @can('delete', $user)
-                                                                    <form action="{{ route('user.destroy', $user) }}" method="post">
-                                                                        @csrf
-                                                                        @method('delete')
-                                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                                            {{ __('Delete') }}
-                                                                        </button>
-                                                                    </form>
-                                                                @endcan
-                                                            @else
-                                                                <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
-                                                            @endif
+                                                <div class="dropdown">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <a class="btn btn-success btn-sm" href="{{ route('user.edit', $user->id) }}">
+                                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
+                                                            </a>
                                                         </div>
+                                                        @can('manage-users-admin', App\User::class)
+                                                            <div class="col">
+                                                                <form action="{{ route('user.destroy', $user->id) }}" method="post">
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirm('{{ __("Padam penguna ?") }}') ? this.parentElement.submit() : ''">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        @endcan
                                                     </div>
-                                                @endif
+                                                </div>
                                             </td>
                                         @endcan
                                     </tr>

@@ -11,7 +11,7 @@
                 {{ __('Cari Profil') }} 
             @endslot
 
-            <li class="breadcrumb-item"><a href="{{ route('laporan-jejak-audit.index') }}" class="">{{ __('Jejak Audit') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('laporan-pengunjung-program-bantuan.index') }}" class="">{{ __('Pengunjung Program Bantuan') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Cari') }}</li>
         @endcomponent
     @endcomponent
@@ -30,21 +30,45 @@
                         // }
                         ?>
 
-                        <form method="get" class="item-form" action="{{ route('laporan-jejak-audit.index') }}" autocomplete="off" enctype="multipart/form-data">
+                        <form method="get" class="item-form" action="{{ route('laporan-pengunjung-program-bantuan.index') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                                <div class="col">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-control-label">{{ __('Tarikh Mula') }}</label>
                                         <input type="date" class="form-control" name="tarikh_mula" required autofocus>
                                         @include('alerts.feedback', ['field' => 'program_id'])
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-control-label">{{ __('Tarikh Tamat') }}</label>
                                         <input type="date" class="form-control" name="tarikh_tamat" required autofocus>
                                         @include('alerts.feedback', ['field' => 'program_id'])
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Program') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="program" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($program as $program_no => $program_data)
+                                                <option value='{{$program_data->id}}'>{{$program_data->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                        @include('alerts.feedback', ['field' => 'program_id'])
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">{{ __('Agensi') }}</label>
+                                        <select type="text" id="setactive-links" class="form-control" name="agensi" autofocus>
+                                            <option selected value="00">Sila Pilih</option>
+                                            @foreach ($agensi as $agensi_no => $agensi_data)
+                                                <option value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                        @include('alerts.feedback', ['field' => 'agensi_id'])
                                     </div>
                                 </div>
                             </div>

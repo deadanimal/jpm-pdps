@@ -142,7 +142,7 @@
                     </li>
                     @endcan --}}
 
-                    @can('manage-items', App\User::class)
+                    @can('manage-user', App\User::class)
                     <li class="nav-item {{ $elementName == 'profil' ? 'active' : '' }}">
                         <a href="{{ route('profil.index') }}" class="nav-link">
                             <i class="ni ni-collection text-default"></i>
@@ -160,21 +160,34 @@
                         
                         <div class="hide" id="reporting">
                             <ul class="nav nav-sm">
-                                <li class="nav-item {{ $elementName == 'laporan-program-bantuan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan-program-bantuan.index') }}" class="nav-link">{{ __('Program Bantuan') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'laporan-senarai-program' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan-senarai-program.index') }}" class="nav-link">{{ __('senarai Program') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'laporan-penerima-program-bantuan' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan-penerima-program-bantuan.index') }}" class="nav-link">{{ __('Penerima Program Bantuan') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'laporan-penerima-program' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan-penerima-program.index') }}" class="nav-link">{{ __('Penerima Program') }}</a>
-                                </li>
-                                <li class="nav-item {{ $elementName == 'laporan-jejak-audit' ?'' : 'active' }}">
-                                    <a href="{{ route('laporan-jejak-audit.index') }}" class="nav-link">{{ __('Jejak Audit') }}</a>
-                                </li>
+                                @can('manage-report-agensi', App\User::class)
+                                    <li class="nav-item {{ $elementName == 'laporan-program-bantuan' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-program-bantuan.index') }}" class="nav-link">{{ __('Program Bantuan') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'laporan-penerima-program-bantuan' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-penerima-program-bantuan.index') }}" class="nav-link">{{ __('Penerima Program Bantuan') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'laporan-pengunjung-program' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-pengunjung-program.index') }}" class="nav-link">{{ __('Pengunjung Program Portal') }}</a>
+                                    </li>
+                                @endcan
+                                @can('manage-report-admin', App\User::class)
+                                    <li class="nav-item {{ $elementName == 'laporan-senarai-program' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-senarai-program.index') }}" class="nav-link">{{ __('senarai Program') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'laporan-penerima-program' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-penerima-program.index') }}" class="nav-link">{{ __('Penerima Program') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ $elementName == 'laporan-pengunjung-program-bantuan' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-pengunjung-program-bantuan.index') }}" class="nav-link">{{ __('Pengunjung Program Bantuan Portal') }}</a>
+                                    </li>
+                                    {{-- <li class="nav-item {{ $elementName == 'laporan-pengunjung-portal' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-pengunjung-portal.index') }}" class="nav-link">{{ __('Pengunjung Keseluruhan Portal') }}</a>
+                                    </li> --}}
+                                    <li class="nav-item {{ $elementName == 'laporan-jejak-audit' ?'' : 'active' }}">
+                                        <a href="{{ route('laporan-jejak-audit.index') }}" class="nav-link">{{ __('Pengunjung Keseluruhan Portal') }}</a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
                     </li>
@@ -205,7 +218,7 @@
                                 <li class="nav-item {{ $elementName == 'profile' ? 'active' : '' }}">
                                     <a href="{{ route('profile.edit') }}" class="nav-link">{{ __('Profil Penguna') }}</a>
                                 </li>
-                                @can('manage-users', App\User::class)
+                                @can('manage-users-admin', App\User::class)
                                     <li class="nav-item  {{ $elementName == 'role-management' ? 'active' : '' }}">
                                         <a href="{{ route('role.index') }}" class="nav-link">{{ __('Pengurusan Peranan') }}</a>
                                     </li>

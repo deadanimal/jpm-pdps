@@ -76,7 +76,7 @@
                                             <select type="text" id="kategori_id" class="form-control" name="kategori_id" required autofocus>
                                                 <option selected="selected" value="0">Sila Pilih</option>
                                                     @foreach ($kat as $katid => $kdata)
-                                                        <?php if($program->kategori_id == $katid){ ?>
+                                                        <?php if($program->kategori_id == $kdata->id){ ?>
                                                             <option selected value='{{$kdata->id}}'>{{$kdata->nama_kategori}}</option>
                                                         <?php }else{ ?>
                                                             <option value='{{$kdata->id}}'>{{$kdata->nama_kategori}}</option>
