@@ -8,6 +8,7 @@ use App\Agensi;
 use App\Program; 
 use App\Media;
 use App\User;
+use App\AuditTrail;
 use Carbon\Carbon;
 use App\Http\Requests\MediaRequest;
 use App\Http\Controllers\Controller;
@@ -24,13 +25,22 @@ class MediaController extends Controller
     public function index(MediaRequest $request,Media $model)
     {
         $this->authorize('manage-items', User::class);
+
+        // save log
+        $log = [
+            'task'=>'banner & berita',
+            'details'=>'Senarai banner & berita',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
         
         if($request->all() != []){
 
-            if($role_id == '3'){
+            if($role_id == '3' && !empty($request->media) ){
                 $media = DB::table('media')
                     ->leftJoin('users', 'users.id', '=', 'media.created_by')
                     ->leftJoin('program', 'program.id', '=', 'media.program_id')
@@ -39,7 +49,7 @@ class MediaController extends Controller
                     // ->get();
                     ->orderBy('id', 'desc')
                     ->paginate(3);
-            }else if ($role_id == '2'){
+            }else if ($role_id == '2' && !empty($request->media) ){
                 $media = DB::table('media')
                     ->leftJoin('users', 'users.id', '=', 'media.created_by')
                     ->leftJoin('program', 'program.id', '=', 'media.program_id')
@@ -49,7 +59,7 @@ class MediaController extends Controller
                     // ->get();
                     ->orderBy('id', 'desc')
                     ->paginate(3);
-            }else if ($role_id == '1'){
+            }else if ($role_id == '1' && !empty($request->media) ){
                 $media = DB::table('media')
                     ->leftJoin('users', 'users.id', '=', 'media.created_by')
                     ->leftJoin('program', 'program.id', '=', 'media.program_id')
@@ -58,6 +68,36 @@ class MediaController extends Controller
                     ->where('media.jenis',$request->media)
                     ->orderBy('id', 'desc')
                     ->paginate(3);
+            }else{
+
+                if($role_id == '3'){
+                    $media = DB::table('media')
+                        ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                        ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                        ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                        ->where('media.created_by',$user_id)
+                        // ->get();
+                        ->orderBy('id', 'desc')
+                        ->paginate(3);
+                }else if ($role_id == '2'){
+                    $media = DB::table('media')
+                        ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                        ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                        ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                        // ->where('media.agensi_id',$agensi_id)
+                        ->where('media.created_by',$user_id)
+                        // ->get();
+                        ->orderBy('id', 'desc')
+                        ->paginate(3);
+                }else if ($role_id == '1'){
+                    $media = DB::table('media')
+                        ->leftJoin('users', 'users.id', '=', 'media.created_by')
+                        ->leftJoin('program', 'program.id', '=', 'media.program_id')
+                        ->select( 'media.*', 'users.name as user_name','program.nama as program_name')
+                        // ->get();
+                        ->orderBy('id', 'desc')
+                        ->paginate(3);
+                }
             }
         }else{
             if($role_id == '3'){
@@ -113,6 +153,14 @@ class MediaController extends Controller
     public function create(MediaRequest $request, Media $model)
     {
         // print_r("qweqweqwe");die;
+
+        // save log
+        $log = [
+            'task'=>'banner & berita',
+            'details'=>'Halaman bina banner & berita',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
@@ -188,8 +236,6 @@ class MediaController extends Controller
                     'status'=>$media->status
                 ];
 
-                // dd($data);
-
                 // get admin email
                 $admin_data = DB::table('users')->where('role_id', 1)->get();
                 $admin_email = [];
@@ -204,6 +250,14 @@ class MediaController extends Controller
                     // $message->to(['yusliadiyusof@pipeline.com.my','yusliadi46@gmail.com']);
                     $message->subject('Status Pemohonan Banner & Berita');
                 });
+                
+                // log
+                $log = [
+                    'task'=>'banner & berita',
+                    'details'=>'Simpan banner & berita',
+                    'entity_id'=>$media->id
+                ];
+                $this->log_audit_trail($log);
             }
         }
 
@@ -216,6 +270,15 @@ class MediaController extends Controller
         $agensi = Agensi::all();
         $media = Media::find($media);
         $program = Program::all();
+
+        // log
+        $log = [
+            'task'=>'banner & berita',
+            'details'=>'Halaman kemaskini banner & berita',
+            'entity_id'=>$media
+        ];
+        $this->log_audit_trail($log);
+
         return view('media.edit',[
             'media'=>$media,
             'program'=>$program,
@@ -241,6 +304,14 @@ class MediaController extends Controller
                 'agensi.nama as nama_agensi')
         ->where([['media.id',$media]])
         ->first();
+
+        // log
+        $log = [
+            'task'=>'banner & berita',
+            'details'=>'Halaman lihat banner & berita',
+            'entity_id'=>$media
+        ];
+        $this->log_audit_trail($log);
 
         return view('media.view',[
             'media'=>$media_data,
@@ -314,6 +385,14 @@ class MediaController extends Controller
                     $message->subject('Status Pemohonan Banner & Berita');
                 });
             }
+
+            // log
+            $log = [
+                'task'=>'banner & berita',
+                'details'=>'Kemaskini lihat banner & berita',
+                'entity_id'=>$media->id
+            ];
+            $this->log_audit_trail($log);
         }
 
         // $program->update($request->all());
@@ -322,8 +401,38 @@ class MediaController extends Controller
 
     public function destroy($id)
     {
+        
+        // log
+        $log = [
+            'task'=>'banner & berita',
+            'details'=>'Padam banner & berita',
+            'entity_id'=>$id
+        ];
+        $this->log_audit_trail($log);
+
         $media = Media::find($id);
         $media->destroy($id);
         return redirect()->route('media.index')->withStatus(__('Media Berjaya Dipadam.'));
     }
+    
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        // $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        // $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }

@@ -11,8 +11,8 @@
                 {{ __('Pemohonan Data') }} 
             @endslot
 
-            <li class="breadcrumb-item text-white"><a href="{{ route('item.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
-            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Lihat') }}</li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('orgdata.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Maklumat') }}</li>
         @endcomponent
     @endcomponent
 
@@ -22,8 +22,11 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
-                            <div class="col">
+                            <div class="col-8">
                                 <h3 class="mb-0">{{ __('Lihat Pemohonan Data') }}</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                              <a href="javascript:history.go(-1)" class="btn btn-sm btn-default">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>

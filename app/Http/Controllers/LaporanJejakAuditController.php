@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Gate;
 use App\Profil;
 use App\Program;
@@ -27,6 +28,7 @@ class LaporanJejakAuditController extends Controller
 
     public function index(ProgramRequest $request)
     {
+        
         $agensi = Agensi::all();
         $program = Program::all();
 
@@ -47,6 +49,14 @@ class LaporanJejakAuditController extends Controller
                 $laporan = DB::select($mysql);
             }
 
+            // log data
+            $log = [
+                'task'=>'laporan keseluruhan pengunjung portal',
+                'details'=>'Carian laporan keseluruhan pengunjung portal',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
+
             return view('laporan-jejak-audit.index', [
                 'laporan' => $laporan,
                 'agensi'=>$agensi,
@@ -55,6 +65,14 @@ class LaporanJejakAuditController extends Controller
                 'tarikh_tamat'=>$request->tarikh_tamat
             ]);
         }
+
+        // log data
+        $log = [
+            'task'=>'laporan keseluruhan pengunjung portal',
+            'details'=>'Halaman laporan keseluruhan pengunjung portal',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $tarikh_mula = '00';
         $tarikh_tamat = '00';
@@ -68,6 +86,14 @@ class LaporanJejakAuditController extends Controller
     }
 
     public function excel($tarikh_mula,$tarikh_tamat){
+
+        // log data
+        $log = [
+            'task'=>'laporan keseluruhan pengunjung portal',
+            'details'=>'Eksport excel laporan keseluruhan pengunjung portal',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $mysql = "select users.name as username, users.email as email,
         audit_trail.created_at as audit_created, audit_trail.ip_address as alamat_ip,
@@ -93,6 +119,14 @@ class LaporanJejakAuditController extends Controller
 
     public function exportPdf($tarikh_mula,$tarikh_tamat){
 
+        // log data
+        $log = [
+            'task'=>'laporan keseluruhan pengunjung portal',
+            'details'=>'Eksport pdf laporan keseluruhan pengunjung portal',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         $mysql = "select users.name as username, users.email as email,
         audit_trail.created_at as audit_created, audit_trail.proses as proses, 
         audit_trail.keterangan_proses as keterangan,audit_trail.ip_address as ip_address
@@ -108,6 +142,27 @@ class LaporanJejakAuditController extends Controller
         // download PDF file with download method
         return $pdf->download('jejak-audit.pdf');
     }
+
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProgramBantuanExport implements  WithHeadings,FromArray

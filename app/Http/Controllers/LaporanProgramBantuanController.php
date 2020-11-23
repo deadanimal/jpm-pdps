@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Gate;
 use App\Profil;
 use App\Program;
 use App\Agensi;
+use App\AuditTrail;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +37,8 @@ class LaporanProgramBantuanController extends Controller
         }else if ($role_id == '3'){
         //     $agensi = Agensi::all();
             $program = DB::table('program')->where('rekod_oleh',$user_id)->get();
+        }else if($role_id == '1'){
+            $program = Program::all();
         }
 
         if($request->all() != []){
@@ -137,12 +141,29 @@ class LaporanProgramBantuanController extends Controller
                 $laporan_data[$programId]['jumlah_tidak_aktif'] = $bilangan_tidak_aktif;
                 
             }
+
+            // log data
+            $log = [
+                'task'=>'laporan program bantuan',
+                'details'=>'Carian Laporan program bantuan',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
+
             return view('laporan-program-bantuan.index', [
                 'laporan' => $laporan_data,
                 'program'=>$program,
                 'req_program'=>$req_program,
             ]);
         }
+
+        // log data
+        $log = [
+            'task'=>'laporan program bantuan',
+            'details'=>'Halaman Laporan program bantuan',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $req_program = '00';
         $req_agensi = '00';
@@ -155,6 +176,14 @@ class LaporanProgramBantuanController extends Controller
     }
 
     public function excel($program_id){
+
+        // log data
+        $log = [
+            'task'=>'laporan program bantuan',
+            'details'=>'Eksport excel Laporan program bantuan',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
@@ -270,6 +299,14 @@ class LaporanProgramBantuanController extends Controller
 
     public function exportPdf($program_id){
 
+        // log data
+        $log = [
+            'task'=>'laporan program bantuan',
+            'details'=>'Eksport pdf Laporan program bantuan',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
@@ -375,6 +412,27 @@ class LaporanProgramBantuanController extends Controller
         // download PDF file with download method
         return $pdf->download('program_bantuan.pdf');
     }
+
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProgramBantuanExport implements  WithHeadings,FromArray

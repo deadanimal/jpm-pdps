@@ -26,16 +26,44 @@
                                 <h3 class="mb-0">{{ __('Permintaan Data') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('orgdata.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
+                                <a href="javascript:history.go(-1)" class="btn btn-sm btn-default">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" class="item-form" action="{{ route('orgdata.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Tambah Pemohonan ?');">
+                        <form method="post" class="item-form" action="{{ route('orgdata.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Anda pasti untuk tambah Pemohonan ?');">
                             @csrf
 
                             {{-- <h6 class="heading-small text-muted mb-4">{{ __('Item information') }}</h6> --}}
                             <div class="pl-lg-4">
+
+                                {{-- pemohon --}}
+                                <?php if( $role_id == 1 ){ ?>
+                                <div class="form-group{{ $errors->has('pemohon') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label">{{ __('Agensi Pemohon') }} <span class="text-red">*</span></label>
+                                    <select type="text" id="pemohon_id" class="form-control" name="pemohon_id" autofocus>
+                                        <option selected="selected" value="0">Sila Pilih</option>
+                                        @foreach ($agensi as $agensi_no => $agensi_data)
+                                                <option class="form-control" value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                        @endforeach
+                                    </select>
+                                    <p class="text-red" id="err_pemohon_id"></p>
+                                </div>
+                                <?php }else{ ?>
+                                    <div class="form-group{{ $errors->has('pemohon') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label">{{ __('Agensi Pemohon') }} <span class="text-red">*</span></label>
+                                        <select type="text" id="pemohon_id" class="form-control" disabled autofocus>
+                                            @foreach ($agensi as $agensi_no => $agensi_data)
+                                                <?php if($agensi_data->id == $agensi_id){ ?>
+                                                    <option class="form-control" value='{{$agensi_data->id}}'>{{$agensi_data->nama}}</option>
+                                                    <input type="hidden" name="pemohon_id" value="{{$agensi_data->id}}">
+                                                <?php } ?>
+                                            @endforeach
+                                        </select>
+                                        
+                                        <p class="text-red" id="err_pemohon_id"></p>
+                                    </div>
+                                <?php } ?>
 
                                 {{-- agensi --}}
                                 <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
@@ -49,7 +77,7 @@
                                     </select>
                                     
                                     {{-- </select> --}}
-                                    <p class="text-red" id="err_orgdata_agensi_id"></p>
+                                    <p class="text-red" id="err_agensi_id"></p>
                                 </div>
 
                                 {{-- program --}}
@@ -86,20 +114,63 @@
         @include('layouts.footers.auth')
     </div>
     <script>
+        $(document).ready(function() {
+            $("#pemohon_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_pemohon_id").hide();
+                }else{
+                    $("#err_pemohon_id").show();
+                }
+            });
+            $("#agensi_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_agensi_id").hide();
+                }else{
+                    $("#err_agensi_id").show();
+                }
+            });
+            $("#program_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_program_id").hide();
+                }else{
+                    $("#err_program_id").show();
+                }
+            });
+            $("#subjek").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_subjek").hide();
+                }else{
+                    $("#err_subjek").show();
+                }
+            });
+        });
+    </script>
+    <script>
         // Below Function Executes On Form Submit
         function orgdataValidationEvent() {
             // Storing Field Values In Variables
-            // var agensi_id = document.getElementById("agensi_id").value;
+            var pemohon_id = document.getElementById("pemohon_id").value;
+            var agensi_id = document.getElementById("agensi_id").value;
             var program_id = document.getElementById("program_id").value;
             var subjek = document.getElementById("subjek").value;
             
             // Conditions
 
-            // if (agensi_id == '0') {
-            //     text = "Sila pilih agensi";
-            //     document.getElementById("err_orgdata_agensi_id").innerHTML = text;
-            //     return false;
-            // }
+            if (pemohon_id == '0') {
+                text = "Sila pilih agensi";
+                document.getElementById("err_pemohon_id").innerHTML = text;
+                return false;
+            }
+
+            if (agensi_id == '0') {
+                text = "Sila pilih agensi";
+                document.getElementById("err_agensi_id").innerHTML = text;
+                return false;
+            }
         
             if (program_id == '0') {
                 text = "Sila pilih program";

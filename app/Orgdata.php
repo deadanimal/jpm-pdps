@@ -19,6 +19,7 @@ class Orgdata extends Model
     protected $fillable = [
     'program_id',
     'agensi_id',
+    'agensi_pemohon_id',
     'status',
     'subjek',
     'created_by',

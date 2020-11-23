@@ -45,10 +45,10 @@
                         </div>
                     {{-- </div> --}}
 
-                    <div class="col-12 mt-2">
+                    {{-- <div class="col-12 mt-2">
                         @include('alerts.success')
                         @include('alerts.errors')
-                    </div>
+                    </div> --}}
                     {{-- <div class="card-body"> --}}
                         
                     {{-- </div> --}}

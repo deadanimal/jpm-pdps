@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Gate;
 use App\Profil;
 use App\Program;
 use App\Agensi;
+use App\AuditTrail;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +28,7 @@ class LaporanPenerimaProgramController extends Controller
 
     public function index(ProgramRequest $request)
     {
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id;
@@ -117,6 +120,14 @@ class LaporanPenerimaProgramController extends Controller
             left join manfaat on manfaat.id = program.manfaat_id
             ".$jantina_sql.$etnik_sql.$agama_sql.$status_perkahwinan_sql.$negeri_sql;
             $laporan_data = DB::select($mysql);
+
+            // log data
+            $log = [
+                'task'=>'laporan penerima program',
+                'details'=>'Carian laporan penerima program',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
             
             // dd($laporan_data);
             
@@ -134,6 +145,14 @@ class LaporanPenerimaProgramController extends Controller
                 'laporan' => $laporan_data
             ]);
         }
+
+        // log data
+        $log = [
+            'task'=>'laporan penerima program',
+            'details'=>'Halaman laporan penerima program',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $laporan = '';
 
@@ -153,6 +172,14 @@ class LaporanPenerimaProgramController extends Controller
     }
 
     public function excel($req_jantina,$req_etnik,$req_agama,$req_status_perkahwinan,$req_negeri){
+
+        // log data
+        $log = [
+            'task'=>'laporan penerima program',
+            'details'=>'Eksport excel Laporan penerima program',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $run_no = 0;
 
@@ -248,6 +275,14 @@ class LaporanPenerimaProgramController extends Controller
 
     public function exportPdf($req_jantina,$req_etnik,$req_agama,$req_status_perkahwinan,$req_negeri){
 
+        // log data
+        $log = [
+            'task'=>'laporan penerima program',
+            'details'=>'Eksport pdf Laporan penerima program',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         $run_no = 0;
 
         if($req_jantina != '00'){
@@ -334,6 +369,27 @@ class LaporanPenerimaProgramController extends Controller
         // download PDF file with download method
         return $pdf->download('program_bantuan.pdf');
     }
+
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProgramBantuanExport implements  WithHeadings,FromArray

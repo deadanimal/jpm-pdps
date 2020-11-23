@@ -20,12 +20,6 @@ class UserController extends Controller
         // $this->authorizeResource(User::class);
     }
 
-    /**
-     * Display a listing of the users
-     *
-     * @param  \App\User  $model
-     * @return \Illuminate\View\View
-     */
     public function index(User $model)
     {
         $role_id = auth()->user()->role_id; 
@@ -44,7 +38,8 @@ class UserController extends Controller
             ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
             ->select( 'users.*','roles.name as role_name')
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(3);
+            // ->get();
         }else{
 
             $agensi_id = auth()->user()->agensi_id; 
@@ -54,18 +49,13 @@ class UserController extends Controller
             ->select( 'users.*','roles.name as role_name')
             ->where('users.agensi_id',"=",$agensi_id)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(3);
+            // ->get();
         }
         
         return view('users.index', ['users' => $user_data]);
     }
 
-    /**
-     * Show the form for creating a new user
-     *
-     * @param  \App\Role  $model
-     * @return \Illuminate\View\View
-     */
     public function create(Role $model)
     {
         $role_id = auth()->user()->role_id; 
@@ -92,13 +82,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created user in storage
-     *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\User  $model
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(UserRequest $request, User $model)
     {
         $login_password = $request->password;
@@ -154,13 +137,6 @@ class UserController extends Controller
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }
 
-    /**
-     * Show the form for editing the specified user
-     *
-     * @param  \App\User  $user
-     * @param  \App\Role  $model
-     * @return \Illuminate\View\View
-     */
     public function edit(User $user, Role $model)
     {
         $log = [
@@ -189,13 +165,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified user in storage
-     *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(UserRequest $request, User $user)
     {
         $hasPassword = $request->get("password");
@@ -229,12 +198,6 @@ class UserController extends Controller
         return redirect()->route('user.index')->withStatus(__('Penguna Berjaya Disimpan.'));
     }
 
-    /**
-     * Remove the specified user from storage
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy(User $user)
     {
         $result = $user->delete();
@@ -262,9 +225,9 @@ class UserController extends Controller
         $auditTrail->keterangan_proses = $log['details'];
         $auditTrail->ip_address = $ip_address;
         $auditTrail->created_by = $userid;
-        // $auditTrail->created_at = now();
+        $auditTrail->created_at = now();
         $auditTrail->updated_by = $userid;
-        // $auditTrail->updated_at = now();
+        $auditTrail->updated_at = now();
         $auditTrail->save();
         
         return $auditTrail;

@@ -27,7 +27,7 @@
                                 <h3 class="mb-0">{{ ucwords($program_data->nama) }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('program.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
+                              <a href="javascript:history.go(-1)" class="btn btn-sm btn-default">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,6 @@
                         <div class="row">
                             <div class="col-md-12" id="divBsh">
                               <div class="row">
-                                <div class="col-md-12 col-lg-12"></div>
                                 <div class="col-md-12 col-lg-12">
                                   <table
                                     class="table align-items-center table-flush table-hover text-black"
@@ -92,13 +91,12 @@
                                       <tr>
                                         <td colspan="2" class="text-left">
 
-                                            <a href="<?php echo (!empty($program->url) ?$program->url : '#' ) ?>">
-                                                <?php if(!empty($program->logo)){
-                                                    echo "<img src='/storage/{{$program->logo}}' alt='' style='max-width: 70px;height:40px;'>";
-                                                }else {
-                                                    echo "<button class='btn btn-primary'>Pautan</button>";
-                                                } 
-                                                ?>
+                                            <a href="<?php echo (!empty($program_data->url) ?$program_data->url : '#' ) ?>" target="_blank">
+                                                <?php if(!empty($program_data->logo)){ ?>
+                                                   <img src='/storage/{{$program_data->logo}}' alt='' style='max-width: 70px;height:40px;'>
+                                                <?php }else { ?>
+                                                    <button class='btn btn-primary'>Pautan</button>
+                                                <?php } ?>
                                             </a>
                                           
                                         </td>

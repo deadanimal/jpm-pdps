@@ -142,7 +142,7 @@
                     </li>
                     @endcan --}}
 
-                    @can('manage-user', App\User::class)
+                    @can('manage-users', App\User::class)
                     <li class="nav-item {{ $elementName == 'profil' ? 'active' : '' }}">
                         <a href="{{ route('profil.index') }}" class="nav-link">
                             <i class="ni ni-collection text-default"></i>

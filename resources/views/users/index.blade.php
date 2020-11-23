@@ -19,8 +19,6 @@
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
                                 <h3 class="mb-0">{{ __('Senarai Penguna') }}</h3>
@@ -31,73 +29,111 @@
                                 </div>
                             @endcan
                         </div>
-                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
 
-                    <div class="col-12 mt-2">
-                        @include('alerts.success')
-                        @include('alerts.errors')
+                <?php $no = 1; ?>
+                @foreach ($users as $user)
+                <div class="row mt-20">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Nama Penguna</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span>: {{ ucwords($user->name) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Email</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span>: <a href="mailto:{{ $user->email }}">{{ $user->email }}</a></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-control-label" for="input-name">Peranan</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span>: {{ $user->role_name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="table-responsive py-4">
-                        <table class="table align-items-center table-flush"  id="datatable-basic">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">Photo</th>
-                                    <th scope="col">{{ __('Name') }}</th>
-                                    <th scope="col">{{ __('Email') }}</th>
-                                    <th scope="col">{{ __('Role') }}</th>
-                                    <th scope="col">{{ __('Creation Date') }}</th>
-                                    @can('manage-users', App\User::class)
-                                        <th scope="col"></th>
-                                    @endcan
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $user)
-                                    <tr>
-                                        <td>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                    {{-- <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="input-name">Gambar Profil </label>
+                                        </div>
+                                        <div class="col-md-6 text-center">
                                             <span class="avatar avatar-sm rounded-circle">
-                                                <?php if($user->picture!=NULL){ ?>
-                                                    <img src="/storage/{{$user->picture}}" alt="" style="max-width: 100px; border-radiu: 25px">
-                                                <?php }else{ ?>
+                                                <?php // if($user->picture!=NULL){ ?>
+                                                    <img src="/storage/{{$user->picture}}" alt="" style="max-width: 100px; border-radius: 100px">
+                                                <?php // }else{ ?>
                                                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6N4vGCUaa3tOlRA98UJZEpDAIqB_OyjhwJg&usqp=CAU" alt="" style="max-width: 100px; border-radiu: 25px">
-                                                <?php } ?>
+                                                <?php // } ?>
                                             </span>
-                                        </td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>
-                                            <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
-                                        </td>
-                                        <td>{{ $user->role_name }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($user->created_at)) }}</td>
-                                        @can('manage-users', App\User::class)
-                                            <td class="text-right">
-                                                <div class="dropdown">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <a class="btn btn-success btn-sm" href="{{ route('user.edit', $user->id) }}">
-                                                                <span class="btn-inner--text"><i class="fas fa-edit"></i></span>
-                                                            </a>
-                                                        </div>
-                                                        @can('manage-users-admin', App\User::class)
-                                                            <div class="col">
-                                                                <form action="{{ route('user.destroy', $user->id) }}" method="post">
-                                                                    @csrf
-                                                                    @method('delete')
-                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirm('{{ __("Padam penguna ?") }}') ? this.parentElement.submit() : ''">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        @endcan
+                                        </div>
+                                    </div> --}}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="input-name">Tarikh Dicipta </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span>: {{ date('d-m-Y', strtotime($user->created_at)) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-15">
+                                        <div class="col-md-12 text-center">
+                                            <div class="row">
+                                                {{-- <div class="col">
+                                                    <a href="{{ route('program.show', $user->id) }}" class="btn btn-info btn-sm">
+                                                        <span class="btn-inner--text"><i class="fas fa-eye fa-2x"></i></span>
+                                                    </a>
+                                                </div> --}}
+                                                @if (auth()->user()->can('update', App\Program::class))
+                                                    <div class="col">
+                                                        <a class="btn btn-success btn-sm" href="{{ route('user.edit', $user->id) }}">
+                                                            <span class="btn-inner--text"><i class="fas fa-edit fa-2x"></i></span>
+                                                        </a>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        @endcan
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                @endif
+                                                @can('manage-users-admin', App\User::class)
+                                                    <div class="col">
+                                                        <div class="col">
+                                                            <form action="{{ route('user.destroy', $user->id) }}" method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="button" class="btn btn-danger btn-sm" onclick="confirm('{{ __("Padam penguna ?") }}') ? this.parentElement.submit() : ''">
+                                                                    <i class="fas fa-trash fa-2x"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{-- </div> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                <div class="row text-right">
+                    <div class="col text-right">
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>

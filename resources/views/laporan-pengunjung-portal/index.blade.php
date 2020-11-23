@@ -19,8 +19,6 @@
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-body">
 
                         <?php 
                         // if(!empty($profil)){
@@ -49,12 +47,10 @@
                                 </div>
                             </div>
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-info">{{ __('Cari') }}</button>
+                                <button type="submit" class="btn btn-default">{{ __('Cari') }}</button>
                             </div>
                         </form>
 
-                    </div>
-                </div>
             </div>
         </div>
         <?php

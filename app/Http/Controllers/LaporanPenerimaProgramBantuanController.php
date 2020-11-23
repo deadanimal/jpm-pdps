@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Gate;
 use App\Profil;
 use App\Program;
 use App\Agensi;
+use App\AuditTrail;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +28,7 @@ class LaporanPenerimaProgramBantuanController extends Controller
 
     public function index(ProgramRequest $request)
     {
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id;
@@ -112,6 +115,14 @@ class LaporanPenerimaProgramBantuanController extends Controller
             left join manfaat on manfaat.id = program.manfaat_id
             where ".$agensi_sql.$jantina_sql.$etnik_sql.$agama_sql.$status_perkahwinan_sql.$negeri_sql;
             $laporan_data = DB::select($mysql);
+
+            // log data
+            $log = [
+                'task'=>'laporan penerima program bantuan',
+                'details'=>'Carian laporan penerima program bantuan',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
             
             // dd($laporan_data);
             
@@ -129,6 +140,14 @@ class LaporanPenerimaProgramBantuanController extends Controller
                 'laporan' => $laporan_data
             ]);
         }
+
+        // log data
+        $log = [
+            'task'=>'laporan penerima program bantuan',
+            'details'=>'Halaman laporan penerima program bantuan',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $req_program = '00';
         $laporan = '';
@@ -149,6 +168,14 @@ class LaporanPenerimaProgramBantuanController extends Controller
     }
 
     public function excel($req_jantina,$req_etnik,$req_agama,$req_status_perkahwinan,$req_negeri){
+
+        // log data
+        $log = [
+            'task'=>'laporan penerima program bantuan',
+            'details'=>'Eksport excel laporan penerima program bantuan',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
@@ -243,6 +270,14 @@ class LaporanPenerimaProgramBantuanController extends Controller
 
     public function exportPdf($program_id){
 
+        // log data
+        $log = [
+            'task'=>'laporan penerima program bantuan',
+            'details'=>'Eksport pdf laporan penerima program bantuan',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
@@ -328,6 +363,27 @@ class LaporanPenerimaProgramBantuanController extends Controller
         // download PDF file with download method
         return $pdf->download('laporan_penerima_program_bantuan.pdf');
     }
+
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProgramBantuanExport implements  WithHeadings,FromArray

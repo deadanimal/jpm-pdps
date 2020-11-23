@@ -26,12 +26,12 @@
                                 <h3 class="mb-0">{{ __('Sila Penuhkan Maklumat') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('program.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
+                                <a href="javascript:history.go(-1)" class="btn btn-sm btn-default">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" name="myform" action="{{ route('program.update', $program->id) }}" autocomplete="off"  onsubmit="return confirm('Kemaskini Program ?');">
+                        <form method="post" name="myform" action="{{ route('program.update', $program->id) }}" autocomplete="off"  onsubmit="return confirm('Anda pasti untuk mengemaskini program tersebut ?');">
                             @csrf
                             @method('put')
 
@@ -344,6 +344,124 @@
                 </div>
             </div>
         </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#agensi_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_agensi_id").hide();
+                }else{
+                    $("#err_agensi_id").show();
+                }
+            });
+            $("#nama").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_nama").hide();
+                }else{
+                    $("#err_nama").show();
+                }
+            });
+            $("#kategori_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_kategori_id").hide();
+                }else{
+                    $("#err_kategori_id").show();
+                }
+            });
+            $("#teras_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_teras_id").hide();
+                }else{
+                    $("#err_teras_id").show();
+                }
+            });
+            $("#tarikh_mula").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_tarikh_mula").hide();
+                }else{
+                    $("#err_tarikh_mula").show();
+                }
+            });
+            $("#tarikh_tamat").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_tarikh_tamat").hide();
+                }else{
+                    $("#err_tarikh_tamat").show();
+                }
+            });
+            $("#kekerapan_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_kekerapan_id").hide();
+                }else{
+                    $("#err_kekerapan_id").show();
+                }
+            });
+            $("#manfaatval").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_manfaatval").hide();
+                }else{
+                    $("#err_manfaatval").show();
+                }
+            });
+            $("#kos").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_kos").hide();
+                }else{
+                    $("#err_kos").show();
+                }
+            });
+            $("#objektif").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_objektif").hide();
+                }else{
+                    $("#err_objektif").show();
+                }
+            });
+            $("#syarat_program").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_syarat_program").hide();
+                }else{
+                    $("#err_syarat_program").show();
+                }
+            });
+            $("#statuspelaksanaan").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_statuspelaksanaan").hide();
+                }else{
+                    $("#err_statuspelaksanaan").show();
+                }
+            });
+            $("#sebab_tidak_aktif").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_sebab_tidak_aktif").hide();
+                }else{
+                    $("#err_sebab_tidak_aktif").show();
+                }
+            });
+            // $("#url").change(function () {
+            //     console.log( $(this).val() );
+            //     if($(this).val() != ''){
+            //         $("#err_url").hide();
+            //     }else{
+            //         $("#err_url").show();
+            //     }
+            // });
+        });
+    </script>
+    
         <script>
             // Below Function Executes On Form Submit
             function programValidationEvent() {
@@ -359,7 +477,7 @@
                 var objektif = document.getElementById("objektif").value;
                 var syarat_program = document.getElementById("syarat_program").value;
                 var statuspelaksanaan = document.getElementById("statuspelaksanaan").value;
-                var url = document.getElementById("url").value;
+                // var url = document.getElementById("url").value;
                 var sebab_tidak_aktif = document.getElementById("sebab_tidak_aktif").value;
                 
                 // // check if it is banner/berita
@@ -463,11 +581,11 @@
                     }
                 }
     
-                if (url == '') {
-                    text = "Sila isi url";
-                    document.getElementById("err_url").innerHTML = text;
-                    return false;
-                }
+                // if (url == '') {
+                //     text = "Sila isi url";
+                //     document.getElementById("err_url").innerHTML = text;
+                //     return false;
+                // }
                 
                 return true;
                 // return false;

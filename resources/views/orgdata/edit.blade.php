@@ -11,7 +11,7 @@
                 {{ __('Pemohonan Data') }} 
             @endslot
 
-            <li class="breadcrumb-item text-white"><a href="{{ route('item.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('orgdata.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
             <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Kemaskini') }}</li>
         @endcomponent
     @endcomponent
@@ -26,12 +26,12 @@
                                 <h3 class="mb-0">{{ __('Kemaskini Pemohonan Data') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('orgdata.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
+                                <a href="javascript:history.go(-1)" class="btn btn-sm btn-default">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('orgdata.update', $orgdata->id) }}" autocomplete="off" onsubmit="return confirm('Kemaskini Pemohonan Data ?');">
+                        <form method="post" action="{{ route('orgdata.update', $orgdata->id) }}" autocomplete="off" onsubmit="return confirm('Anda pasti untuk mengemaskini pemohonan data tersebut ?');">
                             @csrf
                             @method('put')
 
@@ -122,6 +122,34 @@
         @include('layouts.footers.auth')
     </div>
     <script>
+        $(document).ready(function() {
+            $("#agensi_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_agensi_id").hide();
+                }else{
+                    $("#err_agensi_id").show();
+                }
+            });
+            $("#program_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_program_id").hide();
+                }else{
+                    $("#err_program_id").show();
+                }
+            });
+            $("#subjek").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_subjek").hide();
+                }else{
+                    $("#err_subjek").show();
+                }
+            });
+        });
+    </script>
+    <script>
         // Below Function Executes On Form Submit
         function orgdataValidationEvent() {
             // Storing Field Values In Variables
@@ -133,7 +161,7 @@
 
             if (agensi_id == '0') {
                 text = "Sila pilih agensi";
-                document.getElementById("err_orgdata_agensi_id").innerHTML = text;
+                document.getElementById("err_agensi_id").innerHTML = text;
                 return false;
             }
         

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Mail;
 use App\Program; 
 use App\Orgdata;
 use App\Agensi;
 use App\User;
+use App\AuditTrail;
 use Carbon\Carbon;
 use App\Http\Requests\OrgdataRequest;
 use App\Http\Controllers\Controller;
@@ -23,6 +25,15 @@ class OrgdataController extends Controller
     public function index(OrgdataRequest $request,Orgdata $model)
     {
         $this->authorize('manage-items', User::class);
+
+        // log
+        $log = [
+            'task'=>'permintaan data',
+            'details'=>'Padam permintaan data',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+        
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id;
@@ -121,11 +132,26 @@ class OrgdataController extends Controller
 
     public function create(OrgdataRequest $request, Orgdata $model)
     {
+        // log
+        $log = [
+            'task'=>'permintaan data',
+            'details'=>'Halaman bina permintaan data',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id;
-        $program = Program::all();
+
+        if($role_id == '2'){
+            $program = DB::table('program')->where('agensi_id', $agensi_id)->get();
+        }else if ($role_id == '3'){
+            $program = DB::table('program')->where('rekod_oleh',$user_id)->get();
+        }else if($role_id == '1'){
+            $program = Program::all();
+        }
+
         $agensi = Agensi::all();
 
         return view('orgdata.create', [
@@ -145,11 +171,12 @@ class OrgdataController extends Controller
         $userid = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         
+        // echo $request->pemohon_id;
         // dd($request->all());
         
         $orgdata = $model->create($request->merge([
-            'program_id' => $request->program_id ? $request->program_id : "-",
-            'agensi_id' => $request->agensi_id ? $request->agensi_id : "-",
+            'program_id' => $request->program_id ? $request->program_id : "0",
+            'agensi_id' => $request->agensi_id ? $request->agensi_id : "0",
             'status' => 1,
             'subjek' => $request->subjek ? $request->subjek : "-",
             'created_by' => $userid,
@@ -191,11 +218,13 @@ class OrgdataController extends Controller
                 });
             }
 
-            // Mail::send('orgdata.email', [], function ($message) {
-            //     $message->from('noreply@pipeline.com.my', 'Pemohonan Data');
-            //     $message->to('yusliadiyusof@pipeline.com.my')->cc('yusliadiyusof@pipeline.com.my');
-            //     $message->subject('Pemohonan Data');
-            // });
+            // log
+            $log = [
+                'task'=>'permintaan data',
+                'details'=>'Simpan permintaan data',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
 
         }
 
@@ -206,6 +235,14 @@ class OrgdataController extends Controller
 
     public function edit($orgdata)
     {
+        // log
+        $log = [
+            'task'=>'permintaan data',
+            'details'=>'Kemaskini permintaan data',
+            'entity_id'=>$orgdata
+        ];
+        $this->log_audit_trail($log);
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $program = Program::all();
@@ -222,6 +259,14 @@ class OrgdataController extends Controller
 
     public function show($orgdata)
     {
+        // log
+        $log = [
+            'task'=>'permintaan data',
+            'details'=>'Halaman lihat permintaan data',
+            'entity_id'=>$orgdata
+        ];
+        $this->log_audit_trail($log);
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $orgdata_detail = DB::table('permintaan_data')
@@ -266,6 +311,15 @@ class OrgdataController extends Controller
         // dd($request);
 
         // $item->tags()->sync($request->get('tags'));
+
+        // log
+        $log = [
+            'task'=>'permintaan data',
+            'details'=>'Kemaskini permintaan data',
+            'entity_id'=>$orgdata
+        ];
+        $this->log_audit_trail($log);
+
         if($role_id == '1' ){
             $orgdata = $orgdata->update($request->merge([
                 'status' => $request->status ? $request->status : null,
@@ -329,8 +383,37 @@ class OrgdataController extends Controller
     
     public function destroy($id)
     {
+        // log
+        $log = [
+            'task'=>'permintaan data',
+            'details'=>'Padam permintaan data',
+            'entity_id'=>$id
+        ];
+        $this->log_audit_trail($log);
+
         $orgdata = Orgdata::find($id);
         $orgdata->destroy($id);
         return redirect()->route('orgdata.index')->withStatus(__('orgdata successfully deleted.'));
     }
+    
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        // $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        // $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }

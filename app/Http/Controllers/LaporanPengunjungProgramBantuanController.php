@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Gate;
 use App\Profil;
 use App\Program;
 use App\Agensi;
+use App\AuditTrail;
 use App\AuditTrailPortal;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
@@ -27,12 +29,21 @@ class LaporanPengunjungProgramBantuanController extends Controller
 
     public function index(ProgramRequest $request)
     {
-        $agensi = Agensi::all();
-        $program = Program::all();
 
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
+        
+        $agensi = Agensi::all();
+
+        if($role_id == '2'){
+            $program = DB::table('program')->where('agensi_id', $agensi_id)->get();
+        }else if ($role_id == '3'){
+        //     $agensi = Agensi::all();
+            $program = DB::table('program')->where('rekod_oleh',$user_id)->get();
+        }else if($role_id == '1'){
+            $program = Program::all();
+        }
 
         if($request->all() != []){
             
@@ -77,6 +88,14 @@ class LaporanPengunjungProgramBantuanController extends Controller
                 'tarikh_tamat' => $request->tarikh_tamat
             ]);
         }
+
+        // log data
+        $log = [
+            'task'=>'laporan pungunjung program portal',
+            'details'=>'Halaman Laporan pungunjung program portal',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $tarikh_mula = '00';
         $tarikh_tamat = '00';
@@ -131,6 +150,27 @@ class LaporanPengunjungProgramBantuanController extends Controller
         // download PDF file with download method
         return $pdf->download('jejak-audit.pdf');
     }
+
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProgramBantuanExport implements  WithHeadings,FromArray

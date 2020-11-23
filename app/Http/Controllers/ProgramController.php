@@ -59,53 +59,44 @@ class ProgramController extends Controller
         if($request->all() != []){
 
             if($role_id == '3'){
+                // echo "qweqweqe - ".$agensi_id;
+                // dd($request->all());
+                $program = DB::table('program')
+                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                ->where([['program.rekod_oleh','=',$user_id],['program.nama','like','%'.$request->program.'%']])
+                ->orderBy('updated_at', 'desc')
+                // ->get();
+                ->paginate(3);
             }else if ($role_id == '2'){
+                // echo "asdsadasd - ".$agensi_id;
+                // dd($request->all());
+                $program = DB::table('program')
+                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                ->where([['program.nama','like','%'.$request->program.'%'],['program.agensi_id','=',$agensi_id]])
+                ->orderBy('updated_at', 'desc')
+                // ->get();
+                ->paginate(3);
             }else if ($role_id == '1'){
-    
-                if($request->program != '00'){
-                    // $data_sql1 = "['program.id', '=',".$request->program."]";
-                    $data_sql1 = ['program.id'=>1];
-                }else{
-                    $data_sql1 = '';
-                }
-
-                if($request->agensi != '00'){
-                    $and = ($request->program != '00' ? ' ,' : '');
-                    $data_sql2 = $and."['program.agensi_id',6]";
-                }else{
-                    $data_sql2 = '';
-                }
-
-                $whereData = [
-                    $data_sql1
-                ];
-
-                // print_r($whereData);
+                // echo "zxcxzczxc - ".$agensi_id;
+                // dd($request->all());
+                $program = DB::table('program')
+                ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
+                ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
+                ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
+                ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
+                ->where('program.nama','like','%'.$request->program.'%')
+                ->orderBy('updated_at', 'desc')
+                // ->get();
+                ->paginate(3);
     
             }
-    
-            // $psql = "
-            //     select a.*, c.nama as nama_manfaat, b.nama as nama_kekerapan, d.nama_kategori as nama_kategori 
-            //     from program a
-            //     left join kekerapan b on b.id = a.kekerapan_id
-            //     left join manfaat c on c.`id`= a.`manfaat_id`
-            //     left join kategori d on d.`id` = a.`kategori_id` where
-            //     ".$prog_sql.$agensi_sql." order by a.id DESC ";
-            // $program = DB::select($psql);
 
-            // print_r($data_sql1);
-            // print_r($data_sql2);
-            // die;
-
-            $program = DB::table('program')
-            ->leftJoin('kekerapan', 'kekerapan.id', '=', 'program.kekerapan_id')
-            ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
-            ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
-            ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
-            ->where('program.nama','like','%'.$request->program.'%')
-            ->orderBy('id', 'desc')
-            // ->get();
-            ->paginate(3);
 
             // dd($program);
             // return view('program.index', ['program' => $program,'agensi'=>$agensi,'programList'=>$programList]);
@@ -119,7 +110,7 @@ class ProgramController extends Controller
                     ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                     ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                     ->where('program.rekod_oleh',$user_id)
-                    ->orderBy('id', 'desc')
+                    ->orderBy('updated_at', 'desc')
                     // ->get();
                     ->paginate(3);
                 // $program = Program::where('rekod_oleh', $user_id)->get();
@@ -131,7 +122,7 @@ class ProgramController extends Controller
                     ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                     ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                     ->where('program.rekod_oleh',$user_id)
-                    ->orderBy('id', 'desc')
+                    ->orderBy('updated_at', 'desc')
                     // ->get();
                     ->paginate(3);
                 // $program = Program::where('rekod_oleh', $user_id)->get();
@@ -143,7 +134,7 @@ class ProgramController extends Controller
                     ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
                     ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                     ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
-                    ->orderBy('id', 'desc')
+                    ->orderBy('updated_at', 'desc')
                     //  ->get()
                     ->paginate(3);
                 // $program = Program::orderBy('id', 'desc')->paginate(3);

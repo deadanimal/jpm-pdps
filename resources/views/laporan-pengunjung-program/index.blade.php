@@ -19,8 +19,6 @@
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-body">
 
                         <?php 
                         // if(!empty($profil)){
@@ -53,8 +51,6 @@
                             </div>
                         </form>
 
-                    </div>
-                </div>
             </div>
         </div>
         <?php

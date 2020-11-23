@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Request;
 use Gate;
 use App\Profil;
 use App\Program;
 use App\Agensi;
+use App\AuditTrail;
 use App\Http\Requests\ProgramRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -26,16 +28,33 @@ class LaporanSenaraiProgramController extends Controller
 
     public function index(ProgramRequest $request)
     {
-        $agensi = Agensi::all();
-        $program = Program::all();
-
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
 
+        $agensi = Agensi::all();
+
+        if($role_id == '2'){
+            $program = DB::table('program')->where('agensi_id', $agensi_id)->get();
+        }else if ($role_id == '3'){
+        //     $agensi = Agensi::all();
+            $program = DB::table('program')->where('rekod_oleh',$user_id)->get();
+        }else if($role_id == '1'){
+            $program = Program::all();
+        }
+
+
         if($request->all() != []){
             
             if($role_id == '2'){
+
+                if($request->program != '00'){
+                    $prog_sql = " a.id = ".$request->program;
+                    $req_program = $request->program;
+                }else{
+                    $prog_sql = '';
+                    $req_program = $request->program;
+                }
             }else if ($role_id == '1'){
 
                 // $prog_sql = [];
@@ -139,6 +158,15 @@ class LaporanSenaraiProgramController extends Controller
                     
                 }
             }
+
+            // log data
+            $log = [
+                'task'=>'laporan senarai program',
+                'details'=>'Carian Laporan senarai program',
+                'entity_id'=>'0'
+            ];
+            $this->log_audit_trail($log);
+
             return view('laporan-senarai-program.index', [
                 'laporan' => $laporan_data,
                 'agensi'=>$agensi,
@@ -147,6 +175,14 @@ class LaporanSenaraiProgramController extends Controller
                 'req_agensi'=>$req_agensi
             ]);
         }
+
+        // log data
+        $log = [
+            'task'=>'laporan senarai program',
+            'details'=>'Halaman Laporan senarai program',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         $req_program = '00';
         $req_agensi = '00';
@@ -160,6 +196,14 @@ class LaporanSenaraiProgramController extends Controller
     }
 
     public function excel($program_id,$agensi_id){
+
+        // log data
+        $log = [
+            'task'=>'laporan senarai program',
+            'details'=>'Eksport excel Laporan senarai program',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
 
         if($program_id != '00'){
             $prog_sql = " a.id = ".$program_id;
@@ -272,6 +316,14 @@ class LaporanSenaraiProgramController extends Controller
 
     public function exportPdf($program_id,$agensi_id){
 
+        // log data
+        $log = [
+            'task'=>'laporan senarai program',
+            'details'=>'Eksport pdf Laporan senarai program',
+            'entity_id'=>'0'
+        ];
+        $this->log_audit_trail($log);
+
         if($program_id != '00'){
             $prog_sql = " a.id = ".$program_id;
             $req_program = $program_id;
@@ -374,6 +426,27 @@ class LaporanSenaraiProgramController extends Controller
         // download PDF file with download method
         return $pdf->download('program_bantuan.pdf');
     }
+
+    public function log_audit_trail($log){
+
+        $userid = auth()->user()->id; 
+        $role_id = auth()->user()->role_id; 
+        $agensi_id = auth()->user()->agensi_id; 
+        $ip_address = Request::ip();
+
+        $auditTrail = new AuditTrail;
+        $auditTrail->entity_id = $log['entity_id'];
+        $auditTrail->proses = $log['task'];
+        $auditTrail->keterangan_proses = $log['details'];
+        $auditTrail->ip_address = $ip_address;
+        $auditTrail->created_by = $userid;
+        $auditTrail->created_at = now();
+        $auditTrail->updated_by = $userid;
+        $auditTrail->updated_at = now();
+        $auditTrail->save();
+        
+        return $auditTrail;
+    } 
 }
 
 class ProgramBantuanExport implements  WithHeadings,FromArray

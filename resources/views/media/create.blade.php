@@ -26,13 +26,13 @@
                                 <h3 class="mb-0">{{ __('Banner & Berita') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('media.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
+                                <a href="javascript:history.go(-1)" class="btn btn-sm btn-default">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                     {{-- onsubmit="return confirm('Tambah Banner/Berita ?');" --}}
-                        <form method="post" class="item-form" action="{{ route('media.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Tambah Banner/Berita ?');">
+                        <form method="post" class="item-form" action="{{ route('media.store') }}" autocomplete="off" enctype="multipart/form-data" onsubmit="return confirm('Anda pasti untuk tambah banner & berita ?');">
                             @csrf
 
                             {{-- <h6 class="heading-small text-muted mb-4">{{ __('Item information') }}</h6> --}}
@@ -156,6 +156,74 @@
 
         @include('layouts.footers.auth')
     </div>
+    <script>
+        $(document).ready(function() {
+            $("#agensi_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_agensi_id").hide();
+                }else{
+                    $("#err_agensi_id").show();
+                }
+            });
+            $("#jenis").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_jenis").hide();
+                }else{
+                    $("#err_jenis").show();
+                }
+            });
+            $("#program_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_program_id").hide();
+                }else{
+                    $("#err_program_id").show();
+                }
+            });
+            $("#tajuk").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_tajuk").hide();
+                }else{
+                    $("#err_tajuk").show();
+                }
+            });
+            $("#keterangan").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_keterangan").hide();
+                }else{
+                    $("#err_keterangan").show();
+                }
+            });
+            $("#tarikh_mula").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_tarikh_mula").hide();
+                }else{
+                    $("#err_tarikh_mula").show();
+                }
+            });
+            $("#tarikh_tamat").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_tarikh_tamat").hide();
+                }else{
+                    $("#err_tarikh_tamat").show();
+                }
+            });
+            $("#photo").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_photo").hide();
+                }else{
+                    $("#err_photo").show();
+                }
+            });
+        });
+    </script>
     <script>
         // Below Function Executes On Form Submit
         function mediaValidationEvent() {
