@@ -39,7 +39,7 @@
                             <div class="pl-lg-4">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="agensi_div">>
                                         {{-- agensi --}}
                                         <?php if($role_id == '1'){ ?>
                                             <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
@@ -70,7 +70,7 @@
                                         <?php } ?>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="nama_div">
                                         {{-- nama --}}
                                         <div class="form-group{{ $errors->has('nama') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Nama Program') }} <span class="text-red">*</span></label>
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">{{-- kategori --}}
+                                    <div class="col-md-6" id="kategori_div">{{-- kategori --}}
                                         <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Kategori') }} <span class="text-red">*</span></label>
                                             <select type="text" id="kategori_id" class="form-control" name="kategori_id" required autofocus>
@@ -93,7 +93,7 @@
                                             @include('alerts.feedback', ['field' => 'kategori_id'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="teras_div">
                                         {{-- teras --}}
                                         <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Teras') }} <span class="text-red">*</span></label>
@@ -109,14 +109,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" id="subkategory_div">
                                         {{-- sub kategori --}}
                                         <div class="form-group" id="dynamic_sub_kat_que">
                                             
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="kumpulan_sasar_div">
                                         {{-- Kumpulan sasar --}}
                                         <div class="form-group{{ $errors->has('kumpulan sasar') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Kumpulan Sasar') }} <span class="text-red">*</span></label>
@@ -132,7 +132,7 @@
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="tarikh_mula_div">
                                         {{-- tarikh mula --}}
                                         <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }} <span class="text-red">*</span></label>
@@ -142,7 +142,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="tarikh_tamat_div">
                                         {{-- tarikh tamat --}}
                                         <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }} <span class="text-red">*</span></label>
@@ -152,7 +152,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="kekerapan_div">
                                         {{-- kekerapan --}}
                                         <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Kekerapan') }} <span class="text-red">*</span></label>
@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="manfaat_div">
                                         {{-- manfaat --}}
                                         <div class="form-group{{ $errors->has('manfaat') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Manfaat') }} <span class="text-red">*</span></label>
@@ -192,16 +192,16 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="objektif_div">
                                         {{-- objektif --}}
                                         <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Objektif') }} <span class="text-red">*</span></label>
-                                            <textarea type="text" id="objektif" name="objektif" class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif') }}" autofocus required></textarea>
+                                            <textarea rows="3" type="text" id="objektif" name="objektif" class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif') }}" autofocus required></textarea>
                                             <p class="text-red" id="err_objektif"></p>
                                             @include('alerts.feedback', ['field' => 'objektif'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="syarat_program_div">
                                         {{-- syarat program --}}
                                         <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Syarat Program') }} <span class="text-red">*</span></label>
@@ -211,7 +211,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="statuspelaksanaan_div">
                                         {{-- status_pelaksanaan	 --}}
                                         <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Status Pelaksanaan') }} <span class="text-red">*</span></label>
@@ -408,6 +408,8 @@
             if (agensi_id == '0') {
                 text = "Sila Pilih Agensi";
                 document.getElementById("err_agensi_id").innerHTML = text;
+                var agensi_div = document.getElementById("agensi_div");
+                agensi_div.scrollIntoView();
                 return false;
             }
 
@@ -415,18 +417,24 @@
             if(nama == ''){
                 text = "Sila isi program";
                 document.getElementById("err_nama").innerHTML = text;
+                var nama_div = document.getElementById("nama_div");
+                nama_div.scrollIntoView();
                 return false;
             }
 
             if (kategori_id == '0') {
                 text = "Sila pilih kategori";
                 document.getElementById("err_kategori_id").innerHTML = text;
+                var kategori_div = document.getElementById("kategori_div");
+                kategori_div.scrollIntoView();
                 return false;
             }
 
             if (teras_id == '0') {
                 text = "Sila pilih teras";
                 document.getElementById("err_teras_id").innerHTML = text;
+                var teras_div = document.getElementById("teras_div");
+                teras_div.scrollIntoView();
                 return false;
             }
 
@@ -437,6 +445,7 @@
                 document.getElementById("err_sub_kategori_id").innerHTML = text;
                 return false;
             }
+
             // check for sub kategori
             // check for kump sasar
             var flag = 0;
@@ -448,6 +457,8 @@
             if (flag == 0) {
                 text = "Sila pilih kumpulan sasar";
                 document.getElementById("err_ks_id").innerHTML = text;
+                var subkategory_div = document.getElementById("subkategory_div");
+                subkategory_div.scrollIntoView();
                 return false;
             }
             // check for kump sasar
@@ -455,24 +466,32 @@
             if (tarikh_mula == '') {
                 text = "Sila isi tarikh mula";
                 document.getElementById("err_tarikh_mula").innerHTML = text;
+                var tarikh_mula_div = document.getElementById("tarikh_mula_div");
+                tarikh_mula_div.scrollIntoView();
                 return false;
             }
 
             if (tarikh_tamat == '') {
                 text = "Sila isi tarikh tamat";
                 document.getElementById("err_tarikh_tamat").innerHTML = text;
+                var tarikh_tamat_div = document.getElementById("tarikh_tamat_div");
+                tarikh_tamat_div.scrollIntoView();
                 return false;
             }
 
             if (kekerapan_id == '0') {
                 text = "Sila pilih kekerapan";
                 document.getElementById("err_kekerapan_id").innerHTML = text;
+                var kekerapan_div = document.getElementById("kekerapan_div");
+                kekerapan_div.scrollIntoView();
                 return false;
             }
 
             if (manfaatval == '0') {
                 text = "Sila pilih manfaat";
                 document.getElementById("err_manfaat_id").innerHTML = text;
+                    var manfaat_div = document.getElementById("manfaat_div");
+                    manfaat_div.scrollIntoView();
                 return false;
             }
 
@@ -480,6 +499,8 @@
                 if (kos == '0') {
                     text = "Sila isi kos";
                     document.getElementById("err_kos").innerHTML = text;
+                    var kosval = document.getElementById("kosval");
+                    kosval.scrollIntoView();
                     return false;
                 }
             }
@@ -487,18 +508,24 @@
             if (objektif == '') {
                 text = "Sila isi objektif";
                 document.getElementById("err_objektif").innerHTML = text;
+                var objektif_div = document.getElementById("objektif_div");
+                objektif_div.scrollIntoView();
                 return false;
             }
 
             if (syarat_program == '') {
                 text = "Sila isi syarat program";
                 document.getElementById("err_syarat_program").innerHTML = text;
+                var syarat_program_div = document.getElementById("syarat_program_div");
+                syarat_program_div.scrollIntoView();
                 return false;
             }
 
             if (statuspelaksanaan == '0') {
                 text = "Sila isi status pelaksanaan";
                 document.getElementById("err_statuspelaksanaan").innerHTML = text;
+                var statuspelaksanaan_div = document.getElementById("statuspelaksanaan_div");
+                statuspelaksanaan_div.scrollIntoView();
                 return false;
             }
 
@@ -506,6 +533,8 @@
                 if (sebab_tidak_aktif == '') {
                     text = "Sila isi sebab tidak aktif";
                     document.getElementById("err_sebab_tidak_aktif").innerHTML = text;
+                    var sebabxaktif = document.getElementById("sebabxaktif");
+                    sebabxaktif.scrollIntoView();
                     return false;
                 }
             }

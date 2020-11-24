@@ -39,7 +39,7 @@
                             <div class="pl-lg-4">
 
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col" id="agensi_div">
                                         {{-- agensi --}}
                                         <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Agensi') }} <span class="text-red">*</span></label>
@@ -56,7 +56,7 @@
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col" id="nama_div">
                                         {{-- nama --}}
                                         <div class="form-group{{ $errors->has('nama') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Nama Program') }} <span class="text-red">*</span></label>
@@ -68,7 +68,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col" id="kategori_div">
                                 
                                         {{-- kategori --}}
                                         <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
@@ -87,7 +87,7 @@
                                             @include('alerts.feedback', ['field' => 'kategori_id'])
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col" id="teras_div">
                                         {{-- teras --}}
                                         <div class="form-group{{ $errors->has('teras') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Teras') }} <span class="text-red">*</span></label>
@@ -113,7 +113,7 @@
                                     ?>
 
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" id="subkategory_div">
                                                     <div class="form-group">
                                                         <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
                                                         <select type="text" class="form-control kategoriId" name="sub_kategori_id[]" autofocus>
@@ -127,7 +127,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-5" id="namasubkat_div">
                                                     <div class="form-group">
                                                         <label class="form-control-label">Sub Kategori <span class="text-red">*</span></label>
                                                         <select name="nama_sub_kategori_id[]" class="form-control nama_sub_kat select2 select-multiple" data-toggle="select" multiple="multiple" >
@@ -169,7 +169,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col" id="kumpulan_sasar_div">
                                         {{-- Kumpulan sasar --}}
                                         <div class="form-group{{ $errors->has('kumpulan sasar') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Kumpulan Sasar') }} <span class="text-red">*</span></label>
@@ -186,7 +186,7 @@
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col" id="kekerapan_div">
                                         {{-- kekerapan --}}
                                         <div class="form-group{{ $errors->has('kekerapan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Kekerapan') }} <span class="text-red">*</span></label>
@@ -203,8 +203,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col">
-                                        {{-- tarikh mula --}}
+                                    <div class="col" id="tarikh_mula_div">
                                         <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('tarikh_mula') }} <span class="text-red">*</span></label>
                                             <input type="date" name="tarikh_mula" id="tarikh_mula" class="form-control{{ $errors->has('tarikh_mula') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_mula') }}" value="{{ old('tarikh_mula', $program->tarikh_mula) }}" autofocus>
@@ -212,8 +211,7 @@
                                             @include('alerts.feedback', ['field' => 'tarikh_mula'])
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        {{-- tarikh tamat --}}
+                                    <div class="col" id="tarikh_tamat_div">
                                         <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('tarikh_tamat') }} <span class="text-red">*</span></label>
                                             <input type="date" name="tarikh_tamat" id="tarikh_tamat" class="form-control{{ $errors->has('tarikh_tamat') ? ' is-invalid' : '' }}" placeholder="{{ __('tarikh_tamat') }}" value="{{ old('tarikh_tamat', $program->tarikh_tamat) }}" autofocus>
@@ -223,15 +221,15 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="manfaat_div">
                                         {{-- manfaat --}}
                                         <div class="form-group{{ $errors->has('manfaat') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Manfaat') }} <span class="text-red">*</span></label>
                                             <select type="text" name="manfaat_id" id="manfaatval" class="form-control{{ $errors->has('Manfaat') ? ' is-invalid' : '' }}" placeholder="{{ __('Manfaat') }}" value="{{ old('name', $program->manfaat_id) }}" autofocus>
-                                                <option selected="selected" value="0">Sila Pilih</option>
+                                                <option value="0">Sila Pilih</option>
                                                 @foreach ($manfaat as $manfaat_k => $manfaat_val)
                                                     <?php if($program->manfaat_id == $manfaat_val->id){ ?>
-                                                    <option selected value="{{$manfaat_val->id}}" {{ $manfaat_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$manfaat_val->nama}}</option>
+                                                        <option selected value="{{$manfaat_val->id}}" {{ $manfaat_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$manfaat_val->nama}}</option>
                                                     <?php }else{ ?>
                                                         <option value="{{$manfaat_val->id}}" {{ $manfaat_val->id == $program->kekerapan_id ? 'selected' : '' }}>{{$manfaat_val->nama}}</option>
                                                     <?php } ?>
@@ -256,16 +254,16 @@
                                             @include('alerts.feedback', ['field' => 'kos'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="objektif_div">
                                         {{-- objektif --}}
                                         <div class="form-group{{ $errors->has('objektif') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Objektif') }} <span class="text-red">*</span></label>
-                                            <textarea type="text" id="objektif" name="objektif"  class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif', $program->objektif) }}" autofocus>{{ $program->objektif }}</textarea>
+                                            <textarea rows="3" type="text" id="objektif" name="objektif"  class="form-control{{ $errors->has('objektif') ? ' is-invalid' : '' }}" placeholder="{{ __('Objektif') }}" value="{{ old('objektif', $program->objektif) }}" autofocus>{{ $program->objektif }}</textarea>
                                             <p class="text-red" id="err_objektif"></p>
                                             @include('alerts.feedback', ['field' => 'objektif'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="syarat_program_div">
                                         {{-- syarat program --}}
                                         <div class="form-group{{ $errors->has('Syarat Program') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Syarat Program') }} <span class="text-red">*</span></label>
@@ -274,13 +272,13 @@
                                             @include('alerts.feedback', ['field' => 'syarat_program'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="statuspelaksanaan_div">
                                         {{-- status_pelaksanaan	 --}}
                                         <div class="form-group{{ $errors->has('status_pelaksanaan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Status Pelaksanaan') }} <span class="text-red">*</span></label>
                                             <select type="text" id="statuspelaksanaan" class="form-control" name="status_pelaksanaan_id" value="{{ old('status_pelaksanaan_id', $program->status_pelaksanaan_id) }}" autofocus>
-                                                <option value="1" {{ $program->status_pelaksanaan_id	 == 1 ? 'selected' : '' }}>Aktif</option>
-                                                <option value="2" {{ $program->status_pelaksanaan_id	 == 2 ? 'selected' : '' }}>Tidak Aktif</option>
+                                                <option value="1" {{ $program->status_pelaksanaan_id == 1 ? 'selected' : '' }}>Aktif</option>
+                                                <option value="2" {{ $program->status_pelaksanaan_id == 2 ? 'selected' : '' }}>Tidak Aktif</option>
                                             </select>
                                             <p class="text-red" id="err_statuspelaksanaan"></p>
                                             @include('alerts.feedback', ['field' => 'status_pelaksanaan'])
@@ -292,9 +290,9 @@
                                             <div class="form-group{{ $errors->has('status_program') ? ' has-danger' : '' }}">
                                                 <label class="form-control-label">{{ __('Status Program') }} <span class="text-red">*</span></label>
                                                 <select type="text" id="setactive-links" class="form-control" name="status_program_id" value="{{ old('status_program_id', $program->status_program_id) }}" autofocus>
-                                                    <option value="1" {{ $program->status_program_id	 == 1 ? 'selected' : '' }}>Dihantar</option>
-                                                    <option value="2" {{ $program->status_program_id	 == 2 ? 'selected' : '' }}>Berjaya</option>
-                                                    <option value="3" {{ $program->status_program_id	 == 3 ? 'selected' : '' }}>Ditolak</option>
+                                                    <option value="1" {{ $program->status_program_id == 1 ? 'selected' : '' }}>Dihantar</option>
+                                                    <option value="2" {{ $program->status_program_id == 2 ? 'selected' : '' }}>Berjaya</option>
+                                                    <option value="3" {{ $program->status_program_id == 3 ? 'selected' : '' }}>Ditolak</option>
                                                 </select>
                                                 @include('alerts.feedback', ['field' => 'status_program'])
                                             </div>
@@ -345,128 +343,128 @@
             </div>
         </div>
 
-    <script>
-        $(document).ready(function() {
-            $("#agensi_id").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_agensi_id").hide();
-                }else{
-                    $("#err_agensi_id").show();
-                }
+        <script>
+            $(document).ready(function() {
+                $("#agensi_id").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_agensi_id").hide();
+                    }else{
+                        $("#err_agensi_id").show();
+                    }
+                });
+                $("#nama").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != ''){
+                        $("#err_nama").hide();
+                    }else{
+                        $("#err_nama").show();
+                    }
+                });
+                $("#kategori_id").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_kategori_id").hide();
+                    }else{
+                        $("#err_kategori_id").show();
+                    }
+                });
+                $("#teras_id").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_teras_id").hide();
+                    }else{
+                        $("#err_teras_id").show();
+                    }
+                });
+                $("#tarikh_mula").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != ''){
+                        $("#err_tarikh_mula").hide();
+                    }else{
+                        $("#err_tarikh_mula").show();
+                    }
+                });
+                $("#tarikh_tamat").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != ''){
+                        $("#err_tarikh_tamat").hide();
+                    }else{
+                        $("#err_tarikh_tamat").show();
+                    }
+                });
+                $("#kekerapan_id").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_kekerapan_id").hide();
+                    }else{
+                        $("#err_kekerapan_id").show();
+                    }
+                });
+                $("#manfaatval").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_manfaatval").hide();
+                    }else{
+                        $("#err_manfaatval").show();
+                    }
+                });
+                $("#kos").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != ''){
+                        $("#err_kos").hide();
+                    }else{
+                        $("#err_kos").show();
+                    }
+                });
+                $("#objektif").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != ''){
+                        $("#err_objektif").hide();
+                    }else{
+                        $("#err_objektif").show();
+                    }
+                });
+                $("#syarat_program").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != ''){
+                        $("#err_syarat_program").hide();
+                    }else{
+                        $("#err_syarat_program").show();
+                    }
+                });
+                $("#statuspelaksanaan").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_statuspelaksanaan").hide();
+                    }else{
+                        $("#err_statuspelaksanaan").show();
+                    }
+                });
+                $("#sebab_tidak_aktif").change(function () {
+                    console.log( $(this).val() );
+                    if($(this).val() != '0'){
+                        $("#err_sebab_tidak_aktif").hide();
+                    }else{
+                        $("#err_sebab_tidak_aktif").show();
+                    }
+                });
+                // $("#url").change(function () {
+                //     console.log( $(this).val() );
+                //     if($(this).val() != ''){
+                //         $("#err_url").hide();
+                //     }else{
+                //         $("#err_url").show();
+                //     }
+                // });
             });
-            $("#nama").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != ''){
-                    $("#err_nama").hide();
-                }else{
-                    $("#err_nama").show();
-                }
-            });
-            $("#kategori_id").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_kategori_id").hide();
-                }else{
-                    $("#err_kategori_id").show();
-                }
-            });
-            $("#teras_id").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_teras_id").hide();
-                }else{
-                    $("#err_teras_id").show();
-                }
-            });
-            $("#tarikh_mula").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != ''){
-                    $("#err_tarikh_mula").hide();
-                }else{
-                    $("#err_tarikh_mula").show();
-                }
-            });
-            $("#tarikh_tamat").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != ''){
-                    $("#err_tarikh_tamat").hide();
-                }else{
-                    $("#err_tarikh_tamat").show();
-                }
-            });
-            $("#kekerapan_id").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_kekerapan_id").hide();
-                }else{
-                    $("#err_kekerapan_id").show();
-                }
-            });
-            $("#manfaatval").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_manfaatval").hide();
-                }else{
-                    $("#err_manfaatval").show();
-                }
-            });
-            $("#kos").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != ''){
-                    $("#err_kos").hide();
-                }else{
-                    $("#err_kos").show();
-                }
-            });
-            $("#objektif").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != ''){
-                    $("#err_objektif").hide();
-                }else{
-                    $("#err_objektif").show();
-                }
-            });
-            $("#syarat_program").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != ''){
-                    $("#err_syarat_program").hide();
-                }else{
-                    $("#err_syarat_program").show();
-                }
-            });
-            $("#statuspelaksanaan").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_statuspelaksanaan").hide();
-                }else{
-                    $("#err_statuspelaksanaan").show();
-                }
-            });
-            $("#sebab_tidak_aktif").change(function () {
-                console.log( $(this).val() );
-                if($(this).val() != '0'){
-                    $("#err_sebab_tidak_aktif").hide();
-                }else{
-                    $("#err_sebab_tidak_aktif").show();
-                }
-            });
-            // $("#url").change(function () {
-            //     console.log( $(this).val() );
-            //     if($(this).val() != ''){
-            //         $("#err_url").hide();
-            //     }else{
-            //         $("#err_url").show();
-            //     }
-            // });
-        });
-    </script>
+        </script>
     
         <script>
             // Below Function Executes On Form Submit
             function programValidationEvent() {
                 // Storing Field Values In Variables
-                // var agensi_id = document.getElementById("agensi_id").value;
+                var agensi_id = document.getElementById("agensi_id").value;
                 var nama = document.getElementById("nama").value;
                 var kategori_id = document.getElementById("kategori_id").value;
                 var teras_id = document.getElementById("teras_id").value;
@@ -481,33 +479,38 @@
                 var sebab_tidak_aktif = document.getElementById("sebab_tidak_aktif").value;
                 
                 // // check if it is banner/berita
+                if(agensi_id == ''){
+                    text = "Sila isi program";
+                    document.getElementById("err_agensi_id").innerHTML = text;
+                    var agensi_div = document.getElementById("agensi_div");
+                    agensi_div.scrollIntoView();
+                    return false;
+                }
+
                 if(nama == ''){
                     text = "Sila isi program";
                     document.getElementById("err_nama").innerHTML = text;
+                    var nama_div = document.getElementById("nama_div");
+                    nama_div.scrollIntoView();
                     return false;
                 }
     
                 if (kategori_id == '0') {
                     text = "Sila pilih kategori";
                     document.getElementById("err_kategori_id").innerHTML = text;
+                    var kategori_div = document.getElementById("kategori_div");
+                    kategori_div.scrollIntoView();
                     return false;
                 }
     
                 if (teras_id == '0') {
                     text = "Sila pilih teras";
                     document.getElementById("err_teras_id").innerHTML = text;
+                    var teras_div = document.getElementById("teras_div");
+                    teras_div.scrollIntoView();
                     return false;
                 }
     
-                // // check for sub kategori
-                // // console.log(document.myform["sub_kategori_id[]"]);
-                // if(sub_kategori_id == '0'){
-                //     text = "Sila pilih Sub Kategori";
-                //     document.getElementById("err_sub_kategori_id").innerHTML = text;
-                //     return false;
-                // }
-                // // check for sub kategori
-                // // check for kump sasar
                 var flag = 0;
                 for (var i = 0; i<= 3; i++) {
                     if(document.myform["ks_id[]"][i].checked){
@@ -517,6 +520,8 @@
                 if (flag == 0) {
                     text = "Sila pilih kumpulan sasar";
                     document.getElementById("err_ks_id").innerHTML = text;
+                    var subkategory_div = document.getElementById("subkategory_div");
+                    subkategory_div.scrollIntoView();
                     return false;
                 }
                 // // check for kump sasar
@@ -524,24 +529,32 @@
                 if (tarikh_mula == '') {
                     text = "Sila isi tarikh mula";
                     document.getElementById("err_tarikh_mula").innerHTML = text;
+                    var tarikh_mula_div = document.getElementById("tarikh_mula_div");
+                    tarikh_mula_div.scrollIntoView();
                     return false;
                 }
     
                 if (tarikh_tamat == '') {
                     text = "Sila isi tarikh tamat";
                     document.getElementById("err_tarikh_tamat").innerHTML = text;
+                    var tarikh_tamat_div = document.getElementById("tarikh_tamat_div");
+                    tarikh_tamat_div.scrollIntoView();
                     return false;
                 }
     
                 if (kekerapan_id == '0') {
                     text = "Sila pilih kekerapan";
                     document.getElementById("err_kekerapan_id").innerHTML = text;
+                    var kekerapan_div = document.getElementById("kekerapan_div");
+                    kekerapan_div.scrollIntoView();
                     return false;
                 }
     
                 if (manfaatval == '0') {
                     text = "Sila pilih manfaat";
                     document.getElementById("err_manfaat_id").innerHTML = text;
+                    var manfaat_div = document.getElementById("manfaat_div");
+                    manfaat_div.scrollIntoView();
                     return false;
                 }
     
@@ -550,6 +563,8 @@
                     if (kos == '0' || kos == '') {
                         text = "Sila isi kos";
                         document.getElementById("err_kos").innerHTML = text;
+                        var kosval = document.getElementById("kosval");
+                        kosval.scrollIntoView();
                         return false;
                     }
                 }
@@ -557,18 +572,24 @@
                 if (objektif == '') {
                     text = "Sila isi objektif";
                     document.getElementById("err_objektif").innerHTML = text;
+                    var objektif_div = document.getElementById("objektif_div");
+                    objektif_div.scrollIntoView();
                     return false;
                 }
     
                 if (syarat_program == '') {
                     text = "Sila isi syarat program";
                     document.getElementById("err_syarat_program").innerHTML = text;
+                    var syarat_program_div = document.getElementById("syarat_program_div");
+                    syarat_program_div.scrollIntoView();
                     return false;
                 }
     
                 if (statuspelaksanaan == '0') {
                     text = "Sila isi status pelaksanaan";
                     document.getElementById("err_statuspelaksanaan").innerHTML = text;
+                    var statuspelaksanaan_div = document.getElementById("statuspelaksanaan_div");
+                    statuspelaksanaan_div.scrollIntoView();
                     return false;
                 }
     
@@ -577,6 +598,8 @@
                     if (sebab_tidak_aktif == '') {
                         text = "Sila isi sebab tidak aktif";
                         document.getElementById("err_sebab_tidak_aktif").innerHTML = text;
+                        var sebabxaktif = document.getElementById("sebabxaktif");
+                        sebabxaktif.scrollIntoView();
                         return false;
                     }
                 }

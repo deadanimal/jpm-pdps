@@ -311,7 +311,7 @@
                             </ul>
                         </div>
                     </li> --}}
-                    {{-- <li class="nav-item {{ $parentSection == 'forms' ? 'active' : '' }}">
+                    <li class="nav-item {{ $parentSection == 'forms' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'forms' ? 'true' : '' }}" aria-controls="navbar-forms">
                             <i class="ni ni-single-copy-04 text-pink"></i>
                             <span class="nav-link-text">{{ __('Forms') }}</span>
@@ -329,7 +329,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li> --}}
+                    </li>
                     <!-- <li class="nav-item {{ $parentSection == 'tables' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'tables' ? 'true' : '' }}" aria-controls="navbar-tables">
                             <i class="ni ni-align-left-2 text-default"></i>

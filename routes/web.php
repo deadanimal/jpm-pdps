@@ -12,16 +12,18 @@
 */
 
 Route::get('/', function () {
-	return view('pages.landing');
+	return view('portal.index');
 })->name('landing');
 
 Auth::routes();
 
+Route::resource('portal', 'PortalController');
+// Route::resource('landing', 'PortalController')->name('portal.index');
 Route::get('dashboard', 'HomeController@index')->name('home');
 Route::get('pricing', 'PageController@pricing')->name('page.pricing');
 Route::get('lock', 'PageController@lock')->name('page.lock');
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth'], function () {
 	Route::resource('category', 'CategoryController', ['except' => ['show']]);
 	Route::resource('tag', 'TagController', ['except' => ['show']]);
 	Route::resource('item', 'ItemController', ['except' => ['show']]);
@@ -95,6 +97,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 	
 	Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
-});
+// });
 
 

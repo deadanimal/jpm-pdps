@@ -268,7 +268,7 @@ class MediaController extends Controller
     {
         $role_id = auth()->user()->role_id; 
         $agensi = Agensi::all();
-        $media = Media::find($media);
+        $media_data = Media::find($media);
         $program = Program::all();
 
         // log
@@ -280,7 +280,7 @@ class MediaController extends Controller
         $this->log_audit_trail($log);
 
         return view('media.edit',[
-            'media'=>$media,
+            'media'=>$media_data,
             'program'=>$program,
             'role_id'=>$role_id,
             'agensi'=>$agensi

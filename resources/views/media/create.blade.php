@@ -39,7 +39,7 @@
                             <div class="pl-lg-4">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="agensi_div">
                                         {{-- agensi --}}
                                         <?php if($role_id == '1'){ ?>
                                             <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">
@@ -70,7 +70,7 @@
                                             </div>
                                         <?php } ?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="jenis_div">
                                         {{-- jenis --}}
                                         <div  class="form-group{{ $errors->has('jenis') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Jenis Pemohonan') }} <span class="text-red">*</span></label>
@@ -82,7 +82,7 @@
                                             @include('alerts.feedback', ['field' => 'jenis'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6 programList" style="display: none">
+                                    <div class="col-md-6 programList" id="program_div" style="display: none">
                                         {{-- program --}}
                                         <div class="form-group{{ $errors->has('program') ? ' has-danger' : '' }}">
                                             <label class="form-control-label">{{ __('Program') }} <span class="text-red">*</span></label>
@@ -97,7 +97,7 @@
                                             @include('alerts.feedback', ['field' => 'agensi_id'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6 berita-tajuk">
+                                    <div class="col-md-6 berita-tajuk" id="tajuk_div">
                                         {{-- tajuk --}}
                                         <div class="form-group{{ $errors->has('tajuk') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Tajuk') }} <span class="text-red">*</span></label>
@@ -106,7 +106,7 @@
                                             @include('alerts.feedback', ['field' => 'tajuk'])
                                         </div>
                                     </div>
-                                    <div class="berita-keterangan col-md-6">
+                                    <div class="berita-keterangan col-md-6" id="keterangan_div">
                                         {{-- keterangan --}}
                                         <div class="form-group{{ $errors->has('keterangan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Keterangan') }} <span class="text-red">*</span></label>
@@ -115,7 +115,7 @@
                                             @include('alerts.feedback', ['field' => 'keterangan'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="tarikh_mula_div">
                                         {{-- tarikh_mula --}}
                                         <div class="form-group{{ $errors->has('tarikh_mula') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Tarikh Mula') }} <span class="text-red">*</span></label>
@@ -124,7 +124,7 @@
                                             @include('alerts.feedback', ['field' => 'tarikh_mula'])
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" id="tarikh_tamat_div">
                                         {{-- tarikh_tamat --}}
                                         <div class="form-group{{ $errors->has('tarikh_tamat') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Tarikh Tamat') }} <span class="text-red">*</span></label>
@@ -245,6 +245,8 @@
             if (agensi_id == '0') {
                 text = "Sila Pilih Agensi";
                 document.getElementById("err_agensi_id").innerHTML = text;
+                var agensi_div = document.getElementById("agensi_div");
+                agensi_div.scrollIntoView();
                 return false;
             }
 
@@ -253,6 +255,8 @@
                 if(program_id == '0'){
                     text = "Sila Pilih program";
                     document.getElementById("err_program_id").innerHTML = text;
+                    var program_div = document.getElementById("program_div");
+                    program_div.scrollIntoView();
                     return false;
                 }
             }
@@ -260,6 +264,8 @@
                 if (tajuk == '') {
                     text = "Sila Isi tajuk";
                     document.getElementById("err_tajuk").innerHTML = text;
+                    var tajuk_div = document.getElementById("tajuk_div");
+                    tajuk_div.scrollIntoView();
                     return false;
                 }
             }
@@ -267,6 +273,8 @@
                 if (keterangan == '') {
                     text = "Sila Isi keterangan";
                     document.getElementById("err_keterangan").innerHTML = text;
+                    var keterangan_div = document.getElementById("keterangan_div");
+                    keterangan_div.scrollIntoView();
                     return false;
                 }
             }
@@ -274,12 +282,16 @@
             if (tarikh_mula == '') {
                 text = "Sila Isi tarikh mula";
                 document.getElementById("err_tarikh_mula").innerHTML = text;
+                var tarikh_mula_div = document.getElementById("tarikh_mula_div");
+                tarikh_mula_div.scrollIntoView();
                 return false;
             }
 
             if (tarikh_tamat == '') {
                 text = "Sila Isi tarikh tamat";
                 document.getElementById("err_tarikh_tamat").innerHTML = text;
+                var tarikh_tamat_div = document.getElementById("tarikh_tamat_div");
+                tarikh_tamat_div.scrollIntoView();
                 return false;
             }
             if (jenis == '2') {

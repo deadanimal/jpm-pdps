@@ -68,7 +68,6 @@ class ProgramController extends Controller
                 ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where([['program.rekod_oleh','=',$user_id],['program.nama','like','%'.$request->program.'%']])
                 ->orderBy('updated_at', 'desc')
-                // ->get();
                 ->paginate(3);
             }else if ($role_id == '2'){
                 // echo "asdsadasd - ".$agensi_id;
@@ -80,7 +79,6 @@ class ProgramController extends Controller
                 ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where([['program.nama','like','%'.$request->program.'%'],['program.agensi_id','=',$agensi_id]])
                 ->orderBy('updated_at', 'desc')
-                // ->get();
                 ->paginate(3);
             }else if ($role_id == '1'){
                 // echo "zxcxzczxc - ".$agensi_id;
@@ -92,9 +90,7 @@ class ProgramController extends Controller
                 ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where('program.nama','like','%'.$request->program.'%')
                 ->orderBy('updated_at', 'desc')
-                // ->get();
                 ->paginate(3);
-    
             }
 
 
@@ -333,7 +329,9 @@ class ProgramController extends Controller
 
         $role_id = auth()->user()->role_id; 
         $agensi = Agensi::all();
-        $program = Program::find($program);
+
+        $program_data = Program::find($program);
+
         $jenissubkat = JenisSubKategori::all();
         $subkat = SubKategori::all();
         $kat = Kategori::all();
@@ -346,8 +344,9 @@ class ProgramController extends Controller
 
         $pks_data = DB::table('program_kumpulan_sasar')
             ->select( 'program_kumpulan_sasar.*') 
-            ->where('program_kumpulan_sasar.program_id', $program->id)
+            ->where('program_kumpulan_sasar.program_id','=', $program)
             ->get();
+            
         
         $pks = [];
         
@@ -364,7 +363,7 @@ class ProgramController extends Controller
                 'sub_kategori.nama_sub_kategori', 
                 'jenis_sub_kategori.id as jenis_sub_cat_id',
                 'jenis_sub_kategori.nama_jenis_sub_kategori as jenis_sub_cat_name')
-            ->where('program_master.program_id', $program->id)
+            ->where('program_master.program_id', $program)
             ->get();
         
         $sub_kategori_opt = [];
@@ -380,7 +379,7 @@ class ProgramController extends Controller
             'subkat'=>$subkat,
             'jenissubkat'=>$jenissubkat,
             'kat'=>$kat,
-            'program'=>$program,
+            'program'=>$program_data,
             'agensi'=>$agensi,
             'prog_master'=>$prog_master,
             'sub_kategori_opt'=>$sub_kategori_opt,

@@ -169,6 +169,98 @@
 
         @include('layouts.footers.auth')
     </div>
+    <script>
+        $(document).ready(function() {
+            $("#name").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != '0'){
+                    $("#err_name").hide();
+                }else{
+                    $("#err_name").show();
+                }
+            });
+            $("#email").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_email").hide();
+                }else{
+                    $("#err_email").show();
+                }
+            });
+            $("#ic_no").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_ic_no").hide();
+                }else{
+                    $("#err_ic_no").show();
+                }
+            });
+            $("#no_telepon").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_no_telepon").hide();
+                }else{
+                    $("#err_no_telepon").show();
+                }
+            });
+            $("#alamat").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_alamat").hide();
+                }else{
+                    $("#err_alamat").show();
+                }
+            });
+            $("#jawatan").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_jawatan").hide();
+                }else{
+                    $("#err_jawatan").show();
+                }
+            });
+            $("#userrole").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_userrole").hide();
+                }else{
+                    $("#err_userrole").show();
+                }
+            });
+            $("#agensi_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_agensi_id").hide();
+                }else{
+                    $("#err_agensi_id").show();
+                }
+            });
+            $("#negeri_id").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_negeri_id").hide();
+                }else{
+                    $("#err_negeri_id").show();
+                }
+            });
+            $("#password").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_password").hide();
+                }else{
+                    $("#err_password").show();
+                }
+            });
+            $("#password_confirmation").change(function () {
+                console.log( $(this).val() );
+                if($(this).val() != ''){
+                    $("#err_password_confirmation").hide();
+                }else{
+                    $("#err_password_confirmation").show();
+                }
+            });
+        });
+    </script>
 
     <script>
         // Below Function Executes On Form Submit
@@ -192,24 +284,32 @@
             if (name == '') {
                 text = "Sila Isi Nama";
                 document.getElementById("err_name").innerHTML = text;
+                var name_div = document.getElementById("name_div");
+                name_div.scrollIntoView();
                 return false;
             }
 
             if (email == '') {
                 text = "Sila Isi Email";
                 document.getElementById("err_email").innerHTML = text;
+                var email_div = document.getElementById("email_div");
+                email_div.scrollIntoView();
                 return false;
             }
 
             if (ic_no == '') {
                 text = "Sila Isi No Kad Pengenalan";
                 document.getElementById("err_ic_no").innerHTML = text;
+                var ic_no_div = document.getElementById("ic_no_div");
+                ic_no_div.scrollIntoView();
                 return false;
             }
 
             if (no_telepon == '') {
                 text = "Sila Isi No Telefon";
                 document.getElementById("err_no_telepon").innerHTML = text;
+                var no_telepon_div = document.getElementById("no_telepon_div");
+                no_telepon_div.scrollIntoView();
                 return false;
             }
 

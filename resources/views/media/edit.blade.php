@@ -259,6 +259,8 @@
                 if(program_id == '0'){
                     text = "Sila Pilih program";
                     document.getElementById("err_program_id").innerHTML = text;
+                    var program_div = document.getElementById("program_div");
+                    program_div.scrollIntoView();
                     return false;
                 }
             }
@@ -270,6 +272,8 @@
                 if (tajuk == '') {
                     text = "Sila Isi tajuk";
                     document.getElementById("err_tajuk").innerHTML = text;
+                    var program_div = document.getElementById("program_div");
+                    program_div.scrollIntoView();
                     return false;
                 }
 
