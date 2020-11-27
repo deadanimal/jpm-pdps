@@ -200,11 +200,29 @@
                     </li> --}}
 
                     <li class="nav-item">
-                        <a href="{{ route('profil.index') }}" class="nav-link">
-                            <i class="ni ni-collection text-default"></i>
-                            <span class="nav-link-text">{{ __('Content Management') }}</span>
+                        <a class="nav-link" href="#navbar-pengurusan-kandungan" data-toggle="collapse" 
+                        role="button" aria-expanded="true" aria-controls="navbar-pengurusan-kandungan">
+                            <i class="ni ni-chart-pie-35  text-default"></i>
+                            <span class="nav-link-text">{{ __('Pengurusan Kandungan') }}</span>
                         </a>
+                        <div class="hide" id="navbar-pengurusan-kandungan">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item {{ $elementName == 'profile' ? 'active' : '' }}">
+                                    <a href="{{ route('pengurusan-kandungan.program') }}" class="nav-link">{{ __('Program') }}</a>
+                                </li>
+                                <li class="nav-item {{ $elementName == 'profile' ? 'active' : '' }}">
+                                    <a href="{{ route('pengurusan-kandungan.media') }}" class="nav-link">{{ __('Media') }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
+
+                    {{-- <li class="nav-item">
+                        <a href="{{ route('pengurusan-kandungan.index') }}" class="nav-link">
+                            <i class="ni ni-collection text-default"></i>
+                            <span class="nav-link-text">{{ __('Pengurusan Kandungan') }}</span>
+                        </a>
+                    </li> --}}
 
 
                     <li class="nav-item">
@@ -311,7 +329,7 @@
                             </ul>
                         </div>
                     </li> --}}
-                    <li class="nav-item {{ $parentSection == 'forms' ? 'active' : '' }}">
+                    {{-- <li class="nav-item {{ $parentSection == 'forms' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'forms' ? 'true' : '' }}" aria-controls="navbar-forms">
                             <i class="ni ni-single-copy-04 text-pink"></i>
                             <span class="nav-link-text">{{ __('Forms') }}</span>
@@ -329,7 +347,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
                     <!-- <li class="nav-item {{ $parentSection == 'tables' ? 'active' : '' }}">
                         <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="{{ $parentSection == 'tables' ? 'true' : '' }}" aria-controls="navbar-tables">
                             <i class="ni ni-align-left-2 text-default"></i>

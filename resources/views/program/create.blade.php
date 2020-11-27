@@ -39,7 +39,7 @@
                             <div class="pl-lg-4">
 
                                 <div class="row">
-                                    <div class="col-md-6" id="agensi_div">>
+                                    <div class="col-md-6" id="agensi_div">
                                         {{-- agensi --}}
                                         <?php if($role_id == '1'){ ?>
                                             <div class="form-group{{ $errors->has('agensi') ? ' has-danger' : '' }}">

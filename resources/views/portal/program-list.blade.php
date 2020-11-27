@@ -447,37 +447,351 @@
       </header>
 
       <!-- Start main-content -->
-      <div class="main-content mt--100" data-padding-top="-100px">
-        <!-- Section: banner / news -->
+      <div class="main-content">
+
         <section id="about4" style="background-image: url(../custom/images/graphic/putrajaya-blur.png); background-size: cover; background-position: center top;padding-bottom:10px">
           <div class="container-fluid">
-            <div class="section-content">
-              <div class="row mt-70">
-                <div
-                  class="col-md-2"
-                >
-                </div>
-                <div class="col-sm-12 col-md-8 wow fadeInUp animation-delay4">
-                  <!-- <h3 class="text-uppercase line-bottom mt-0">Featured <span class="text-theme-colored"> Project</span></h3> -->
-                  <div class="owl-carousel-1col" data-nav="true">
+            <div class="section-content" style="padding-top: 200px">
+            </div>
+          </div>
+        </section>
 
-                    <?php foreach($banner as $banner_k => $banner_val){ ?>
-                      <div class="item">
-                        <div class="box-hover-effect effect1 mb-sm-30">
-                          <div class="thumb">
-                            <a href="#">
-                              <img
-                                class="img-fullwidth mb-10"
-                                style="height: 400px !important"
-                                src='/storage/{{ $banner_val->gambar }}'
-                                alt="..."
-                              />
+        <section class="bg-grey">
+          <div class="container pt-10">
+            <div class="section-content">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col">
+                      <h3>Perkhidmatan</h3>
+                      <hr style="width: 100%; color: #007bff" />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="">
+                        <ul class="list angle-double-right list-border">
+                          <li>
+                            <a data-toggle="collapse" href="#collapseKanakOne">
+                              Kanak - Kanak
                             </a>
-                          </div>
-                        </div>
+                            <!-- <span class="text-theme-colored">></span> -->
+                            <hr />
+                            <ul
+                              id="collapseKanakOne"
+                              class="panel-collapse collapse"
+                              role="tabpanel"
+                              aria-labelledby="headingOne"
+                            >
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseKanakThree"
+                                  >OKU
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseKanakThree"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="kanakBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="kanakMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseKanakMySalam"
+                                  >Kesihatan
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseKanakMySalam"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="kanakKesihatanBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="kanakKesihatanMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+
+                          <li>
+                            <a data-toggle="collapse" href="#collapseDewasaOne">
+                              Dewasa
+                            </a>
+                            <!-- <span class="text-theme-colored">></span> -->
+                            <hr />
+                            <ul
+                              id="collapseDewasaOne"
+                              class="panel-collapse collapse"
+                              role="tabpanel"
+                              aria-labelledby="headingOne"
+                            >
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseDewasaThree"
+                                  >OKU
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseDewasaThree"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="dewasaBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="dewasaMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapsedewasaMySalam"
+                                  >Kesihatan
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapsedewasaMySalam"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="dewasaKesihatanBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="dewasaKesihatanMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+
+                          <li>
+                            <a data-toggle="collapse" href="#collapseWargaOne">
+                              Warga Emas
+                            </a>
+                            <!-- <span class="text-theme-colored">></span> -->
+                            <hr />
+                            <ul
+                              id="collapseWargaOne"
+                              class="panel-collapse collapse"
+                              role="tabpanel"
+                              aria-labelledby="headingOne"
+                            >
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseWargaThree"
+                                  >OKU
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseWargaThree"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="wargaBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="wargaMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseWargaMySalam"
+                                  >Kesihatan
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseWargaMySalam"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="wargaKesihatanBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="wargaKesihatanMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
                       </div>
-                    <?php } ?>
-                    
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-8" id="divBsh">
+                  <div class="row">
+                    <div class="col">
+                      <h3>Bantuan Sara Hidup</h3>
+                      <hr style="width: 100%; color: #007bff" />
+                      <p>
+                        <a href="">Utama</a>
+                        <span class="text-theme-colored">/</span>
+                        <a href="">Utama</a>
+                        <span class="text-theme-colored">/</span>
+                        <a href="">Utama</a>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12"></div>
+                    <div class="col-md-12 col-lg-12">
+                      <table
+                        class="table align-items-center table-flush table-hover text-black"
+                      >
+                        <tbody class="list">
+                          <tr>
+                            <td>Agensi</td>
+                            <td>: Kementerian Kewangan</td>
+                          </tr>
+                          <tr>
+                            <td>Nama Program</td>
+                            <td>: Bantuan Sara Hidup (BSH)</td>
+                          </tr>
+                          <tr>
+                            <td>Kumpulan Sasaran</td>
+                            <td>: Warga Emas</td>
+                          </tr>
+                          <tr>
+                            <td>Kategori</td>
+                            <td>: Kebajikan Masyarakat</td>
+                          </tr>
+                          <tr>
+                            <td>Objektif Program</td>
+                            <td>: Bantuan isi rumah untuk rakyat Malaysia</td>
+                          </tr>
+                          <tr>
+                            <td>Kriteria/Syarat</td>
+                            <td>
+                              : Isi rumah pendapatan bulanan RM2000.00dan
+                              kebawah
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Manfaat</td>
+                            <td>: Wang Tunai</td>
+                          </tr>
+                          <tr>
+                            <td>Kos (RM)</td>
+                            <td>: 600.00</td>
+                          </tr>
+                          <tr>
+                            <td>Kekerapan</td>
+                            <td>: Sekali</td>
+                          </tr>
+                          <tr>
+                            <td colspan="2" class="text-right">
+                              <button class="btn btn-primary">Pautan</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-8" id="divMySalam" style="display: none">
+                  <div class="row">
+                    <div class="col">
+                      <h3>My Salam</h3>
+                      <hr style="width: 100%; color: #007bff" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-lg-12"></div>
+                    <div class="col-md-12 col-lg-12">
+                      <table
+                        class="table align-items-center table-flush table-hover text-black"
+                      >
+                        <tbody class="list">
+                          <tr>
+                            <td>Agensi</td>
+                            <td>: Kementerian Kewangan</td>
+                          </tr>
+                          <tr>
+                            <td>Nama Program</td>
+                            <td>: My Salam</td>
+                          </tr>
+                          <tr>
+                            <td>Kumpulan Sasaran</td>
+                            <td>: Semua</td>
+                          </tr>
+                          <tr>
+                            <td>Kategori</td>
+                            <td>: Kebajikan Masyarakat</td>
+                          </tr>
+                          <tr>
+                            <td>Objektif Program</td>
+                            <td>: Bantuan isi rumah untuk rakyat Malaysia</td>
+                          </tr>
+                          <tr>
+                            <td>Kriteria/Syarat</td>
+                            <td>
+                              : Isi rumah pendapatan bulanan RM2000.00dan
+                              kebawah
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Manfaat</td>
+                            <td>: Wang Tunai</td>
+                          </tr>
+                          <tr>
+                            <td>Kos (RM)</td>
+                            <td>: 600.00</td>
+                          </tr>
+                          <tr>
+                            <td>Kekerapan</td>
+                            <td>: Sekali</td>
+                          </tr>
+                          <tr>
+                            <td colspan="2" class="text-right">
+                              <button class="btn btn-primary">Pautan</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -485,181 +799,6 @@
           </div>
         </section>
 
-        <!-- Section: Kategori -->
-        <section style="background-color: white">
-          <div class="container pb-0 pt-0 mt-0">
-              <div class="row">
-                <div class="col text-center">
-                  <h2>Kategori</h2>
-                </div>
-              </div>
-          </div>
-        </section>
-
-        {{-- <section class="pt-20 pb-20" style="background-color: #ededed">
-          <div class="container pt-0 pb-0">
-            <div class="section-content">
-              <div class="row">
-                <div class="col-md-4">
-                  <div
-                    class="icon-box bg-transparent text-center p-60 mt-sm-0 border-1px media-post-bgcolor img-hover-zoom"
-                    style="
-                      margin-bottom: 0 !important;
-                      padding-left: -80px;
-                      padding-right: -80px;
-                    "
-                  >
-                    <a
-                      class="icon icon-lg bg-theme-colored icon-circled effect-circled text-white"
-                      href="#"
-                    >
-                      <img
-                        src="{{ asset('custom') }}/images/faces/icon-kanak.jpeg"
-                        style="width: 100%; height: 100px; border-radius: 50%"
-                        alt=""
-                      />
-                    </a>
-                    <h4 class="icon-box-title text-uppercase letter-space-3">
-                      <a class="text-theme-colored" href="#">Kanak - Kanak</a>
-                    </h4>
-                    <p class="text-black">
-                      Seseorang Yang DIbawah Umur 18 Tahun
-                      <br />[Akta Kanak-kanak 2001]
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div
-                    class="icon-box bg-transparent text-center p-60 mt-sm-0 border-1px media-post-bgcolor img-hover-zoom"
-                    style="
-                      margin-bottom: 0 !important;
-                      padding-left: -80px;
-                      padding-right: -80px;
-                    "
-                  >
-                    <a
-                      class="icon icon-lg bg-theme-colored icon-circled effect-circled text-white"
-                      href="#"
-                    >
-                      <img
-                        src="{{ asset('custom') }}/images/faces/icon-dewasa.jpeg"
-                        alt=""
-                        style="width: 100%; height: 100px; border-radius: 50%"
-                      />
-                    </a>
-                    <h4 class="icon-box-title text-uppercase letter-space-3">
-                      <a class="text-theme-colored" href="#">Dewasa</a>
-                    </h4>
-                    <p class="text-black">
-                      Seseorang Yang Berumur 18 Tahun dan Keatas. <br />[Akta Dewasa 1971]
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div
-                    class="icon-box text-center p-60 mt-sm-0 border-1px media-post-bgcolor img-hover-zoom"
-                    style="
-                      margin-bottom: 0 !important;
-                      padding-left: -80px;
-                      padding-right: -80px;
-                    "
-                  >
-                    <a
-                      class="icon icon-lg bg-theme-colored icon-circled effect-circled text-white"
-                      href="#"
-                    >
-                      <img
-                        src="{{ asset('custom') }}/images/faces/icon-warga.jpg"
-                        alt=""
-                        style="width: 100%; height: 100px; border-radius: 50%"
-                      />
-                    </a>
-                    <h4 class="icon-box-title text-uppercase letter-space-3">
-                      <a class="text-theme-colored" href="#">Warga Emas</a>
-                    </h4>
-                    <p class="text-black">
-                      Seseorang yang berumur 60 dan keatas <br />[World Assembly On Going 1982]
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> --}}
-
-        <section class="pt-20 pb-20">
-          <div class="container-fluid pt-0 pb-0">
-            <div class="section-content">
-              <div class="row">
-                <div class="col-md-4" style="padding: 0 !important;">
-                    <img src="../custom/images/graphic/kebajikan2.jpg" height="400" width="100%"><br />
-                    <div class="text-block text-center">
-                      <h4>Kanak-Kanak/Remaja</h4>
-                      <p>Kanak-kanak yang dibawah<br /> umur 18 tahun.</p>
-                      <p>(Akta Kanak-Kanak 2001)</p>
-                    </div>
-                </div>
-                <div class="col-md-4" style="padding: 0 !important;">
-                    <img src="../custom/images/graphic/kebajikan1.jpg" height="400" width="100%"><br />
-                    <div class="text-block text-center">
-                      <h4>Dewasa</h4>
-                      <p>Seseorang yang berumur<br /> 18 tahun keatas</p>
-                      <p>(Akta Dewasa 1971)</p>
-                    </div>
-                </div>
-                <div class="col-md-4" style="padding: 0 !important;">
-                    <img src="../custom/images/graphic/orang-asli1.jpg" height="400" width="100%"><br />
-                    <div class="text-block text-center">
-                      <h4>Warga Emas</h4>
-                      <p>Seseorang yang berumur<br /> 60 tahun keatas</p>
-                      <p>(World Assembly Ongoing 1982)</p>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section style="background-color: white">
-          <div class="container pt-0 pb-0">
-            <div class="section-title">
-              <div class="row">
-                <div class="col text-center">
-                  <h2>Berita Terkini</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <section>
-          <div class="container pt-0">
-            <div class="section-content">
-              <div class="row">
-                <div class="owl-carousel-1col horse-gallery" data-dots="true">
-                  
-                  <?php 
-                    $no_page = 1;
-                    $no_news = 1;
-                    foreach($berita as $berita_k => $berita_val){ 
-                    ?>
-                    <div class="gallery-item">
-                      <div class="row">
-                        <?php foreach($berita_val as $berita_details){ ?>
-                          <div class="col-md-4 text-center">
-                            <h3 class=" text-theme-colored">{{ucwords($berita_details['tajuk'])}}</h3>
-                            <p>{{ucwords($berita_details['keterangan'])}}</p>
-                          </div>
-                        <?php } ?>
-                      </div>
-                    </div>
-                  <?php } ?>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
       <!-- end main-content -->
 
@@ -849,7 +988,7 @@
         <div class="row pt-10">
           <div class="col-md-12 text-right">
             <button class="btn btn-sm btn-danger" data-dismiss="modal">Tutup</button>
-            <a href="{{ route('program-list') }}"
+            <a href="index-landing-program-list2.html"
               ><button class="btn btn-sm btn-primary">Seterusnya</button></a
             >
           </div>
@@ -939,8 +1078,6 @@
 
 <script>
   $(document).ready(function () {
-    $("#myModal").modal("show");
-
     $("#w3cIcon").click(function () {
       console.log($("#mySideCustomnav").css("display") == "none");
       if ($("#mySideCustomnav").css("display") == "none") {
@@ -949,6 +1086,147 @@
       } else {
         $("#mySideCustomnav").hide().css({ width: "0" });
         $("#w3cIcon").css({ marginLeft: "0" });
+      }
+    });
+
+    // kategori kanak kanak
+    $("#kanakBsh").click(function () {
+      console.log($("#divBsh").css("display"));
+      if ($("#divBsh").css("display") == "none") {
+        $("#divBsh").show();
+        $("#divMySalam").hide();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    $("#kanakMySalam").click(function () {
+      console.log($("#divMySalam").css("display"));
+      if ($("#divMySalam").css("display") == "none") {
+        $("#divMySalam").show();
+        $("#divBsh").hide();
+        // } else {
+        //   $("#divMySalam").hide();
+        //   $("#divBsh").show();
+      }
+    });
+
+    $("#kanakKesihatanBsh").click(function () {
+      console.log("kanakKesihatanBsh");
+      console.log($("#divBsh").css("display"));
+      if ($("#divBsh").css("display") == "none") {
+        $("#divBsh").show();
+        $("#divMySalam").hide();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    $("#kanakKesihatanMySalam").click(function () {
+      console.log("kanakKesihatanSalam");
+      console.log($("#divBsh").css("display"));
+      if ($("#divMySalam").css("display") == "none") {
+        $("#divBsh").hide();
+        $("#divMySalam").show();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    // kategori dewasa
+    $("#dewasaBsh").click(function () {
+      console.log($("#divBsh").css("display"));
+      if ($("#divBsh").css("display") == "none") {
+        $("#divBsh").show();
+        $("#divMySalam").hide();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    $("#dewasaMySalam").click(function () {
+      console.log($("#divMySalam").css("display"));
+      if ($("#divMySalam").css("display") == "none") {
+        $("#divMySalam").show();
+        $("#divBsh").hide();
+        // } else {
+        //   $("#divMySalam").hide();
+        //   $("#divBsh").show();
+      }
+    });
+
+    $("#dewasaKesihatanBsh").click(function () {
+      console.log("dewasaKesihatanBsh");
+      console.log($("#divBsh").css("display"));
+      if ($("#divBsh").css("display") == "none") {
+        $("#divBsh").show();
+        $("#divMySalam").hide();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    $("#dewasaKesihatanMySalam").click(function () {
+      console.log("dewasaKesihatanSalam");
+      console.log($("#divBsh").css("display"));
+      if ($("#divMySalam").css("display") == "none") {
+        $("#divBsh").hide();
+        $("#divMySalam").show();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    // kategori warga
+    $("#wargaBsh").click(function () {
+      console.log($("#divBsh").css("display"));
+      if ($("#divBsh").css("display") == "none") {
+        $("#divBsh").show();
+        $("#divMySalam").hide();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    $("#wargaMySalam").click(function () {
+      console.log($("#divMySalam").css("display"));
+      if ($("#divMySalam").css("display") == "none") {
+        $("#divMySalam").show();
+        $("#divBsh").hide();
+        // } else {
+        //   $("#divMySalam").hide();
+        //   $("#divBsh").show();
+      }
+    });
+
+    $("#wargaKesihatanBsh").click(function () {
+      console.log("wargaKesihatanBsh");
+      console.log($("#divBsh").css("display"));
+      if ($("#divBsh").css("display") == "none") {
+        $("#divBsh").show();
+        $("#divMySalam").hide();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
+      }
+    });
+
+    $("#wargaKesihatanMySalam").click(function () {
+      console.log("wargaKesihatanSalam");
+      console.log($("#divBsh").css("display"));
+      if ($("#divMySalam").css("display") == "none") {
+        $("#divBsh").hide();
+        $("#divMySalam").show();
+        // } else {
+        //   $("#divBsh").hide();
+        //   $("#divMySalam").show();
       }
     });
   });

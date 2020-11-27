@@ -12,13 +12,15 @@
 */
 
 Route::get('/', function () {
-	return view('portal.index');
+	return view('pages.landing');
 })->name('landing');
 
 Auth::routes();
 
-Route::resource('portal', 'PortalController');
-// Route::resource('landing', 'PortalController')->name('portal.index');
+// Route::resource('portal', 'PortalController');
+// Route::resource('portal', 'PortalController@index')->name('portal.index');
+Route::get('portal', 'PortalController@index')->name('portal');
+Route::get('program-list', 'PortalController@program_list')->name('program-list');
 Route::get('dashboard', 'HomeController@index')->name('home');
 Route::get('pricing', 'PageController@pricing')->name('page.pricing');
 Route::get('lock', 'PageController@lock')->name('page.lock');
@@ -41,6 +43,14 @@ Route::get('lock', 'PageController@lock')->name('page.lock');
 
 	Route::resource('media', 'MediaController');
 	Route::get('media/email', 'mediaController@email')->name('media.email');
+
+	Route::get('pengurusan-kandungan/program', 'PengurusanKandunganController@program')->name('pengurusan-kandungan.program');
+	Route::get('pengurusan-kandungan/approve-program/{id}/{value}/{task}', 'PengurusanKandunganController@approve_program')->name('pengurusan-kandungan.approve-program');
+	Route::get('pengurusan-kandungan/delete-program/{id}', 'PengurusanKandunganController@delete_program')->name('pengurusan-kandungan.delete-program');
+	Route::get('pengurusan-kandungan/media', 'PengurusanKandunganController@media')->name('pengurusan-kandungan.media');
+	Route::get('pengurusan-kandungan/approve-media/{id}/{value}/{task}', 'PengurusanKandunganController@approve_media')->name('pengurusan-kandungan.approve-media');
+	Route::get('pengurusan-kandungan/delete-media/{id}', 'PengurusanKandunganController@delete_media')->name('pengurusan-kandungan.delete-media');
+	Route::get('pengurusan-kandungan/email', 'PengurusanKandunganController@email')->name('pengurusan-kandungan.email');
 
 	Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
 	Route::resource('user', 'UserController', ['except' => ['show']]);

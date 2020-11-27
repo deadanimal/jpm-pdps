@@ -67,7 +67,7 @@ class ProgramController extends Controller
                 ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                 ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where([['program.rekod_oleh','=',$user_id],['program.nama','like','%'.$request->program.'%']])
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('tarikh_kemaskini', 'desc')
                 ->paginate(3);
             }else if ($role_id == '2'){
                 // echo "asdsadasd - ".$agensi_id;
@@ -78,7 +78,7 @@ class ProgramController extends Controller
                 ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                 ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where([['program.nama','like','%'.$request->program.'%'],['program.agensi_id','=',$agensi_id]])
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('tarikh_kemaskini', 'desc')
                 ->paginate(3);
             }else if ($role_id == '1'){
                 // echo "zxcxzczxc - ".$agensi_id;
@@ -89,7 +89,7 @@ class ProgramController extends Controller
                 ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                 ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                 ->where('program.nama','like','%'.$request->program.'%')
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('tarikh_kemaskini', 'desc')
                 ->paginate(3);
             }
 
@@ -106,7 +106,7 @@ class ProgramController extends Controller
                     ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                     ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                     ->where('program.rekod_oleh',$user_id)
-                    ->orderBy('updated_at', 'desc')
+                    ->orderBy('tarikh_kemaskini', 'desc')
                     // ->get();
                     ->paginate(3);
                 // $program = Program::where('rekod_oleh', $user_id)->get();
@@ -118,7 +118,7 @@ class ProgramController extends Controller
                     ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                     ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
                     ->where('program.rekod_oleh',$user_id)
-                    ->orderBy('updated_at', 'desc')
+                    ->orderBy('tarikh_kemaskini', 'desc')
                     // ->get();
                     ->paginate(3);
                 // $program = Program::where('rekod_oleh', $user_id)->get();
@@ -130,7 +130,7 @@ class ProgramController extends Controller
                     ->leftJoin('manfaat', 'manfaat.id', '=', 'program.manfaat_id')
                     ->leftJoin('kategori', 'kategori.id', '=', 'program.kategori_id')
                     ->select( 'program.*', 'manfaat.nama as nama_manfaat','kekerapan.nama as nama_kekerapan','kategori.nama_kategori as nama_kategori')
-                    ->orderBy('updated_at', 'desc')
+                    ->orderBy('tarikh_kemaskini', 'desc')
                     //  ->get()
                     ->paginate(3);
                 // $program = Program::orderBy('id', 'desc')->paginate(3);
@@ -532,7 +532,7 @@ class ProgramController extends Controller
                     $progkumpsasar->created_by = $userid;
                     $progkumpsasar->created_at = now();
                     $progkumpsasar->updated_by = $userid;
-                    $progkumpsasar->updated_at = now();
+                    $progkumpsasar->tarikh_kemaskini = now();
                     $progkumpsasar->save();
                     // print_r($idss);
                     // echo $idss[0]."--".$idss[1]."  ";
@@ -560,7 +560,7 @@ class ProgramController extends Controller
                     $program_master->created_by = $userid;
                     $program_master->created_at = now();
                     $program_master->updated_by = $userid;
-                    $program_master->updated_at = now();
+                    $program_master->tarikh_kemaskini = now();
                     $program_master->save();
                     // print_r($idss);
                     // echo $idss[0]."--".$idss[1]."  ";
@@ -649,7 +649,7 @@ class ProgramController extends Controller
         $auditTrail->created_by = $userid;
         // $auditTrail->created_at = now();
         $auditTrail->updated_by = $userid;
-        // $auditTrail->updated_at = now();
+        // $auditTrail->tarikh_kemaskini = now();
         $auditTrail->save();
         
         return $auditTrail;

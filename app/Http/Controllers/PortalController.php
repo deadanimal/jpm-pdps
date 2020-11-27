@@ -28,4 +28,8 @@ class PortalController extends Controller
         // dd($berita_data);
         return view('portal.index',['banner'=>$banner,'berita'=>$berita_data]);
     }
+
+    public function program_list(){
+        return view('portal.program-list');
+    }
 }
