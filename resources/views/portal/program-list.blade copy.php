@@ -443,7 +443,7 @@
               </nav>
             </div>
           </div>
-            <div class="container-fluid" style="background-color:#001d87;font-size:1.4em;padding-top:5px;padding-bottom:5px;">
+            <div class="container-fluid" style="background-color:#0024b5;font-size:1.4em;padding-top:5px;padding-bottom:5px;">
               <span style="color: white;">Utama &nbsp;> &nbsp;Dewasa &nbsp;>&nbsp;  </span> Program Name
             </div>
         </div>
@@ -460,145 +460,244 @@
         </section>
 
         <section class="bg-grey">
-          <div class="container-fluid pt-0">
+          <div class="container pt-10">
             <div class="section-content">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-4">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="ml-10 mr-10 mt-0 pt-10" style="background-color:#f5f5f5;border: 3px solid black;">
-                            <ul class="list angle-double-right list-border pl-20 pr-20">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col">
+                      <h3>Perkhidmatan</h3>
+                      <hr style="width: 100%; color: #007bff" />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="">
+                        <ul class="list angle-double-right list-border">
+                          <li>
+                            <a data-toggle="collapse" href="#collapseKanakOne">
+                              Kanak - Kanak
+                            </a>
+                            <!-- <span class="text-theme-colored">></span> -->
+                            <hr />
+                            <ul
+                              id="collapseKanakOne"
+                              class="panel-collapse collapse"
+                              role="tabpanel"
+                              aria-labelledby="headingOne"
+                            >
                               <li>
-                                <a data-toggle="collapse" style="color:black;" href="#collapseKanakOne">
-                                  <b>Kanak - Kanak</b>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseKanakThree"
+                                  >OKU
                                 </a>
-                                <!-- <span class="text-theme-colored">></span> -->
                                 <hr />
                                 <ul
-                                  id="collapseKanakOne"
+                                  id="collapseKanakThree"
                                   class="panel-collapse collapse"
                                   role="tabpanel"
                                   aria-labelledby="headingOne"
                                 >
-                                  <li>
-                                    <a
-                                      data-toggle="collapse" style="color:black;"
-                                      href="#collapseKanakThree"
-                                      >OKU
-                                    </a>
+                                  <li id="kanakBsh">
+                                    Bantuan Sara Hidup (BSH)
                                     <hr />
                                   </li>
-                                  <li>
-                                    <a
-                                      data-toggle="collapse" style="color:black;"
-                                      href="#collapseKanakMySalam"
-                                      >Kesihatan
-                                    </a>
-                                    <hr />
-                                    <ul
-                                      id="collapseKanakMySalam"
-                                      class="panel-collapse collapse"
-                                      role="tabpanel"
-                                      aria-labelledby="headingOne"
-                                    >
-                                      <li id="kanakKesihatanBsh">
-                                        Bantuan Sara Hidup (BSH)
-                                        <hr />
-                                      </li>
-                                      <li id="kanakKesihatanMySalam">
-                                        Skim mySalam
-                                        <hr />
-                                      </li>
-                                    </ul>
-                                  </li>
-                                </ul>
-                              </li>
-                              <li>
-                                <a data-toggle="collapse" style="color:black;" href="#collapseDewasaOne">
-                                  <b>Dewasa</b>
-                                </a>
-                                <hr />
-                                <ul
-                                  id="collapseDewasaOne"
-                                  class="panel-collapse collapse"
-                                  role="tabpanel"
-                                  aria-labelledby="headingOne"
-                                >
-                                  <li>
-                                    <a
-                                      data-toggle="collapse" style="color:black;"
-                                      href="#collapseDewasaThree"
-                                      >OKU
-                                    </a>
-                                    <hr />
-                                  </li>
-                                  <li>
-                                    <a
-                                      data-toggle="collapse" style="color:black;"
-                                      href="#collapsedewasaMySalam"
-                                      >Kesihatan
-                                    </a>
+                                  <li id="kanakMySalam">
+                                    Skim mySalam
                                     <hr />
                                   </li>
                                 </ul>
                               </li>
                               <li>
-                                <a data-toggle="collapse" style="color:black;" href="#collapseWargaOne">
-                                  <b>Warga Emas</b>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseKanakMySalam"
+                                  >Kesihatan
                                 </a>
                                 <hr />
                                 <ul
-                                  id="collapseWargaOne"
+                                  id="collapseKanakMySalam"
                                   class="panel-collapse collapse"
                                   role="tabpanel"
                                   aria-labelledby="headingOne"
                                 >
-                                  <li>
-                                    <a
-                                      data-toggle="collapse" style="color:black;"
-                                      href="#collapseWargaThree"
-                                      >OKU
-                                    </a>
+                                  <li id="kanakKesihatanBsh">
+                                    Bantuan Sara Hidup (BSH)
                                     <hr />
                                   </li>
-                                  <li>
-                                    <a
-                                      data-toggle="collapse" style="color:black;"
-                                      href="#collapseWargaMySalam"
-                                      >Kesihatan
-                                    </a>
+                                  <li id="kanakKesihatanMySalam">
+                                    Skim mySalam
                                     <hr />
                                   </li>
                                 </ul>
                               </li>
                             </ul>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-md-8">
+                          </li>
 
-                    <div class="row">
-                      <div class="col-md-12 pt-10 pb-10 text-white" style="background-color:#001d87;font-size:1.4em;">
-                        qweqweqe
-                      </div>
-                      <div class="col-md-12 pt-10 pb-10 text-black" style="background-color:#f5f5f5;font-size:1.4em;">
-                        qweqweqe
+                          <li>
+                            <a data-toggle="collapse" href="#collapseDewasaOne">
+                              Dewasa
+                            </a>
+                            <!-- <span class="text-theme-colored">></span> -->
+                            <hr />
+                            <ul
+                              id="collapseDewasaOne"
+                              class="panel-collapse collapse"
+                              role="tabpanel"
+                              aria-labelledby="headingOne"
+                            >
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseDewasaThree"
+                                  >OKU
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseDewasaThree"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="dewasaBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="dewasaMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapsedewasaMySalam"
+                                  >Kesihatan
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapsedewasaMySalam"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="dewasaKesihatanBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="dewasaKesihatanMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+
+                          <li>
+                            <a data-toggle="collapse" href="#collapseWargaOne">
+                              Warga Emas
+                            </a>
+                            <!-- <span class="text-theme-colored">></span> -->
+                            <hr />
+                            <ul
+                              id="collapseWargaOne"
+                              class="panel-collapse collapse"
+                              role="tabpanel"
+                              aria-labelledby="headingOne"
+                            >
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseWargaThree"
+                                  >OKU
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseWargaThree"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="wargaBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="wargaMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                              <li>
+                                <a
+                                  data-toggle="collapse"
+                                  href="#collapseWargaMySalam"
+                                  >Kesihatan
+                                </a>
+                                <hr />
+                                <ul
+                                  id="collapseWargaMySalam"
+                                  class="panel-collapse collapse"
+                                  role="tabpanel"
+                                  aria-labelledby="headingOne"
+                                >
+                                  <li id="wargaKesihatanBsh">
+                                    Bantuan Sara Hidup (BSH)
+                                    <hr />
+                                  </li>
+                                  <li id="wargaKesihatanMySalam">
+                                    Skim mySalam
+                                    <hr />
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
                       </div>
                     </div>
-
-                    <div class="row">
-                      <div class="col-md-12 pt-10 pb-10 text-white" style="background-color:#001d87;font-size:1.4em;">
-                        qweqweqe
-                      </div>
-                      <div class="col-md-12 pt-10 pb-10 text-black" style="background-color:#f5f5f5;font-size:1.4em;">
-                        qweqweqe
-                      </div>
-                    </div>
-
                   </div>
                 </div>
+
+                <div class="col-md-8" id="divBsh">
+                  <div id="accordion">
+                    <div class="panel">
+                      <div class="panel-heading" style="background-color:#001d87;">
+                          <h4 class="panel-title">
+                              <a aria-expanded="1" data-toggle="collapse" data-parent="#accordion" href="#1">
+                                  <span class="fa fa-check-square-o"></span>123132
+                              </a>
+                          </h4>
+                      </div>
+                      <div id="1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                          qweqewqeqewqeqq adsaa asd z xc 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="accordion" class="pt--5">
+                    <div class="panel">
+                      <div class="panel-heading" style="background-color:#001d87;">
+                          <h4 class="panel-title">
+                              <a aria-expanded="2" data-toggle="collapse" data-parent="#accordion" href="#2">
+                                  <span class="fa fa-check-square-o"></span>123132
+                              </a>
+                          </h4>
+                      </div>
+                      <div id="2" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                          qweqewqeqewqeqq adsaa asd z xc 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
