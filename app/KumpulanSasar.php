@@ -18,6 +18,7 @@ class KumpulanSasar extends Model
     protected $fillable = [
         'id', 
         'nama',
+        'value',
         'rekod_oleh',
         'tarikh_rekod',
         'kemaskini_oleh',

@@ -112,8 +112,8 @@ class LaporanPengunjungPortalController extends Controller
         //" where ".$prog_sql.$agensi_sql;
         $laporan = DB::select($mysql);
         
-        return Excel::download(new ProgramBantuanExport($laporan), 'jejak-audit.xlsx');
-        // return (new ProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new LaporanPengunjungPortalExport($laporan), 'jejak-audit.xlsx');
+        // return (new LaporanPengunjungPortalExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
 
@@ -172,7 +172,7 @@ class LaporanPengunjungPortalController extends Controller
     } 
 }
 
-class ProgramBantuanExport implements  WithHeadings,FromArray
+class LaporanPengunjungPortalExport implements  WithHeadings,FromArray
 {
     protected $data;
 

@@ -12,20 +12,37 @@
 */
 
 Route::get('/', function () {
-	return view('pages.landing');
-})->name('landing');
+	return redirect('portal/index');
+});
 
 Auth::routes();
 
-// Route::resource('portal', 'PortalController');
-// Route::resource('portal', 'PortalController@index')->name('portal.index');
-Route::get('portal', 'PortalController@index')->name('portal');
-Route::get('program-list', 'PortalController@program_list')->name('program-list');
+Route::get('/{locale}', function ($locale){
+	Session::put('locale',$locale);
+	return redirect()->back();
+});
+
+Route::get('color/{color}', function ($color){
+	Session::put('color',$color);
+	return redirect()->back();
+});
+
+Route::any('portal/index', 'PortalController@index')->name('portal.index');
+// Route::any('portal/index', 'PortalController@index')->name('portal.index');
+// Route::get('program-list', 'PortalController@program_list')->name('program-list');
+Route::any('portal/program-list/{ks}/{kat}', 'PortalController@program_list')->name('portal.program-list');
+Route::any('portal/program-detail/{ks}/{kat}/{pid}', 'PortalController@program_detail')->name('portal.program-detail');
+Route::any('portal/bantuan-sosial', 'PortalController@bantuan_sosial')->name('portal.bantuan-sosial');
+Route::any('portal/insuran-sosial', 'PortalController@insuran_sosial')->name('portal.insuran-sosial');
+Route::any('portal/intervensi-pasaran-buruh', 'PortalController@inetrvensi_pasaran_buruh')->name('portal.intervensi-pasaran-buruh');
+Route::any('portal/pengurusan-data', 'PortalController@pengurusan_data')->name('portal.pengurusan-data');
+Route::any('portal/contact-us', 'PortalController@contact_us')->name('portal.contact-us');
+Route::any('portal/faq', 'PortalController@faq')->name('portal.faq');
 Route::get('dashboard', 'HomeController@index')->name('home');
 Route::get('pricing', 'PageController@pricing')->name('page.pricing');
 Route::get('lock', 'PageController@lock')->name('page.lock');
 
-// Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
 	Route::resource('category', 'CategoryController', ['except' => ['show']]);
 	Route::resource('tag', 'TagController', ['except' => ['show']]);
 	Route::resource('item', 'ItemController', ['except' => ['show']]);
@@ -93,9 +110,9 @@ Route::get('lock', 'PageController@lock')->name('page.lock');
 	Route::get('laporan-pengunjung-program/exportPdf/{program_id}/{agensi_id}', 'LaporanPengunjungProgramController@exportPdf')->name('laporan-pengunjung-program.exportPdf');
 	
 	Route::get('laporan-pengunjung-program-bantuan', 'LaporanPengunjungProgramBantuanController@index')->name('laporan-pengunjung-program-bantuan.index');
-	Route::get('laporan-pengunjung-program-bantuan/excel/{program_id}/{agensi_id}', 'LaporanPengunjungProgramBantuanController@excel')->name('laporan-pengunjung-program-bantuan.excel');
+	Route::get('laporan-pengunjung-program-bantuan/excel/{tarikh_mula}/{tarikh_tamat}/{program_id}/{agensi_id}', 'LaporanPengunjungProgramBantuanController@excel')->name('laporan-pengunjung-program-bantuan.excel');
 	Route::get('laporan-pengunjung-program-bantuan/viewpdf', 'LaporanPengunjungProgramBantuanController@viewpdf')->name('laporan-pengunjung-program-bantuan.viewpdf');
-	Route::get('laporan-pengunjung-program-bantuan/exportPdf/{program_id}/{agensi_id}', 'LaporanPengunjungProgramBantuanController@exportPdf')->name('laporan-pengunjung-program-bantuan.exportPdf');
+	Route::get('laporan-pengunjung-program-bantuan/exportPdf/{tarikh_mula}/{tarikh_tamat}/{program_id}/{agensi_id}', 'LaporanPengunjungProgramBantuanController@exportPdf')->name('laporan-pengunjung-program-bantuan.exportPdf');
 	
 	Route::get('laporan-jejak-audit', 'LaporanJejakAuditController@index')->name('laporan-jejak-audit.index');
 	Route::get('laporan-jejak-audit/excel/{tarikh_mula}/{tarikh_tamat}', 'LaporanJejakAuditController@excel')->name('laporan-jejak-audit.excel');
@@ -107,6 +124,6 @@ Route::get('lock', 'PageController@lock')->name('page.lock');
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 	
 	Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
-// });
+});
 
 

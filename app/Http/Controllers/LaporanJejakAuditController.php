@@ -105,8 +105,8 @@ class LaporanJejakAuditController extends Controller
         //" where ".$prog_sql.$agensi_sql;
         $laporan = DB::select($mysql);
         
-        return Excel::download(new ProgramBantuanExport($laporan), 'jejak-audit.xlsx');
-        // return (new ProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new LaporanJejakAuditExport($laporan), 'jejak-audit.xlsx');
+        // return (new LaporanJejakAuditExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
 
@@ -165,7 +165,7 @@ class LaporanJejakAuditController extends Controller
     } 
 }
 
-class ProgramBantuanExport implements  WithHeadings,FromArray
+class LaporanJejakAuditExport implements  WithHeadings,FromArray
 {
     protected $data;
 

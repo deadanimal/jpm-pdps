@@ -11,7 +11,7 @@
                 {{ __('Pemohonan Data') }} 
             @endslot
 
-            <li class="breadcrumb-item text-white"><a href="{{ route('item.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
+            <li class="breadcrumb-item text-white"><a href="{{ route('orgdata.index') }}" class="text-white">{{ __('Pemohonan Data') }}</a></li>
             <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Tambah') }}</li>
         @endcomponent
     @endcomponent

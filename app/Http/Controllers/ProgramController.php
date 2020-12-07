@@ -532,7 +532,7 @@ class ProgramController extends Controller
                     $progkumpsasar->created_by = $userid;
                     $progkumpsasar->created_at = now();
                     $progkumpsasar->updated_by = $userid;
-                    $progkumpsasar->tarikh_kemaskini = now();
+                    $progkumpsasar->updated_at = now();
                     $progkumpsasar->save();
                     // print_r($idss);
                     // echo $idss[0]."--".$idss[1]."  ";
@@ -560,7 +560,7 @@ class ProgramController extends Controller
                     $program_master->created_by = $userid;
                     $program_master->created_at = now();
                     $program_master->updated_by = $userid;
-                    $program_master->tarikh_kemaskini = now();
+                    $program_master->updated_at = now();
                     $program_master->save();
                     // print_r($idss);
                     // echo $idss[0]."--".$idss[1]."  ";

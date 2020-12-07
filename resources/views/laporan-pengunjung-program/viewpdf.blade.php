@@ -37,16 +37,15 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive py-4">
+                            
                             <table class="table align-items-center table-flush"  id="datatable-basic">
                                 <thead class="thead-light">
                                     <tr>
                                         <th scope="col">{{ __('No') }}</th>
-                                        <th scope="col">{{ __('Nama Pengguna') }}</th>
-                                        <th scope="col">{{ __('Email') }}</th>
-                                        <th scope="col">{{ __('Tarikh Cipta') }}</th>
-                                        <th scope="col">{{ __('Alamat IP') }}</th>
-                                        <th scope="col">{{ __('Aksi') }}</th>
-                                        <th scope="col">{{ __('Keterangan') }}</th>
+                                        <th scope="col">{{ __('Nama Program') }}</th>
+                                        <th scope="col">{{ __('Tarikh Mula') }}</th>
+                                        <th scope="col">{{ __('Tarikh Tamat') }}</th>
+                                        <th scope="col">{{ __('Jumlah Pengunjung') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,12 +55,10 @@
                                             @foreach ($laporan as $laporan_k => $laporan_data)
                                                 <tr>
                                                     <td>{{ $no }}</td>
-                                                    <td>{{ ucwords($laporan_data->username) }}</td>
-                                                    <td>{{ ucwords($laporan_data->email) }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($laporan_data->audit_created)) }}</td>
-                                                    <td>{{ ucwords($laporan_data->ip_address) }}</td>
-                                                    <td>{{ ucwords($laporan_data->proses) }}</td>
-                                                    <td>{{ ucwords($laporan_data->keterangan) }}</td>
+                                                    <td>{{ ucwords($laporan_data['program_name']) }}</td>
+                                                    <td>{{ date('d-m-Y', strtotime($laporan_data['tarikh_mula'])) }}</td>
+                                                    <td>{{ date('d-m-Y', strtotime($laporan_data['tarikh_tamat'])) }}</td>
+                                                    <td>{{ ucwords($laporan_data['bilangan_pengunjung']) }}</td>
                                                 </tr>
                                             <?php $no++; ?>
                                         @endforeach

@@ -256,8 +256,8 @@ class LaporanPenerimaProgramBantuanController extends Controller
         where ".$agensi_sql.$jantina_sql.$etnik_sql.$agama_sql.$status_perkahwinan_sql.$negeri_sql;
         $laporan_data = DB::select($mysql);
         
-        return Excel::download(new ProgramBantuanExport($laporan_data), 'laporan_penerima_program_bantuan.xlsx');
-        // return (new ProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new LaporanPenrimaProgramBantuanExport($laporan_data), 'laporan_penerima_program_bantuan.xlsx');
+        // return (new LaporanPenrimaProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
 
@@ -386,7 +386,7 @@ class LaporanPenerimaProgramBantuanController extends Controller
     } 
 }
 
-class ProgramBantuanExport implements  WithHeadings,FromArray
+class LaporanPenrimaProgramBantuanExport implements  WithHeadings,FromArray
 {
     protected $data;
 

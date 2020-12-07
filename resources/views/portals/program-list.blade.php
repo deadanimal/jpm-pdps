@@ -361,49 +361,49 @@
                 <ul class="menuzord-menu text-black">
                   <li class="text-center">
                     <i class="fa fa-home fa-3x text-white" aria-hidden="true"></i><br />
-                    <a class="text-white" href="{{ route('portal') }}" >{{ __('Utama') }}</a>
+                    <a class="text-white" href="{{ route('portal.index') }}" >{{ __('menuTop.menuUtama') }}</a>
                   </li>
                   <li class="text-center pl-10">
                     <i class='fas fa-hands text-white fa-3x'></i>
                     <br />
                     <a href="#home" class="text-white">
-                      Perlindungan Sosial
+                      {{ __('menuTop.pelindunganSosial') }}
                     </a>
                     <ul class="dropdown mt-20">
                       <li>
                         <a href="#">MySPC</a>
                         <ul class="dropdown">
                           <li>
-                            <a href="#">Pengenalan</a>
+                            <a href="#">{{ __('menuTop.pelindunganSosial') }}</a>
                           </li>
                           <li>
-                            <a href="#">Struktur</a>
+                            <a href="#">{{ __('menuTop.struktur') }}</a>
                           </li>
                           <li>
-                            <a href="#">Jawatan Kuasa kerja</a>
+                            <a href="#">{{ __('menuTop.Jawatankuasa') }}</a>
                             <ul class="dropdown">
                               <li>
                                 <a
-                                  href="index-home-variation-appointment-form-style1.html"
-                                  >Bantuan Sosial</a
+                                  href="{{ route('portal.bantuan-sosial') }}"
+                                  >{{ __('menuTop.bantuanSosial') }}</a
                                 >
                               </li>
                               <li>
                                 <a
-                                  href="index-home-variation-appointment-form-style2.html"
-                                  >Insurans Sosial</a
+                                  href="{{ route('portal.insuran-sosial') }}"
+                                  >{{ __('menuTop.insuranSosial') }}</a
                                 >
                               </li>
                               <li>
                                 <a
-                                  href="index-home-variation-appointment-form-style2.html"
-                                  >Intervens Pasaran Buruh</a
+                                  href="{{ route('portal.intervensi-pasaran-buruh') }}"
+                                  >{{ __('menuTop.intervensiPasaranBuruh') }}</a
                                 >
                               </li>
                               <li>
                                 <a
-                                  href="index-home-variation-appointment-form-style2.html"
-                                  >Pengurusan Data</a
+                                  href="{{ route('portal.pengurusan-data') }}"
+                                  >{{ __('menuTop.pengurusanData') }}</a
                                 >
                               </li>
                             </ul>
@@ -420,284 +420,206 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="text-center pl-10">
+                  <li class="text-center pl-20">
                       <i class="fas fa-sign-in-alt text-white fa-3x"></i><br />
-                      <a class="text-white" href="{{ route('login') }}" >{{ __('Login') }}</a>
-                  </li>
-                  <li class="text-center pl-10 pt-10">
-                    <span class="text-white mt-10 pt-10">
-                      <img src="../images/faq.png" height="30" width="30">
-                      <br />Soalan<br />Lazim
-                    </span>
+                      <a class="text-white" href="{{ route('login') }}" >{{ __('menuTop.menuLog') }}</a>
                   </li>
                   <li class="text-center pl-20 pt-10">
-                    <img src="../images/phone.png" height="30" width="30"><br />
-                    <span class="text-white">Hubungi<br /> Kami</span>
+                    <a href="{{ route('portal.faq') }}" >
+                      <span class="text-white mt-10 pt-10">
+                        <img src="{{url('/')}}/images/faq.png" height="30" width="30">
+                        <br />{{ __('menuTop.faq1')}}<br />{{ __('menuTop.faq2')}}
+                      </span>
+                    </a>
                   </li>
                   <li class="text-center pl-20 pt-10">
-                    <span class="text-white"><img src="../images/malaysia.png" height="30" width="30"><span class="pl-10">BM</span></span>
+                    <a href="{{ route('portal.contact-us') }}" >
+                      <span class="text-white mt-10 pt-10">
+                        <img src="{{url('/')}}/images/phone.png" height="30" width="30">
+                        <br />{{ __('menuTop.contactUs1') }}<br />{{ __('menuTop.contactUs2') }}
+                      </span>
+                    </a>
+                  </li>
+                  <li class="text-center pl-20 pt-10">
+                    <a href="/bm">
+                      <span class="text-white">
+                        <img src="{{url('/')}}/images/malaysia.png" height="30" width="30">
+                        <span class="pl-10">BM</span>
+                      </span>
+                    </a>
                     <br />
-                    <span class="text-white"><img src="../images/uk.png" height="30" width="30"><span class="pl-10">EN</span></span>
+                    <a href="/en">
+                      <span class="text-white">
+                        <img src="{{url('/')}}/images/uk.png" height="30" width="30">
+                        <span class="pl-10">EN</span>
+                      </span>
+                    </a>
                   </li>
                 </ul>
               </nav>
             </div>
           </div>
-            <div class="container-fluid" style="background-color:#0024b5;font-size:1.4em;padding-top:5px;padding-bottom:5px;">
-              <span style="color: white;">Utama &nbsp;> &nbsp;Dewasa &nbsp;>&nbsp;  </span> Program Name
-            </div>
         </div>
       </header>
 
       <!-- Start main-content -->
       <div class="main-content">
 
-        <section id="about4" style="background-image: url(../custom/images/graphic/putrajaya-blur.png); background-size: cover; background-position: center top;padding-bottom:10px">
+        <section id="about4" style="background-image: url({{url('/')}}/custom/images/graphic/putrajaya-blur.png); background-size: cover; background-position: center top;padding-bottom:10px">
           <div class="container-fluid">
             <div class="section-content" style="padding-top: 200px">
             </div>
           </div>
         </section>
 
+        <?php 
+          $div1_style = ''; 
+          $div2_style = ''; 
+          $div3_style = ''; 
+        ?>
+
         <section class="bg-grey">
-          <div class="container pt-10">
+          <div class="container-fluid pt-0">
             <div class="section-content">
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="row">
-                    <div class="col">
-                      <h3>Perkhidmatan</h3>
-                      <hr style="width: 100%; color: #007bff" />
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col">
-                      <div class="">
-                        <ul class="list angle-double-right list-border">
-                          <li>
-                            <a data-toggle="collapse" href="#collapseKanakOne">
-                              Kanak - Kanak
-                            </a>
-                            <!-- <span class="text-theme-colored">></span> -->
-                            <hr />
-                            <ul
-                              id="collapseKanakOne"
-                              class="panel-collapse collapse"
-                              role="tabpanel"
-                              aria-labelledby="headingOne"
-                            >
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="ml-10 mr-10 mt-0 pt-10" style="background-color:#f5f5f5;border: 3px solid black;">
+                            <ul class="list angle-double-right list-border pl-20 pr-20">
                               <li>
-                                <a
-                                  data-toggle="collapse"
-                                  href="#collapseKanakThree"
-                                  >OKU
+                                <a data-toggle="collapse" style="color:black;" href="#collapseKanakOne">
+                                  <b>Kanak - Kanak</b>
                                 </a>
+                                <!-- <span class="text-theme-colored">></span> -->
                                 <hr />
                                 <ul
-                                  id="collapseKanakThree"
-                                  class="panel-collapse collapse"
+                                  id="collapseKanakOne"
+                                  class="panel-collapse collapse {{$kump_sasar==1?'in':''}}"
                                   role="tabpanel"
                                   aria-labelledby="headingOne"
                                 >
-                                  <li id="kanakBsh">
-                                    Bantuan Sara Hidup (BSH)
-                                    <hr />
-                                  </li>
-                                  <li id="kanakMySalam">
-                                    Skim mySalam
-                                    <hr />
-                                  </li>
+                                  <?php foreach($kategori_data_kanak as $kdk_k => $kdk_val){ 
+                                    if($kump_sasar == 1){
+                                      if($kategori_id == $kdk_val->id){
+                                        $div1_style = '#dbdbdb';
+                                      }else{
+                                        $div1_style = '#f5f5f5';
+                                      }
+                                    }
+                                  ?>
+                                    <li style="background-color:{{$div1_style}}">
+                                      <a style="color:black;"
+                                        href="{{ route('portal.program-list', [1,$kdk_val->id]) }}"
+                                        >
+                                        {{$kdk_val->nama_kategori}}
+                                      </a>
+                                      <hr />
+                                    </li>
+                                  <?php } ?>
                                 </ul>
                               </li>
                               <li>
-                                <a
-                                  data-toggle="collapse"
-                                  href="#collapseKanakMySalam"
-                                  >Kesihatan
+                                <a data-toggle="collapse" style="color:black;" href="#collapseDewasaOne">
+                                  <b>Dewasa</b>
                                 </a>
                                 <hr />
                                 <ul
-                                  id="collapseKanakMySalam"
-                                  class="panel-collapse collapse"
-                                  role="tabpanel"
+                                  id="collapseDewasaOne"
+                                  class="panel-collapse collapse {{$kump_sasar==2?'in':''}}"
                                   aria-labelledby="headingOne"
                                 >
-                                  <li id="kanakKesihatanBsh">
-                                    Bantuan Sara Hidup (BSH)
-                                    <hr />
-                                  </li>
-                                  <li id="kanakKesihatanMySalam">
-                                    Skim mySalam
-                                    <hr />
-                                  </li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </li>
-
-                          <li>
-                            <a data-toggle="collapse" href="#collapseDewasaOne">
-                              Dewasa
-                            </a>
-                            <!-- <span class="text-theme-colored">></span> -->
-                            <hr />
-                            <ul
-                              id="collapseDewasaOne"
-                              class="panel-collapse collapse"
-                              role="tabpanel"
-                              aria-labelledby="headingOne"
-                            >
-                              <li>
-                                <a
-                                  data-toggle="collapse"
-                                  href="#collapseDewasaThree"
-                                  >OKU
-                                </a>
-                                <hr />
-                                <ul
-                                  id="collapseDewasaThree"
-                                  class="panel-collapse collapse"
-                                  role="tabpanel"
-                                  aria-labelledby="headingOne"
-                                >
-                                  <li id="dewasaBsh">
-                                    Bantuan Sara Hidup (BSH)
-                                    <hr />
-                                  </li>
-                                  <li id="dewasaMySalam">
-                                    Skim mySalam
-                                    <hr />
-                                  </li>
+                                  <?php foreach($kategori_data_dewasa as $kdd_k => $kdd_val){ 
+                                    if($kump_sasar == 2){
+                                      if($kategori_id == $kdd_val->id){
+                                        $div2_style = '#dbdbdb';
+                                      }else{
+                                        $div2_style = '#f5f5f5';
+                                      }
+                                    }
+                                  ?>
+                                    <li style="background-color:{{$div2_style}}">
+                                      <a style="color:black;"
+                                        href="{{ route('portal.program-list', [2,$kdd_val->id]) }}"
+                                        >
+                                        {{$kdd_val->nama_kategori}}
+                                      </a>
+                                      <hr />
+                                    </li>
+                                  <?php } ?>
+                                  
                                 </ul>
                               </li>
                               <li>
-                                <a
-                                  data-toggle="collapse"
-                                  href="#collapsedewasaMySalam"
-                                  >Kesihatan
+                                <a data-toggle="collapse" style="color:black;" href="#collapseWargaOne">
+                                  <b>Warga Emas</b>
                                 </a>
                                 <hr />
                                 <ul
-                                  id="collapsedewasaMySalam"
-                                  class="panel-collapse collapse"
-                                  role="tabpanel"
+                                  id="collapseWargaOne"
+                                  class="panel-collapse collapse {{$kump_sasar==3?'in':''}}"
                                   aria-labelledby="headingOne"
                                 >
-                                  <li id="dewasaKesihatanBsh">
-                                    Bantuan Sara Hidup (BSH)
-                                    <hr />
-                                  </li>
-                                  <li id="dewasaKesihatanMySalam">
-                                    Skim mySalam
-                                    <hr />
-                                  </li>
+                                  <?php foreach($kategori_data_emas as $kde_k => $kde_val){ 
+                                    if($kump_sasar == 3){
+                                      if($kategori_id == $kde_val->id){
+                                        $div3_style = '#dbdbdb';
+                                      }else{
+                                        $div3_style = '#f5f5f5';
+                                      }
+                                    }
+                                  ?>
+                                    <li style="background-color:{{$div3_style}}">
+                                      <a style="color:black;"
+                                        href="{{ route('portal.program-list', [3,$kde_val->id]) }}"
+                                        >
+                                        {{$kde_val->nama_kategori}}
+                                      </a>
+                                      <hr />
+                                    </li>
+                                  <?php } ?>
+                                  
                                 </ul>
                               </li>
                             </ul>
-                          </li>
-
-                          <li>
-                            <a data-toggle="collapse" href="#collapseWargaOne">
-                              Warga Emas
-                            </a>
-                            <!-- <span class="text-theme-colored">></span> -->
-                            <hr />
-                            <ul
-                              id="collapseWargaOne"
-                              class="panel-collapse collapse"
-                              role="tabpanel"
-                              aria-labelledby="headingOne"
-                            >
-                              <li>
-                                <a
-                                  data-toggle="collapse"
-                                  href="#collapseWargaThree"
-                                  >OKU
-                                </a>
-                                <hr />
-                                <ul
-                                  id="collapseWargaThree"
-                                  class="panel-collapse collapse"
-                                  role="tabpanel"
-                                  aria-labelledby="headingOne"
-                                >
-                                  <li id="wargaBsh">
-                                    Bantuan Sara Hidup (BSH)
-                                    <hr />
-                                  </li>
-                                  <li id="wargaMySalam">
-                                    Skim mySalam
-                                    <hr />
-                                  </li>
-                                </ul>
-                              </li>
-                              <li>
-                                <a
-                                  data-toggle="collapse"
-                                  href="#collapseWargaMySalam"
-                                  >Kesihatan
-                                </a>
-                                <hr />
-                                <ul
-                                  id="collapseWargaMySalam"
-                                  class="panel-collapse collapse"
-                                  role="tabpanel"
-                                  aria-labelledby="headingOne"
-                                >
-                                  <li id="wargaKesihatanBsh">
-                                    Bantuan Sara Hidup (BSH)
-                                    <hr />
-                                  </li>
-                                  <li id="wargaKesihatanMySalam">
-                                    Skim mySalam
-                                    <hr />
-                                  </li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-8" id="divBsh">
-                  <div id="accordion">
-                    <div class="panel">
-                      <div class="panel-heading" style="background-color:#001d87;">
-                          <h4 class="panel-title">
-                              <a aria-expanded="1" data-toggle="collapse" data-parent="#accordion" href="#1">
-                                  <span class="fa fa-check-square-o"></span>123132
-                              </a>
-                          </h4>
-                      </div>
-                      <div id="1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                          qweqewqeqewqeqq adsaa asd z xc 
+                          </div>
                         </div>
                       </div>
-                    </div>
                   </div>
-                  <div id="accordion" class="pt--5">
-                    <div class="panel">
-                      <div class="panel-heading" style="background-color:#001d87;">
-                          <h4 class="panel-title">
-                              <a aria-expanded="2" data-toggle="collapse" data-parent="#accordion" href="#2">
-                                  <span class="fa fa-check-square-o"></span>123132
-                              </a>
-                          </h4>
-                      </div>
-                      <div id="2" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                          qweqewqeqewqeqq adsaa asd z xc 
+                  <div class="col-md-8">
+
+                    <?php 
+                      if(!empty($program_data)){
+                        foreach($program_data as $pd_val){ 
+                    ?>
+
+                      <div class="row">
+                        <div class="col-md-12 pt-10 pb-10 text-white" style="background-color:#001d87;font-size:1.4em;">
+                          <span class="row pl-0">
+                            <span class="col-md-10 text-left">{{$pd_val->nama}}</span>
+                            <span class="col-md-2 text-right"><i class="fa fa-bars"></i>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="col-md-12 pt-10 pb-10 text-black" style="background-color:#f5f5f5;font-size:1.4em;">
+                          {{$pd_val->objektif}} <a style="font-size: 0.8em;" class="text-theme-colored" 
+                          href="{{ route('portal.program-detail', [$kump_sasar,$kategori_id,$pd_val->id]) }}">..seterusnya</a>
                         </div>
                       </div>
-                    </div>
+
+                      <?php } ?>
+                    <?php }else{ ?>
+
+                      <div class="row">
+                        <div class="col-md-12 pt-10 pb-10 text-black" style="background-color:#f5f5f5;font-size:1.4em;">
+                          Tiada Data
+                        </div>
+                      </div>
+
+                    <?php } ?>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -753,16 +675,16 @@
               <div class="widget dark">
                 <h5 class="widget-title line-bottom">Pautan Luar</h5>
                 <div class="row bg-white">
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
                 </div>
                 <div class="row bg-white">
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
-                  <div class="col-md-3"><img src="../images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
+                  <div class="col-md-3"><img src="{{url('/')}}/images/malaysia.png" height="50" width="100%"></div>
                 </div>
               </div>
             </div>
@@ -850,135 +772,6 @@
   <!-- Footer -->
   {{-- @include('layouts.footers.auth') --}}
 {{-- @endsection --}}
-
-<!-- modal when reload page -->
-<div id="myModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="row">
-          <div class="col pr-20">
-            <span class="text-right">
-              <button type="button" class="close" data-dismiss="modal">
-                &times;
-              </button></span
-            >
-          </div>
-        </div>
-        <div class="row">
-          <Div class="col text-center">
-            <span style="font-size: 1.1em; color: black"
-              ><b>Hi! Sila Masukkan Umur Anda.</b></span
-            >
-          </Div>
-        </div>
-        <div class="row pt-30">
-          <div class="col-md-12">
-            <div class="row">
-              <div class="col-md-5 text-right text-black">Umur :</div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    style="height: 25px"
-                    type="number"
-                  />
-                </div>
-              </div>
-              <div class="col-md-5 text-left text-black">Tahun</div>
-            </div>
-          </div>
-        </div>
-        <div class="row pt-10">
-          <div class="col-md-12 text-right">
-            <button class="btn btn-sm btn-danger" data-dismiss="modal">Tutup</button>
-            <a href="index-landing-program-list2.html"
-              ><button class="btn btn-sm btn-primary">Seterusnya</button></a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- modal when bantuan  -->
-<div id="modalBantuan" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <!-- <div class="modal-header">
-        <div class="row">
-          <div class="col">
-            <h5 class="modal-title">Maklumat Program
-            </h5>
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-          </div>
-        </div>
-      </div> -->
-      <div class="modal-body">
-        <span class="text-right">
-          <button type="button" class="close" data-dismiss="modal">
-            &times;
-          </button></span
-        >
-        <div class="row">
-          <div
-            class="col text-center"
-            style="padding-bottom: 20px; color: black"
-          >
-            Maklumat Program
-          </div>
-        </div>
-        <table class="table align-items-center table-flush table-hover">
-          <tbody class="list">
-            <tr>
-              <td>Agensi</td>
-              <td>: Kementerian Kewangan</td>
-            </tr>
-            <tr>
-              <td>Nama Program</td>
-              <td>: Bantuan Sara Hidup (BSH)</td>
-            </tr>
-            <tr>
-              <td>Kumpulan Sasaran</td>
-              <td>: Warga Emas</td>
-            </tr>
-            <tr>
-              <td>Kategori</td>
-              <td>: Kebajikan Masyarakat</td>
-            </tr>
-            <tr>
-              <td>Objektif Program</td>
-              <td>: Bantuan isi rumah untuk rakyat Malaysia</td>
-            </tr>
-            <tr>
-              <td>Kriteria/Syarat</td>
-              <td>: Isi rumah pendapatan bulanan RM2000.00dan kebawah</td>
-            </tr>
-            <tr>
-              <td>Manfaat</td>
-              <td>: Wang Tunai</td>
-            </tr>
-            <tr>
-              <td>Kos (RM)</td>
-              <td>: 600.00</td>
-            </tr>
-            <tr>
-              <td>Kekerapan</td>
-              <td>: Sekali</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="modal-footer text-left">
-        <button class="btn btn-primary btn-flat">Pautan Ke Agensi</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
   $(document).ready(function () {

@@ -285,8 +285,8 @@ class LaporanProgramBantuanController extends Controller
             $laporan_data[$programId]['jumlah_tidak_aktif'] = ($bilangan_tidak_aktif['bilangan']!='0'?$bilangan_tidak_aktif['bilangan']:'0');
         }
         
-        return Excel::download(new ProgramBantuanExport($laporan_data), 'program_bantuan.xlsx');
-        // return (new ProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new LaporanProgramBantuanExport($laporan_data), 'program_bantuan.xlsx');
+        // return (new LaporanProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
 
@@ -435,7 +435,7 @@ class LaporanProgramBantuanController extends Controller
     } 
 }
 
-class ProgramBantuanExport implements  WithHeadings,FromArray
+class LaporanProgramBantuanExport implements  WithHeadings,FromArray
 {
     protected $data;
 

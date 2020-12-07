@@ -27,44 +27,53 @@ class LaporanPengunjungProgramController extends Controller
         // $this->authorizeResource(Profil::class);
     }
 
+    
     public function index(ProgramRequest $request)
     {
+
         $user_id = auth()->user()->id; 
         $role_id = auth()->user()->role_id; 
         $agensi_id = auth()->user()->agensi_id; 
-
+        
         $agensi = Agensi::all();
 
         if($role_id == '2'){
             $program = DB::table('program')->where('agensi_id', $agensi_id)->get();
         }else if ($role_id == '3'){
-        //     $agensi = Agensi::all();
             $program = DB::table('program')->where('rekod_oleh',$user_id)->get();
         }else if($role_id == '1'){
             $program = Program::all();
         }
 
         if($request->all() != []){
-            
-            if($role_id == '2'){
-                $mysql = "select *,audit_trail_portal.created_at as audit_created  from audit_trail_portal
-                left join users on audit_trail_portal.created_by = users.id
-                left join program on program.id = audit_trail_portal.program_id
-                where program.agensi_id = ".$agensi_id." and audit_trail_portal.created_at between '".$request->tarikh_mula."' and '".$request->tarikh_tamat."'";
-                //" where ".$prog_sql.$agensi_sql;
-                $laporan = DB::select($mysql);
-            }else if ($role_id == '3'){
 
-                $mysql = "select *,audit_trail_portal.created_at as audit_created  from audit_trail_portal
-                left join users on audit_trail_portal.created_by = users.id
-                where program.rekod_oleh = ".$user_id." and audit_trail_portal.created_at between '".$request->tarikh_mula."' and '".$request->tarikh_tamat."'";
-                //" where ".$prog_sql.$agensi_sql;
-                $laporan = DB::select($mysql);
-            }
+            $tarikh_tamat = date('Y-m-d', strtotime($request->tarikh_tamat . ' +1 day'));
+            $tarikh_mula = $request->tarikh_mula;
+
+            // if($request->program != '00'){
+            //     $program_sql = " and a.program_id = ".$request->program;
+            //     $program_id = $request->program;
+            // }else{
+            //     $program_sql = "";
+            //     $program_id = 00;
+            // }
+
+            $agensi_id = $agensi_id;
+
+            // echo $request->tarikh_mula."--".$tarikh_tamat;
+
+            $mysql = "select * from audit_trail_portal a
+            left join program b on b.id = a.program_id
+            where b.agensi_id = ".$agensi_id." and a.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
+            //" where ".$prog_sql.$agensi_sql;
+            // echo $mysql;
+            $laporan_sql = DB::select($mysql);
+
+            // dd($laporan_sql);
 
             $arr_program_id = [];
 
-            foreach($laporan as $laporan_k => $laporan_val){
+            foreach($laporan_sql as $laporan_k => $laporan_val){
                 $arr_program_id[] = $laporan_val->program_id;
             }
 
@@ -75,8 +84,10 @@ class LaporanPengunjungProgramController extends Controller
             foreach($unique_program_id as $program_k){
 
                 $program_data = DB::table('program')->where('id', $program_k)->get()->first();
-                
-                $total_visitor_sql = "select count(id) as bilangan from audit_trail_portal where program_id = ".$program_k;
+                $total_visitor_sql = "
+                    SELECT count(a.id) as bilangan from audit_trail_portal a
+                    LEFT JOIN program b on a.program_id = b.id
+                    where b.agensi_id = ".$agensi_id." and a.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
                 $total_visitor = DB::select($total_visitor_sql);
                 $total_visitor = $total_visitor[0];
 
@@ -85,30 +96,22 @@ class LaporanPengunjungProgramController extends Controller
                 $laporan_data[$program_k]['program_name'] = $program_data->nama;
                 $laporan_data[$program_k]['bilangan_pengunjung'] = $total_visitor->bilangan;
             }
-
-            $laporan = [];
-
-            // log data
-            $log = [
-                'task'=>'laporan pungunjung program',
-                'details'=>'Carian Laporan pungunjung program',
-                'entity_id'=>'0'
-            ];
-            $this->log_audit_trail($log);
+            // dd($laporan_data);
+            // $laporan = [];
 
             return view('laporan-pengunjung-program.index', [
-                'laporan' => $laporan,
-                'agensi'=>$agensi,
-                'program'=>$program,
-                'tarikh_mula'=>$request->tarikh_mula,
-                'tarikh_tamat'=>$request->tarikh_tamat
+                'laporan' => $laporan_data,
+                'agensi' => $agensi,
+                'program' => $program,
+                'tarikh_mula' => $tarikh_mula,
+                'tarikh_tamat' => $tarikh_tamat
             ]);
         }
 
         // log data
         $log = [
-            'task'=>'laporan pungunjung program',
-            'details'=>'Halaman Laporan pungunjung program',
+            'task'=>'laporan pungunjung program portal',
+            'details'=>'Halaman Laporan pungunjung program bantuan portal',
             'entity_id'=>'0'
         ];
         $this->log_audit_trail($log);
@@ -119,15 +122,16 @@ class LaporanPengunjungProgramController extends Controller
 
         return view('laporan-pengunjung-program.index',[
             'laporan' => $laporan,
-            'agensi'=>$agensi,
-            'program'=>$program,
-            'tarikh_mula'=>$tarikh_mula,
-            'tarikh_tamat'=>$tarikh_tamat
+            'agensi' => $agensi,
+            'program' => $program,
+            'tarikh_mula' => $tarikh_mula,
+            'tarikh_tamat' => $tarikh_tamat
         ]);
     }
 
     public function excel($tarikh_mula,$tarikh_tamat){
 
+        $agensi_id = auth()->user()->agensi_id; 
         // log data
         $log = [
             'task'=>'laporan pungunjung program',
@@ -136,17 +140,47 @@ class LaporanPengunjungProgramController extends Controller
         ];
         $this->log_audit_trail($log);
 
-        $mysql = "select users.name as username, users.email as email,
-        audit_trail.created_at as audit_created, audit_trail.proses as proses, 
-        audit_trail.keterangan_proses as keterangan
-        from audit_trail
-        left join users on audit_trail.created_by = users.id
-        where audit_trail.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
+        $agensi_id = $agensi_id;
+
+        // echo $request->tarikh_mula."--".$tarikh_tamat;
+
+        $mysql = "select * from audit_trail_portal a
+        left join program b on b.id = a.program_id
+        where b.agensi_id = ".$agensi_id." and a.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
         //" where ".$prog_sql.$agensi_sql;
-        $laporan = DB::select($mysql);
+        // echo $mysql;
+        $laporan_sql = DB::select($mysql);
+
+        // dd($laporan_sql);
+
+        $arr_program_id = [];
+
+        foreach($laporan_sql as $laporan_k => $laporan_val){
+            $arr_program_id[] = $laporan_val->program_id;
+        }
+
+        $unique_program_id = array_unique($arr_program_id);
+
+        $laporan_data = [];
+
+        foreach($unique_program_id as $program_k){
+
+            $program_data = DB::table('program')->where('id', $program_k)->get()->first();
+            $total_visitor_sql = "
+                SELECT count(a.id) as bilangan from audit_trail_portal a
+                LEFT JOIN program b on a.program_id = b.id
+                where b.agensi_id = ".$agensi_id." and a.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
+            $total_visitor = DB::select($total_visitor_sql);
+            $total_visitor = $total_visitor[0];
+
+            $laporan_data[$program_k]['tarikh_mula'] = $tarikh_mula;
+            $laporan_data[$program_k]['tarikh_tamat'] = $tarikh_tamat;
+            $laporan_data[$program_k]['program_name'] = $program_data->nama;
+            $laporan_data[$program_k]['bilangan_pengunjung'] = $total_visitor->bilangan;
+        }
         
-        return Excel::download(new ProgramBantuanExport($laporan), 'jejak-audit.xlsx');
-        // return (new ProgramBantuanExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new LaporanPengunjungProgramExport($laporan_data), 'laporan-pengunjung-program.xlsx');
+        // return (new LaporanPengunjungProgramExport($program_id))->download('profil_data.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
 
@@ -167,20 +201,50 @@ class LaporanPengunjungProgramController extends Controller
         ];
         $this->log_audit_trail($log);
 
-        $mysql = "select users.name as username, users.email as email,
-        audit_trail.created_at as audit_created, audit_trail.proses as proses, 
-        audit_trail.keterangan_proses as keterangan,audit_trail.ip_address as ip_address
-        from audit_trail
-        left join users on audit_trail.created_by = users.id
-        where audit_trail.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
+        $agensi_id = auth()->user()->agensi_id; 
+
+        // echo $request->tarikh_mula."--".$tarikh_tamat;
+
+        $mysql = "select * from audit_trail_portal a
+        left join program b on b.id = a.program_id
+        where b.agensi_id = ".$agensi_id." and a.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
         //" where ".$prog_sql.$agensi_sql;
-        $laporan = DB::select($mysql);
+        // echo $mysql;
+        $laporan_sql = DB::select($mysql);
+
+        // dd($laporan_sql);
+
+        $arr_program_id = [];
+
+        foreach($laporan_sql as $laporan_k => $laporan_val){
+            $arr_program_id[] = $laporan_val->program_id;
+        }
+
+        $unique_program_id = array_unique($arr_program_id);
+
+        $laporan_data = [];
+
+        foreach($unique_program_id as $program_k){
+
+            $program_data = DB::table('program')->where('id', $program_k)->get()->first();
+            $total_visitor_sql = "
+                SELECT count(a.id) as bilangan from audit_trail_portal a
+                LEFT JOIN program b on a.program_id = b.id
+                where b.agensi_id = ".$agensi_id." and a.created_at between '".$tarikh_mula."' and '".$tarikh_tamat."'";
+            $total_visitor = DB::select($total_visitor_sql);
+            $total_visitor = $total_visitor[0];
+
+            $laporan_data[$program_k]['tarikh_mula'] = $tarikh_mula;
+            $laporan_data[$program_k]['tarikh_tamat'] = $tarikh_tamat;
+            $laporan_data[$program_k]['program_name'] = $program_data->nama;
+            $laporan_data[$program_k]['bilangan_pengunjung'] = $total_visitor->bilangan;
+        }
 
         // view()->share('profil.viewpdf',$data);
-        $pdf = PDF::loadView('laporan-pengunjung-program.viewpdf',['laporan' => $laporan]);
+        $pdf = PDF::loadView('laporan-pengunjung-program.viewpdf',['laporan' => $laporan_data]);
 
         // download PDF file with download method
-        return $pdf->download('jejak-audit.pdf');
+        return $pdf->download('laporan-pengunjung-program.pdf');
     }
 
     public function log_audit_trail($log){
@@ -205,7 +269,7 @@ class LaporanPengunjungProgramController extends Controller
     } 
 }
 
-class ProgramBantuanExport implements  WithHeadings,FromArray
+class LaporanPengunjungProgramExport implements  WithHeadings,FromArray
 {
     protected $data;
 
@@ -222,7 +286,7 @@ class ProgramBantuanExport implements  WithHeadings,FromArray
     public function headings(): array
     {
         return [
-            'Nama Penguna','Email','Tarikh Cipta','Proses','Keterangan'
+            'Nama Program','Tarikh Mula','Tarikh Tamat','Jumlah Pengunjung'
         ];
     }
     

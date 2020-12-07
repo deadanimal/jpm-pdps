@@ -2,10 +2,9 @@
 
 namespace App;
 
-use App\Manfaat;
 use Illuminate\Database\Eloquent\Model;
 
-class AuditTrail extends Model
+class AuditTrailPortal extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,16 +12,15 @@ class AuditTrail extends Model
      * @var array
      */
 
-    protected $table = 'audit_trail';
+    protected $table = 'audit_trail_portal';
 
     protected $fillable = [
-        'entity_id',
-        'proses',
-        'ketrangan_proses',
+        'program_id',
         'ip_address',
+        'city',
+        'region',
+        'country',
         'created_by',
-        'created_at',
-        'updated_by',
-        'updated_at'
+        'updated_by'
     ];
 }
